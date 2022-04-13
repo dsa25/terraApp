@@ -68,6 +68,7 @@ export const css = StyleSheet.create({
     borderColor: "red",
     flex: 1,
   },
+  ListTextInput: {},
   textInput: {
     borderBottomWidth: 1,
     width: "25%",
@@ -76,9 +77,17 @@ export const css = StyleSheet.create({
     marginTop: "auto",
     textAlign: "center",
   },
+
   textInputText: {
     width: "75%",
     marginBottom: 0,
     // borderWidth: 1,
+  },
+  wr_radio: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  radio_label: {
+    fontSize: 12,
   },
 })

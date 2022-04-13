@@ -7,12 +7,21 @@ import {
   Button,
   ScrollView,
 } from "react-native"
-import { Formik, Field } from "formik"
 import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
 
 import { listQuestions } from "../components/listQuestions"
+import {
+  AnswerText,
+  AnswerInput,
+  clearFields,
+  AnswerRadio,
+  AnswerCheckBox,
+  AnswerTextInput,
+  AnswerRadioInput,
+  AnswerListTextInput,
+} from "../components/Answers"
 
 export default function Inspection({}) {
   // const [currentQuest, setCurrentQuest] = useState(0)
@@ -20,78 +29,35 @@ export default function Inspection({}) {
   // const [listCheckbox, setlistCheckbox] = useState(question.opt)
   // listCheckbox[listCheckbox.length - 1].text
 
-  function AnswerText({ props }) {
-    return <Text style={css.checkbox_text}>{props.text}</Text>
-  }
-  function AnswerInput({ props }) {
-    const [lastInput, setLastInput] = useState(
-      question.opt[props.val - 1].input
-    )
-    return (
-      <TextInput
-        style={css.input}
-        multiline={true}
-        // disabled={!props.check}
-        editable={props.check}
-        value={lastInput}
-        onChangeText={(lastInput) => {
-          question.opt[props.val - 1].input = lastInput
-          setLastInput(lastInput)
-        }}
-        placeholder="укажите свой вариант"
-      />
-    )
-  }
-
-  function AnswerTextInput({ props }) {
-    const [inputValue, setInputValue] = useState(
-      question.opt[props.val - 1].input
-    )
-    return (
-      <View style={css.wr_textInput}>
-        <Text style={[css.checkbox_text, css.textInputText]}>{props.text}</Text>
-        <TextInput
-          style={css.textInput}
-          multiline={false}
-          editable={props.check}
-          value={inputValue}
-          onChangeText={(inputValue) => {
-            question.opt[props.val - 1].input = inputValue
-            setInputValue(inputValue)
-          }}
-          placeholder="%"
-        />
-      </View>
-    )
-  }
-
   function TypeAnswer({ props }) {
     if (props.type == "text") return <AnswerText props={props} />
     if (props.type == "input") return <AnswerInput props={props} />
     if (props.type == "textInput") return <AnswerTextInput props={props} />
+    if (props.type == "radio") return <AnswerRadio props={props} />
+    if (props.type == "checkbox") return <AnswerCheckBox props={props} />
+    if (props.type == "radioInput") return <AnswerRadioInput props={props} />
     return null
   }
 
   const renderItem = ({ item }) => (
-    <View style={css.wr_checkbox}>
-      <Checkbox
-        color="#03a9f4"
-        key={item.val.toString()}
-        status={item.check ? "checked" : "unchecked"}
-        onPress={() => {
-          question.opt[item.val - 1].check = !item.check
-          setQuestion({ ...question })
-        }}
-      />
+    <View style={[css.wr_checkbox]}>
+      {item.type != "listTextInput" && (
+        <Checkbox
+          color="#03a9f4"
+          key={item.val.toString()}
+          status={item.check ? "checked" : "unchecked"}
+          onPress={() => {
+            question.opt[item.val - 1].check = !item.check
+            setQuestion({ ...question })
+            if (!question.opt[item.val - 1].check) {
+              clearFields(item)
+            }
+          }}
+        />
+      )}
       <TypeAnswer props={item} />
     </View>
   )
-
-  // console.log(question)
-  // console.log(typeof question[0])
-  // console.log(question.opt.length)
-  // console.log("text : ", question.opt[question.opt.length - 1].text)
-  // console.log("text2 : ", listCheckbox[listCheckbox.length - 1].text)
 
   return (
     <ScrollView style={css.pages}>
@@ -101,13 +67,18 @@ export default function Inspection({}) {
       <Text style={css.question_text}>
         {question.id + ") " + question.quest}
       </Text>
-      <FlatList
-        scrollEnabled={false}
-        // data={listCheckbox}
-        data={question.opt}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.val.toString()}
-      />
+
+      {question.opt[0].type != "listTextInput" ? (
+        <FlatList
+          scrollEnabled={false}
+          data={question.opt}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.val.toString()}
+        />
+      ) : (
+        <AnswerListTextInput props={question.opt[0]} />
+      )}
+
       <View style={css.wr_btns}>
         <View style={{ paddingRight: 50 }}>
           <Button
