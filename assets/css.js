@@ -12,8 +12,16 @@ export const css = StyleSheet.create({
     backgroundColor: "#9e9e9e29",
     // justifyContent: "space-between",
   },
+  question_name: {
+    fontSize: 14,
+    fontWeight: "900",
+    color: "#878585",
+  },
+  question_header: {
+    color: "red",
+  },
   question_text: {
-    fontSize: 16,
+    fontSize: 14,
   },
   wr_checkbox: {
     marginTop: 12,

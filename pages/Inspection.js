@@ -26,7 +26,7 @@ import {
 
 export default function Inspection({}) {
   // const [currentQuest, setCurrentQuest] = useState(0)
-  const [question, setQuestion] = useState(buildingPart[0])
+  const [question, setQuestion] = useState(buildingPart.questions[0])
   // const [listCheckbox, setlistCheckbox] = useState(question.opt)
   // listCheckbox[listCheckbox.length - 1].text
 
@@ -63,14 +63,29 @@ export default function Inspection({}) {
     </View>
   )
 
+  const getTitle = (id, headers) => {
+    let result = false
+    headers.forEach(function (item) {
+      if (id >= item.index[0] && id <= item.index[1]) result = item.title
+    })
+    return result
+  }
+  let questionTitle = getTitle(question.id, buildingPart.headers)
+
   return (
     <ScrollView style={css.pages}>
       <Text style={css.question_text}>
-        {question.id + " / " + buildingPart.length}
+        <Text style={{ paddingRight: 10 }}>
+          {question.id + " / " + buildingPart.questions.length}{" "}
+        </Text>
+        <Text style={css.question_name}> {buildingPart.name}</Text>
       </Text>
-      <Text style={css.question_text}>
-        {question.id + ") " + question.quest}
-      </Text>
+
+      {questionTitle && (
+        <Text style={css.question_header}>{questionTitle}</Text>
+      )}
+
+      <Text style={css.question_text}>{question.quest}</Text>
 
       {question.opt[0].type != "listTextInput" ? (
         <FlatList
@@ -91,7 +106,7 @@ export default function Inspection({}) {
             title="Назад"
             onPress={() => {
               if (question.id > 1) {
-                let newQuest = buildingPart[question.id - 2]
+                let newQuest = buildingPart.questions[question.id - 2]
                 setQuestion({ ...newQuest })
               } else console.log("the start")
             }}
@@ -101,8 +116,8 @@ export default function Inspection({}) {
           <Button
             title="Далее"
             onPress={() => {
-              if (question.id < buildingPart.length) {
-                let newQuest = buildingPart[question.id]
+              if (question.id < buildingPart.questions.length) {
+                let newQuest = buildingPart.questions[question.id]
                 setQuestion({ ...newQuest })
                 // setlistCheckbox([...newQuest.opt])
               } else {
