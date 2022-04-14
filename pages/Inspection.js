@@ -12,6 +12,7 @@ import { Checkbox } from "react-native-paper"
 import { css } from "../assets/css"
 
 import { buildingPart } from "../data/buildingPart"
+import { mastTransformer } from "../data/mastTransformer"
 import {
   AnswerText,
   AnswerInput,
