@@ -11,7 +11,7 @@ import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
 
-import { listQuestions } from "../components/listQuestions"
+import { buildingPart } from "../data/buildingPart"
 import {
   AnswerText,
   AnswerInput,
@@ -25,7 +25,7 @@ import {
 
 export default function Inspection({}) {
   // const [currentQuest, setCurrentQuest] = useState(0)
-  const [question, setQuestion] = useState(listQuestions[0])
+  const [question, setQuestion] = useState(buildingPart[0])
   // const [listCheckbox, setlistCheckbox] = useState(question.opt)
   // listCheckbox[listCheckbox.length - 1].text
 
@@ -42,18 +42,21 @@ export default function Inspection({}) {
   const renderItem = ({ item }) => (
     <View style={[css.wr_checkbox]}>
       {item.type != "listTextInput" && (
-        <Checkbox
-          color="#03a9f4"
-          key={item.val.toString()}
-          status={item.check ? "checked" : "unchecked"}
-          onPress={() => {
-            question.opt[item.val - 1].check = !item.check
-            setQuestion({ ...question })
-            if (!question.opt[item.val - 1].check) {
-              clearFields(item)
-            }
-          }}
-        />
+        <Text>
+          <Checkbox
+            color="#03a9f4"
+            key={item.val.toString()}
+            status={item.check ? "checked" : "unchecked"}
+            onPress={() => {
+              question.opt[item.val - 1].check = !item.check
+              setQuestion({ ...question })
+              if (!question.opt[item.val - 1].check) {
+                clearFields(item)
+              }
+            }}
+          />
+          <Text>{item.val}</Text>
+        </Text>
       )}
       <TypeAnswer props={item} />
     </View>
@@ -62,7 +65,7 @@ export default function Inspection({}) {
   return (
     <ScrollView style={css.pages}>
       <Text style={css.question_text}>
-        {question.id + " / " + listQuestions.length}
+        {question.id + " / " + buildingPart.length}
       </Text>
       <Text style={css.question_text}>
         {question.id + ") " + question.quest}
@@ -87,7 +90,7 @@ export default function Inspection({}) {
             title="Назад"
             onPress={() => {
               if (question.id > 1) {
-                let newQuest = listQuestions[question.id - 2]
+                let newQuest = buildingPart[question.id - 2]
                 setQuestion({ ...newQuest })
               } else console.log("the start")
             }}
@@ -97,13 +100,13 @@ export default function Inspection({}) {
           <Button
             title="Далее"
             onPress={() => {
-              if (question.id < listQuestions.length) {
-                let newQuest = listQuestions[question.id]
+              if (question.id < buildingPart.length) {
+                let newQuest = buildingPart[question.id]
                 setQuestion({ ...newQuest })
                 // setlistCheckbox([...newQuest.opt])
               } else {
                 console.log("the end")
-                console.log(listQuestions)
+                console.log(buildingPart)
               }
             }}
           />
