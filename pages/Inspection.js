@@ -1,133 +1,88 @@
 import React, { useState } from "react"
-import {
-  View,
-  FlatList,
-  TextInput,
-  Text,
-  Button,
-  ScrollView,
-} from "react-native"
+import { ScrollView, TouchableOpacity, Text, View } from "react-native"
 import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
 
 import { buildingPart } from "../data/buildingPart"
 import { mastTransformer } from "../data/mastTransformer"
-import {
-  AnswerText,
-  AnswerInput,
-  clearFields,
-  AnswerRadio,
-  AnswerCheckBox,
-  AnswerTextInput,
-  AnswerRadioInput,
-  AnswerListTextInput,
-} from "../components/Answers"
+
+import { Question } from "../components/Question"
+import { Measurements } from "../components/Measurements"
 
 export default function Inspection({}) {
-  // const [currentQuest, setCurrentQuest] = useState(0)
-  const [question, setQuestion] = useState(buildingPart.questions[0])
-  // const [listCheckbox, setlistCheckbox] = useState(question.opt)
-  // listCheckbox[listCheckbox.length - 1].text
+  const [selectType, setSelectType] = useState("measurements")
 
-  function TypeAnswer({ props }) {
-    if (props.type == "text") return <AnswerText props={props} />
-    if (props.type == "input") return <AnswerInput props={props} />
-    if (props.type == "textInput") return <AnswerTextInput props={props} />
-    if (props.type == "radio") return <AnswerRadio props={props} />
-    if (props.type == "checkbox") return <AnswerCheckBox props={props} />
-    if (props.type == "radioInput") return <AnswerRadioInput props={props} />
-    return null
+  function closeStart(value) {
+    setSelectType(value)
   }
 
-  const renderItem = ({ item }) => (
-    <View style={[css.wr_checkbox]}>
-      {item.type != "listTextInput" && (
-        <Text>
-          <Checkbox
-            color="#03a9f4"
-            key={item.val.toString()}
-            status={item.check ? "checked" : "unchecked"}
-            onPress={() => {
-              question.opt[item.val - 1].check = !item.check
-              setQuestion({ ...question })
-              if (!question.opt[item.val - 1].check) {
-                clearFields(item)
-              }
-            }}
-          />
-          <Text>{item.val}</Text>
-        </Text>
-      )}
-      <TypeAnswer props={item} />
-    </View>
-  )
-
-  const getTitle = (id, headers) => {
-    let result = false
-    headers.forEach(function (item) {
-      if (id >= item.index[0] && id <= item.index[1]) result = item.title
-    })
-    return result
+  function StartInspection({ type }) {
+    console.log("type", type)
+    if (type == "buildingPart")
+      return <Question dataQuests={buildingPart} closeStart={closeStart} />
+    if (type == "mastTransformer")
+      return <Question dataQuests={mastTransformer} closeStart={closeStart} />
+    if (type == "measurements") return <Measurements />
+    return <Text>ничего не выбрано!</Text>
   }
-  let questionTitle = getTitle(question.id, buildingPart.headers)
+
+  function FormSelectType({}) {
+    return (
+      <View>
+        <Text>Выберите тип осмотра: </Text>
+
+        <TouchableOpacity
+          style={css.touchBtn}
+          onPress={() => setSelectType("buildingPart")}
+        >
+          <Text>{buildingPart.name}</Text>
+          <Text style={css.textUnderline}>в составе: </Text>
+          <Text style={css.touchBtn_title}>
+            {buildingPart.headers[0].title}
+          </Text>
+          <Text style={css.touchBtn_title}>
+            {buildingPart.headers[1].title}
+          </Text>
+          <Text style={css.touchBtn_title}>
+            {buildingPart.headers[2].title}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={css.touchBtn}
+          onPress={() => setSelectType("mastTransformer")}
+        >
+          <Text>{mastTransformer.name}</Text>
+          <Text style={css.textUnderline}>в составе: </Text>
+          <Text style={css.touchBtn_title}>
+            {mastTransformer.headers[0].title}
+          </Text>
+          <Text style={css.touchBtn_title}>
+            {mastTransformer.headers[1].title}
+          </Text>
+          <Text style={css.touchBtn_title}>
+            {mastTransformer.headers[2].title}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={css.touchBtn}
+          onPress={() => setSelectType("measurements")}
+        >
+          <Text>Бланк замеров</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
 
   return (
     <ScrollView style={css.pages}>
-      <Text style={css.question_text}>
-        <Text style={{ paddingRight: 10 }}>
-          {question.id + " / " + buildingPart.questions.length}{" "}
-        </Text>
-        <Text style={css.question_name}> {buildingPart.name}</Text>
-      </Text>
-
-      {questionTitle && (
-        <Text style={css.question_header}>{questionTitle}</Text>
-      )}
-
-      <Text style={css.question_text}>{question.quest}</Text>
-
-      {question.opt[0].type != "listTextInput" ? (
-        <FlatList
-          scrollEnabled={false}
-          data={question.opt}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.val.toString()}
-        />
+      {selectType == false ? (
+        <FormSelectType />
       ) : (
-        <AnswerListTextInput props={question.opt[0]} />
+        <StartInspection type={selectType} />
       )}
-
-      <View style={css.wr_btns}>
-        <View style={{ paddingRight: 50 }}>
-          <Button
-            style={{ margin: 40 }}
-            color="#f44336"
-            title="Назад"
-            onPress={() => {
-              if (question.id > 1) {
-                let newQuest = buildingPart.questions[question.id - 2]
-                setQuestion({ ...newQuest })
-              } else console.log("the start")
-            }}
-          />
-        </View>
-        <View>
-          <Button
-            title="Далее"
-            onPress={() => {
-              if (question.id < buildingPart.questions.length) {
-                let newQuest = buildingPart.questions[question.id]
-                setQuestion({ ...newQuest })
-                // setlistCheckbox([...newQuest.opt])
-              } else {
-                console.log("the end")
-                console.log(buildingPart)
-              }
-            }}
-          />
-        </View>
-      </View>
     </ScrollView>
   )
 }

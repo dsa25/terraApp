@@ -98,4 +98,69 @@ export const css = StyleSheet.create({
   radio_label: {
     fontSize: 12,
   },
+  touchBtn: {
+    marginTop: 15,
+    backgroundColor: "#ccc",
+    padding: 15,
+    borderRadius: 7,
+  },
+  btn_green: {
+    backgroundColor: "#00af00",
+  },
+  btn_red: {
+    backgroundColor: "#e93e3e",
+  },
+  measurs_btnAdd: {
+    width: "auto",
+    marginHorizontal: "auto",
+    marginTop: 25,
+    marginBottom: 15,
+  },
+  textUnderline: {
+    textDecorationLine: "underline",
+    marginLeft: 10,
+  },
+  touchBtn_title: {
+    marginLeft: 25,
+    fontSize: 12,
+  },
+
+  measurs_name: {
+    fontWeight: "900",
+  },
+  measurs_fieldtext: {
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    maxHeight: 80,
+    marginTop: 10,
+  },
+  measurs_header: {
+    marginTop: 15,
+    paddingBottom: 5,
+  },
+  measurs_title: {
+    padding: 10,
+  },
+  measurs_item: {
+    flexDirection: "row",
+    padding: 5,
+    alignItems: "center",
+    flex: 1,
+  },
+  measurs_input: {
+    borderBottomWidth: 1,
+    textAlign: "center",
+    padding: 5,
+  },
+  measurs_label: {
+    paddingRight: 15,
+  },
+  measurs_close: {
+    // borderWidth: 1,
+    position: "absolute",
+    right: -5,
+    top: -5,
+    padding: 3,
+  },
 })
