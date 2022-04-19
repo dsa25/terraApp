@@ -14,6 +14,7 @@ import {
   AnswerRadioInput,
   AnswerListTextInput,
 } from "./Answers"
+import { WrBtnThree } from "./WrBtnThree"
 
 export function Question({ dataQuests, closeStart }) {
   const [question, setQuestion] = useState(dataQuests.questions[0])
@@ -28,28 +29,54 @@ export function Question({ dataQuests, closeStart }) {
     return null
   }
 
-  const renderItem = ({ item }) => (
-    <View style={[css.wr_checkbox]}>
-      {item.type != "listTextInput" && (
-        <Text>
-          <Checkbox
-            color="#03a9f4"
-            key={item.val.toString()}
-            status={item.check ? "checked" : "unchecked"}
-            onPress={() => {
-              question.opt[item.val - 1].check = !item.check
-              setQuestion({ ...question })
-              if (!question.opt[item.val - 1].check) {
-                clearFields(item)
-              }
-            }}
-          />
-          <Text>{item.val}</Text>
-        </Text>
-      )}
-      <TypeAnswer props={item} />
-    </View>
-  )
+  function ListAnswer({ list }) {
+    const result = list?.map((item, index) => (
+      <View style={[css.wr_checkbox]} key={index}>
+        {item.type != "listTextInput" && (
+          <Text>
+            <Checkbox
+              color="#03a9f4"
+              key={item.val.toString()}
+              status={item.check ? "checked" : "unchecked"}
+              onPress={() => {
+                question.opt[item.val - 1].check = !item.check
+                setQuestion({ ...question })
+                if (!question.opt[item.val - 1].check) {
+                  clearFields(item)
+                }
+              }}
+            />
+            <Text>{item.val}</Text>
+          </Text>
+        )}
+        <TypeAnswer props={item} />
+      </View>
+    ))
+    return result
+  }
+
+  const fCancel = () => {
+    console.log("the end")
+    closeStart(false)
+  }
+
+  function fBack() {
+    if (question.id > 1) {
+      let newQuest = dataQuests.questions[question.id - 2]
+      setQuestion({ ...newQuest })
+    }
+  }
+
+  function fNext() {
+    if (question.id < dataQuests.questions.length) {
+      let newQuest = dataQuests.questions[question.id]
+      setQuestion({ ...newQuest })
+      // setlistCheckbox([...newQuest.opt])
+    } else {
+      console.log("the end")
+      console.log(dataQuests)
+    }
+  }
 
   const getTitle = (id, headers) => {
     let result = false
@@ -76,49 +103,12 @@ export function Question({ dataQuests, closeStart }) {
       <Text style={css.question_text}>{question.quest}</Text>
 
       {question.opt[0].type != "listTextInput" ? (
-        <FlatList
-          scrollEnabled={false}
-          data={question.opt}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.val.toString()}
-        />
+        <ListAnswer list={question.opt} />
       ) : (
         <AnswerListTextInput props={question.opt[0]} />
       )}
 
-      <View style={css.wr_btns}>
-        <View style={{ paddingRight: 50 }}>
-          <Button
-            style={{ margin: 40 }}
-            color="#f44336"
-            title="Назад"
-            onPress={() => {
-              if (question.id > 1) {
-                let newQuest = dataQuests.questions[question.id - 2]
-                setQuestion({ ...newQuest })
-              } else {
-                console.log("the start")
-                closeStart(false)
-              }
-            }}
-          />
-        </View>
-        <View>
-          <Button
-            title="Далее"
-            onPress={() => {
-              if (question.id < dataQuests.questions.length) {
-                let newQuest = dataQuests.questions[question.id]
-                setQuestion({ ...newQuest })
-                // setlistCheckbox([...newQuest.opt])
-              } else {
-                console.log("the end")
-                console.log(dataQuests)
-              }
-            }}
-          />
-        </View>
-      </View>
+      <WrBtnThree fCancel={fCancel} fBack={fBack} fNext={fNext} />
     </View>
   )
 }

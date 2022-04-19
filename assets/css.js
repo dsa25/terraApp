@@ -157,10 +157,10 @@ export const css = StyleSheet.create({
     paddingRight: 15,
   },
   measurs_close: {
-    // borderWidth: 1,
     position: "absolute",
-    right: -5,
-    top: -5,
+    right: 0,
+    top: 0,
     padding: 3,
+    zIndex: 2,
   },
 })

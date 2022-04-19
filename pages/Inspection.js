@@ -11,7 +11,7 @@ import { Question } from "../components/Question"
 import { Measurements } from "../components/Measurements"
 
 export default function Inspection({}) {
-  const [selectType, setSelectType] = useState("measurements")
+  const [selectType, setSelectType] = useState("")
 
   function closeStart(value) {
     setSelectType(value)
@@ -23,7 +23,7 @@ export default function Inspection({}) {
       return <Question dataQuests={buildingPart} closeStart={closeStart} />
     if (type == "mastTransformer")
       return <Question dataQuests={mastTransformer} closeStart={closeStart} />
-    if (type == "measurements") return <Measurements />
+    if (type == "measurements") return <Measurements closeStart={closeStart} />
     return <Text>ничего не выбрано!</Text>
   }
 

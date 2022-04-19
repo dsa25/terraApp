@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { View, TouchableOpacity, Text, TextInput } from "react-native"
+import { Alert, View, TouchableOpacity, Text, TextInput } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 
 import { css } from "../assets/css"
+import { WrBtnThree } from "./WrBtnThree"
 
-const listInput = ["", "", "", "", "", "", "", "", "", ""]
+const listInput = ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]
 const data = {
   header1: "Описание точки в которой производились замеры:",
   header2: "Показания измерений по напряжени, V",
@@ -34,6 +35,32 @@ export function Measurements({ dataQuests, closeStart }) {
 
   console.log(data.inputs)
 
+  const fCancel = () => {
+    closeStart(false)
+  }
+
+  function fBack() {
+    if (measurs == false) {
+      setMeasurs(true)
+      return
+    }
+    if (index > 0) {
+      setIndex(index - 1)
+    }
+  }
+
+  function fNext() {
+    if (index + 1 < countPoint) {
+      setIndex(index + 1)
+    } else {
+      if (checkEmpty(data.inputs[countPoint - 1])) {
+        console.log("не все поля заполнены!")
+      } else {
+        setMeasurs(false)
+      }
+    }
+  }
+
   const changeText = (text, indexArr, indexInput) => {
     point[indexInput] = text
     data.inputs[indexArr][indexInput] = point[indexInput]
@@ -59,27 +86,42 @@ export function Measurements({ dataQuests, closeStart }) {
             <TouchableOpacity
               style={[css.measurs_close]}
               onPress={() => {
-                console.log(
+                let msg =
                   "Вы точно хотите удалить точку: " +
-                    countPoint +
-                    ") " +
-                    data.inputs[index][0]
-                )
-                data.inputs.pop()
-                setIndex(index - 1)
-                setCountPoint(data.inputs.length)
+                  countPoint +
+                  ") " +
+                  data.inputs[index][0]
+                console.log(msg)
+                Alert.alert("", msg, [
+                  {
+                    text: "Отмена",
+                    onPress: () => {
+                      console.log("click cancel")
+                    },
+                    style: "cancel",
+                  },
+                  {
+                    text: "Да",
+                    onPress: () => {
+                      console.log("yes press")
+                      data.inputs.pop()
+                      setIndex(index - 1)
+                      setCountPoint(data.inputs.length)
+                    },
+                  },
+                ])
               }}
             >
               <AntDesign name="close" size={24} color="red" />
             </TouchableOpacity>
           )}
-          <Text style={css.measurs_name}>
+          <Text style={[css.measurs_name]}>
             <Text>
               {index + 1}/{countPoint + " "}
             </Text>
             Бланк замеров
           </Text>
-          <Text style={css.measurs_header}>{data.header1}</Text>
+          <Text style={[css.measurs_header]}>{data.header1}</Text>
           <TextInput
             style={css.measurs_fieldtext}
             multiline={true}
@@ -218,6 +260,7 @@ export function Measurements({ dataQuests, closeStart }) {
             console.log("point", data.inputs[index])
             if (checkEmpty(data.inputs[countPoint - 1])) {
               console.log("не все поля заполнены!")
+              Alert.alert("Не все поля заполнены!")
             } else {
               data.inputs.push(listInput.slice())
               setCountPoint(data.inputs.length)
@@ -229,48 +272,7 @@ export function Measurements({ dataQuests, closeStart }) {
         </TouchableOpacity>
       )}
 
-      <View style={[css.wr_btns, { paddingBottom: 30 }]}>
-        <TouchableOpacity
-          style={[css.touchBtn, css.btn_red, { marginRight: "auto" }]}
-          onPress={() => {
-            console.log("the end...")
-          }}
-        >
-          <Text style={{ color: "#fff" }}>Завершить</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={css.touchBtn}
-          onPress={() => {
-            if (measurs == false) {
-              setMeasurs(true)
-              return
-            }
-            if (index > 0) {
-              setIndex(index - 1)
-            }
-          }}
-        >
-          <Text>Назад</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[css.touchBtn, { marginLeft: 50 }]}
-          onPress={() => {
-            if (index + 1 < countPoint) {
-              setIndex(index + 1)
-            } else {
-              if (checkEmpty(data.inputs[countPoint - 1])) {
-                console.log("не все поля заполнены!")
-              } else {
-                setMeasurs(false)
-              }
-            }
-          }}
-        >
-          <Text>Далее</Text>
-        </TouchableOpacity>
-      </View>
+      <WrBtnThree fCancel={fCancel} fBack={fBack} fNext={fNext} />
     </View>
   )
 }
