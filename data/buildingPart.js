@@ -1,5 +1,6 @@
 export const buildingPart = {
   name: "ОСМОТР СТРОИТЕЛЬНОЙ ЧАСТИ ТП, РП.",
+  type: "buildingPart",
   headers: [
     {
       title: "РУ-10(6) кВ",

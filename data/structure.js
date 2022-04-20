@@ -62,7 +62,7 @@ const structure = [
         list: [
           { text: "Наименование: ", input: "" },
           { text: "Тип: ", input: "" },
-          { text: "SN: ", input: "" },
+          { text: "S/N: ", input: "" },
           { text: "Напряж.: первичное(кВ): ", input: "" },
           { text: "Напряж.: вторичное(кВ): ", input: "" },
           { text: "Мощность(кВА): ", input: "" },

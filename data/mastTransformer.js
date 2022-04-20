@@ -1,5 +1,6 @@
 export const mastTransformer = {
   name: "МАЧТОВЫЕТРАНСФОРМАТОРНЫЕ ПОДСТАНЦИИ, КТП.",
+  type: "mastTransformer",
   headers: [
     {
       title: "РУ-10(6) кВ",

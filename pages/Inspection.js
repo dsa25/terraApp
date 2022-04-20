@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { ScrollView, TouchableOpacity, Text, View } from "react-native"
-import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
 
@@ -70,7 +69,7 @@ export default function Inspection({}) {
           style={css.touchBtn}
           onPress={() => setSelectType("measurements")}
         >
-          <Text>Бланк замеров</Text>
+          <Text>БЛАНК ЗАМЕРОВ</Text>
         </TouchableOpacity>
       </View>
     )
@@ -78,11 +77,7 @@ export default function Inspection({}) {
 
   return (
     <ScrollView style={css.pages}>
-      {selectType == false ? (
-        <FormSelectType />
-      ) : (
-        <StartInspection type={selectType} />
-      )}
+      {selectType ? <StartInspection type={selectType} /> : <FormSelectType />}
     </ScrollView>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, FlatList, Text, Button } from "react-native"
+import { View, Text, Alert } from "react-native"
 import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
@@ -14,10 +14,29 @@ import {
   AnswerRadioInput,
   AnswerListTextInput,
 } from "./Answers"
+import { delegationData } from "../data/delegationData"
+// const dd = require("../data/delegationData")
+import { Delegation } from "./Delegation"
 import { WrBtnThree } from "./WrBtnThree"
 
+// const cloneDataDelegation = {...delegationData}
+// const cloneDataDelegation = Object.assign({}, delegationData)
+
+function deepClone(obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 export function Question({ dataQuests, closeStart }) {
+  const [dataDelegation, setDataDelegation] = useState(
+    deepClone(delegationData)
+  )
+  const [typeContent, setTypeContent] = useState("delegation")
   const [question, setQuestion] = useState(dataQuests.questions[0])
+
+  function getDataDelegation(data) {
+    setDataDelegation(data)
+    console.log("getData", data)
+  }
 
   function TypeAnswer({ props }) {
     if (props.type == "text") return <AnswerText props={props} />
@@ -55,26 +74,73 @@ export function Question({ dataQuests, closeStart }) {
     return result
   }
 
+  function checkEmpty(arr) {
+    let result = false
+    for (const item of arr) {
+      if (item.input.trim().length == 0) {
+        result = true
+        break
+      }
+    }
+    return result
+  }
+
+  function checkOneChecked(arr) {
+    let result = false
+    for (const item of arr) {
+      if (item.check) {
+        result = true
+        break
+      }
+    }
+    return result
+  }
+
   const fCancel = () => {
     console.log("the end")
+    setDataDelegation(deepClone(delegationData))
     closeStart(false)
   }
 
   function fBack() {
-    if (question.id > 1) {
-      let newQuest = dataQuests.questions[question.id - 2]
-      setQuestion({ ...newQuest })
+    if (typeContent == "quest") {
+      if (question.id > 1) {
+        let newQuest = dataQuests.questions[question.id - 2]
+        setQuestion({ ...newQuest })
+      } else {
+        setTypeContent("delegation")
+        return
+      }
     }
   }
 
   function fNext() {
-    if (question.id < dataQuests.questions.length) {
-      let newQuest = dataQuests.questions[question.id]
-      setQuestion({ ...newQuest })
-      // setlistCheckbox([...newQuest.opt])
-    } else {
-      console.log("the end")
-      console.log(dataQuests)
+    console.log("dataDelegation", dataDelegation)
+
+    if (typeContent == "delegation") {
+      if (!dataDelegation || checkEmpty(dataDelegation.fields)) {
+        Alert.alert("Не заполнены поля!")
+        alert("Не заполнены поля!")
+        return
+      }
+      if (checkOneChecked(dataDelegation.users.checkbox) == false) {
+        Alert.alert("Не указан не одни сотрудник!")
+        alert("Не указан не одни сотрудник!")
+        return
+      }
+      setTypeContent("quest")
+      return
+    }
+
+    if (typeContent == "quest") {
+      if (question.id < dataQuests.questions.length) {
+        let newQuest = dataQuests.questions[question.id]
+        setQuestion({ ...newQuest })
+        // setlistCheckbox([...newQuest.opt])
+      } else {
+        console.log("the end")
+        console.log(dataQuests)
+      }
     }
   }
 
@@ -85,29 +151,43 @@ export function Question({ dataQuests, closeStart }) {
     })
     return result
   }
-  let questionTitle = getTitle(question.id, dataQuests.headers)
+
+  function Quest() {
+    let questionTitle = getTitle(question.id, dataQuests.headers)
+    return (
+      <View>
+        <Text style={css.question_text}>
+          <Text style={{ paddingRight: 10 }}>
+            {question.id + " / " + dataQuests.questions.length}{" "}
+          </Text>
+          <Text style={css.question_name}> {dataQuests.name}</Text>
+        </Text>
+
+        {questionTitle && (
+          <Text style={css.question_header}>{questionTitle}</Text>
+        )}
+
+        <Text style={css.question_text}>{question.quest}</Text>
+
+        {question.opt[0].type != "listTextInput" ? (
+          <ListAnswer list={question.opt} />
+        ) : (
+          <AnswerListTextInput props={question.opt[0]} />
+        )}
+      </View>
+    )
+  }
 
   return (
     <View>
-      <Text style={css.question_text}>
-        <Text style={{ paddingRight: 10 }}>
-          {question.id + " / " + dataQuests.questions.length}{" "}
-        </Text>
-        <Text style={css.question_name}> {dataQuests.name}</Text>
-      </Text>
-
-      {questionTitle && (
-        <Text style={css.question_header}>{questionTitle}</Text>
+      {typeContent == "delegation" && (
+        <Delegation
+          type={dataQuests.type}
+          data={dataDelegation}
+          getData={getDataDelegation}
+        />
       )}
-
-      <Text style={css.question_text}>{question.quest}</Text>
-
-      {question.opt[0].type != "listTextInput" ? (
-        <ListAnswer list={question.opt} />
-      ) : (
-        <AnswerListTextInput props={question.opt[0]} />
-      )}
-
+      {typeContent == "quest" && <Quest />}
       <WrBtnThree fCancel={fCancel} fBack={fBack} fNext={fNext} />
     </View>
   )
