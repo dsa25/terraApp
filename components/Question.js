@@ -14,8 +14,10 @@ import {
   AnswerRadioInput,
   AnswerListTextInput,
 } from "./Answers"
+
+import { checkEmptyChild, checkOneChecked } from "./func"
+
 import { delegationData } from "../data/delegationData"
-// const dd = require("../data/delegationData")
 import { Delegation } from "./Delegation"
 import { WrBtnThree } from "./WrBtnThree"
 
@@ -74,28 +76,6 @@ export function Question({ dataQuests, closeStart }) {
     return result
   }
 
-  function checkEmpty(arr) {
-    let result = false
-    for (const item of arr) {
-      if (item.input.trim().length == 0) {
-        result = true
-        break
-      }
-    }
-    return result
-  }
-
-  function checkOneChecked(arr) {
-    let result = false
-    for (const item of arr) {
-      if (item.check) {
-        result = true
-        break
-      }
-    }
-    return result
-  }
-
   const fCancel = () => {
     console.log("the end")
     setDataDelegation(deepClone(delegationData))
@@ -118,7 +98,7 @@ export function Question({ dataQuests, closeStart }) {
     console.log("dataDelegation", dataDelegation)
 
     if (typeContent == "delegation") {
-      if (!dataDelegation || checkEmpty(dataDelegation.fields)) {
+      if (!dataDelegation || checkEmptyChild(dataDelegation.fields)) {
         Alert.alert("Не заполнены поля!")
         alert("Не заполнены поля!")
         return

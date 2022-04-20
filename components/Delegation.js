@@ -4,16 +4,7 @@ import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
 import { AnswerCheckBox } from "./Answers"
-
-function getTime() {
-  let time = new Date()
-  let dd = time.getDate()
-  let mo = time.getMonth() + 1
-  let yy = time.getFullYear().toString()
-  if (mo < 10) mo = "0" + mo
-  if (dd < 10) dd = "0" + dd
-  return `${dd}.${mo}.${yy}`
-}
+import { getTime } from "./func"
 
 export function Delegation({ type, data, getData }) {
   data.users.text = type == "measurements" ? data.headers2[0] : data.headers2[1]

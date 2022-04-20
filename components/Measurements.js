@@ -5,272 +5,257 @@ import { AntDesign } from "@expo/vector-icons"
 import { css } from "../assets/css"
 import { WrBtnThree } from "./WrBtnThree"
 
-const listInput = ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]
-const data = {
-  header1: "Описание точки в которой производились замеры:",
-  header2: "Показания измерений по напряжени, V",
-  header3: "Показания измерений по силе тока, A",
-  title1: "линейное",
-  title2: "фазное",
-  labels: [
-    "A-B",
-    "B-C",
-    "C-A",
-    "A-N",
-    "B-N",
-    "C-N",
-    "Фаза A",
-    "Фаза B",
-    "Фаза C",
-  ],
-  inputs: [listInput.slice()],
-  lastInput: "",
-}
+import { deepClone, checkEmpty, checkEmptyChild, checkOneChecked } from "./func"
 
-export function Measurements({ dataQuests, closeStart }) {
+import { delegationData } from "../data/delegationData"
+import { Delegation } from "./Delegation"
+
+import { measurData } from "../data/measurData"
+const listInput = ["1", "2", "3", "4", "1", "1", "1", "1", "1", "1"]
+measurData.inputs[0] = listInput.slice()
+
+export function Measurements({ closeStart }) {
+  const doneList = {}
+  doneList.type = "measurements"
   const [index, setIndex] = useState(0)
-  const [countPoint, setCountPoint] = useState(data.inputs.length)
-  const [point, setPoint] = useState(data.inputs[index])
+  const [countPoint, setCountPoint] = useState(measurData.inputs.length)
+  const [point, setPoint] = useState(measurData.inputs[index])
   const [measurs, setMeasurs] = useState(true)
 
-  console.log(data.inputs)
+  const [typeContent, setTypeContent] = useState("delegation")
+  const [dataDelegation, setDataDelegation] = useState(
+    deepClone(delegationData)
+  )
+  function getDataDelegation(data) {
+    setDataDelegation(data)
+    console.log("getData", data)
+  }
+
+  console.log("measurData", measurData)
 
   const fCancel = () => {
     closeStart(false)
+    setDataDelegation(deepClone(delegationData))
   }
 
   function fBack() {
-    if (measurs == false) {
-      setMeasurs(true)
+    if (typeContent == "measurements") {
+      if (measurs == false) {
+        setMeasurs(true)
+        return
+      }
+      if (index > 0) {
+        setIndex(index - 1)
+      } else {
+        setTypeContent("delegation")
+      }
       return
-    }
-    if (index > 0) {
-      setIndex(index - 1)
     }
   }
 
   function fNext() {
-    if (index + 1 < countPoint) {
-      setIndex(index + 1)
-    } else {
-      if (checkEmpty(data.inputs[countPoint - 1])) {
-        console.log("не все поля заполнены!")
-      } else {
-        setMeasurs(false)
+    if (typeContent == "delegation") {
+      if (!dataDelegation || checkEmptyChild(dataDelegation.fields)) {
+        Alert.alert("Не заполнены поля!")
+        alert("Не заполнены поля!")
+        return
+      }
+      if (checkOneChecked(dataDelegation.users.checkbox) == false) {
+        Alert.alert("Не указан не одни сотрудник!")
+        alert("Не указан не одни сотрудник!")
+        return
+      }
+      setTypeContent("measurements")
+      return
+    }
+
+    if (typeContent == "measurements") {
+      if (measurs == false) {
+        if (measurData.lastInput.trim() == "") {
+          Alert.alert("Поле не заполнено!")
+          alert("Поле не заполнено!")
+        } else {
+          doneList.delegation = dataDelegation
+          doneList.measurements = measurData
+          console.log("end")
+          console.log("doneList", doneList)
+        }
+        return
+      }
+      if (index + 1 < countPoint) {
+        setIndex(index + 1)
+        return
+      }
+      if (index + 1 == countPoint) {
+        if (checkEmpty(measurData.inputs[countPoint - 1])) {
+          console.log("не все поля заполнены!")
+        } else {
+          setMeasurs(false)
+        }
+        return
       }
     }
   }
 
-  const changeText = (text, indexArr, indexInput) => {
-    point[indexInput] = text
-    data.inputs[indexArr][indexInput] = point[indexInput]
-    setPoint([...point])
-  }
-
-  function checkEmpty(arr) {
-    let result = false
-    for (const item of arr) {
-      if (item.trim().length == 0) {
-        result = true
-        break
-      }
-    }
-    return result
-  }
-
-  return (
-    <View>
-      {measurs && (
-        <View style={css.measurs}>
-          {index > 0 && index + 1 == countPoint && (
-            <TouchableOpacity
-              style={[css.measurs_close]}
-              onPress={() => {
-                let msg =
-                  "Вы точно хотите удалить точку: " +
-                  countPoint +
-                  ") " +
-                  data.inputs[index][0]
-                console.log(msg)
-                Alert.alert("", msg, [
-                  {
-                    text: "Отмена",
-                    onPress: () => {
-                      console.log("click cancel")
-                    },
-                    style: "cancel",
-                  },
-                  {
-                    text: "Да",
-                    onPress: () => {
-                      console.log("yes press")
-                      data.inputs.pop()
-                      setIndex(index - 1)
-                      setCountPoint(data.inputs.length)
-                    },
-                  },
-                ])
-              }}
-            >
-              <AntDesign name="close" size={24} color="red" />
-            </TouchableOpacity>
-          )}
-          <Text style={[css.measurs_name]}>
-            <Text>
-              {index + 1}/{countPoint + " "}
-            </Text>
-            Бланк замеров
-          </Text>
-          <Text style={[css.measurs_header]}>{data.header1}</Text>
+  function LabelInput({ indexArr, indexInput, input, label }) {
+    const [value, setValue] = useState(input)
+    if (indexInput == 0) {
+      return (
+        <View>
+          <Text style={[css.measurs_header]}>{label}</Text>
           <TextInput
             style={css.measurs_fieldtext}
             multiline={true}
             // editable={props.check}
-            value={data.inputs[index][0]}
+            value={measurData.inputs[index][0]}
             onChangeText={(text) => {
-              changeText(text, index, 0)
+              setValue(text)
+              measurData.inputs[indexArr][indexInput] = text
             }}
           />
-          <View>
-            <Text style={css.measurs_header}>{data.header2}</Text>
-
-            <Text style={css.measurs_title}>
-              U<Text style={{ fontSize: 12 }}>{data.title1}</Text>
-            </Text>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[0]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][1]}
-                onChangeText={(text) => {
-                  changeText(text, index, 1)
-                }}
-              />
-            </View>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[1]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][2]}
-                onChangeText={(text) => {
-                  changeText(text, index, 2)
-                }}
-              />
-            </View>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[2]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][3]}
-                onChangeText={(text) => {
-                  changeText(text, index, 3)
-                }}
-              />
-            </View>
-
-            <Text style={css.measurs_title}>
-              U<Text style={{ fontSize: 12 }}>{data.title2}</Text>
-            </Text>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[3]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][4]}
-                onChangeText={(text) => {
-                  changeText(text, index, 4)
-                }}
-              />
-            </View>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[4]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][5]}
-                onChangeText={(text) => {
-                  changeText(text, index, 5)
-                }}
-              />
-            </View>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[5]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][6]}
-                onChangeText={(text) => {
-                  changeText(text, index, 6)
-                }}
-              />
-            </View>
-
-            <Text style={css.measurs_header}>{data.header3}</Text>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[6]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][7]}
-                onChangeText={(text) => {
-                  changeText(text, index, 7)
-                }}
-              />
-            </View>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[7]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][8]}
-                onChangeText={(text) => {
-                  changeText(text, index, 8)
-                }}
-              />
-            </View>
-            <View style={css.measurs_item}>
-              <Text style={css.measurs_label}>{data.labels[8]}</Text>
-              <TextInput
-                style={css.measurs_input}
-                value={data.inputs[index][9]}
-                onChangeText={(text) => {
-                  changeText(text, index, 9)
-                }}
-              />
-            </View>
-          </View>
         </View>
-      )}
-
-      {measurs == false && (
-        <View>
-          <Text>
-            "Положение анцапфы (переключателя) силового трансформатора. При
-            визуальной доступности!"
-          </Text>
+      )
+    } else {
+      return (
+        <View style={css.measurs_item}>
+          <Text style={css.measurs_label}>{label}</Text>
           <TextInput
             style={css.measurs_input}
+            value={value}
             onChangeText={(text) => {
-              data.lastInput = text
-              console.log(data)
+              setValue(text)
+              measurData.inputs[indexArr][indexInput] = text
             }}
           />
         </View>
-      )}
+      )
+    }
+  }
 
-      {measurs && (
-        <TouchableOpacity
-          style={[css.touchBtn, css.btn_green, css.measurs_btnAdd]}
-          onPress={() => {
-            console.log("point", data.inputs[index])
-            if (checkEmpty(data.inputs[countPoint - 1])) {
-              console.log("не все поля заполнены!")
-              Alert.alert("Не все поля заполнены!")
-            } else {
-              data.inputs.push(listInput.slice())
-              setCountPoint(data.inputs.length)
-              setIndex(index + 1)
-            }
-          }}
-        >
-          <Text style={{ color: "#fff" }}>Добавить точку</Text>
-        </TouchableOpacity>
+  function ListLabelInput({ props }) {
+    const result = props?.map((item, indexInput) => (
+      <View key={indexInput}>
+        {indexInput == 1 && (
+          <Text style={css.measurs_header}>{measurData.header1}</Text>
+        )}
+        {indexInput == 1 && (
+          <Text style={css.measurs_title}>
+            U<Text style={{ fontSize: 12 }}>{measurData.title1}</Text>
+          </Text>
+        )}
+        {indexInput == 4 && (
+          <Text style={css.measurs_title}>
+            U<Text style={{ fontSize: 12 }}>{measurData.title2}</Text>
+          </Text>
+        )}
+        {indexInput == 7 && (
+          <Text style={css.measurs_header}>{measurData.header2}</Text>
+        )}
+        <LabelInput
+          indexArr={index}
+          indexInput={indexInput}
+          input={measurData.inputs[index][indexInput]}
+          label={item}
+        />
+      </View>
+    ))
+    return result
+  }
+
+  function MeusurementBlock() {
+    return (
+      <View>
+        {measurs && (
+          <View style={css.measurs}>
+            {index > 0 && index + 1 == countPoint && (
+              <TouchableOpacity
+                style={[css.measurs_close]}
+                onPress={() => {
+                  let msg =
+                    "Вы точно хотите удалить точку: " +
+                    countPoint +
+                    ") " +
+                    measurData.inputs[index][0]
+                  console.log(msg)
+                  Alert.alert("", msg, [
+                    {
+                      text: "Отмена",
+                      onPress: () => {
+                        console.log("click cancel")
+                      },
+                      style: "cancel",
+                    },
+                    {
+                      text: "Да",
+                      onPress: () => {
+                        console.log("yes press")
+                        measurData.inputs.pop()
+                        setIndex(index - 1)
+                        setCountPoint(measurData.inputs.length)
+                      },
+                    },
+                  ])
+                }}
+              >
+                <AntDesign name="close" size={24} color="red" />
+              </TouchableOpacity>
+            )}
+            <Text style={[css.measurs_name]}>
+              <Text>
+                {index + 1}/{countPoint + " "}
+              </Text>
+              Бланк замеров
+            </Text>
+
+            <ListLabelInput props={measurData.labels} />
+          </View>
+        )}
+        {measurs == false && (
+          <View>
+            <Text>
+              "Положение анцапфы (переключателя) силового трансформатора. При
+              визуальной доступности!"
+            </Text>
+            <TextInput
+              style={css.measurs_input}
+              onChangeText={(text) => {
+                measurData.lastInput = text
+              }}
+            />
+          </View>
+        )}
+        {measurs && (
+          <TouchableOpacity
+            style={[css.touchBtn, css.btn_green, css.measurs_btnAdd]}
+            onPress={() => {
+              console.log("point", measurData.inputs[index])
+              if (checkEmpty(measurData.inputs[countPoint - 1])) {
+                console.log("не все поля заполнены!")
+                Alert.alert("Не все поля заполнены!")
+              } else {
+                measurData.inputs.push(listInput.slice())
+                setCountPoint(measurData.inputs.length)
+                setIndex(index + 1)
+              }
+            }}
+          >
+            <Text style={{ color: "#fff" }}>Добавить точку</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    )
+  }
+
+  return (
+    <View>
+      {typeContent == "delegation" && (
+        <Delegation
+          type={"measurements"}
+          data={dataDelegation}
+          getData={getDataDelegation}
+        />
       )}
+      {typeContent == "measurements" && <MeusurementBlock />}
 
       <WrBtnThree fCancel={fCancel} fBack={fBack} fNext={fNext} />
     </View>
