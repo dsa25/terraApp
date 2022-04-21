@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Text, Alert } from "react-native"
+import { View, Text } from "react-native"
 import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
@@ -15,7 +15,13 @@ import {
   AnswerListTextInput,
 } from "./Answers"
 
-import { checkEmptyChild, checkOneChecked } from "./func"
+import {
+  checkEmptyChild,
+  deepClone,
+  checkOneChecked,
+  alertSelection,
+  alertMsg,
+} from "./func"
 
 import { delegationData } from "../data/delegationData"
 import { Delegation } from "./Delegation"
@@ -24,11 +30,11 @@ import { WrBtnThree } from "./WrBtnThree"
 // const cloneDataDelegation = {...delegationData}
 // const cloneDataDelegation = Object.assign({}, delegationData)
 
-function deepClone(obj) {
-  return JSON.parse(JSON.stringify(obj))
-}
+import { Measurements } from "./Measurements"
 
 export function Question({ dataQuests, closeStart }) {
+  const doneList = {}
+
   const [dataDelegation, setDataDelegation] = useState(
     deepClone(delegationData)
   )
@@ -77,9 +83,21 @@ export function Question({ dataQuests, closeStart }) {
   }
 
   const fCancel = () => {
-    console.log("the end")
-    setDataDelegation(deepClone(delegationData))
-    closeStart(false)
+    alertSelection(
+      "Вы точно хотите завершить осмотр?",
+      "Указанные данные будут удалены!",
+      {
+        text: "Да",
+        func: () => {
+          setDataDelegation(deepClone(delegationData))
+          closeStart(false)
+        },
+      },
+      {
+        func: () => {},
+        text: "Отмена",
+      }
+    )
   }
 
   function fBack() {
@@ -99,13 +117,11 @@ export function Question({ dataQuests, closeStart }) {
 
     if (typeContent == "delegation") {
       if (!dataDelegation || checkEmptyChild(dataDelegation.fields)) {
-        Alert.alert("Не заполнены поля!")
-        alert("Не заполнены поля!")
+        alertMsg("Не заполнены поля!")
         return
       }
       if (checkOneChecked(dataDelegation.users.checkbox) == false) {
-        Alert.alert("Не указан не одни сотрудник!")
-        alert("Не указан не одни сотрудник!")
+        alertMsg("Не указан не один сотрудник!")
         return
       }
       setTypeContent("quest")
@@ -116,10 +132,23 @@ export function Question({ dataQuests, closeStart }) {
       if (question.id < dataQuests.questions.length) {
         let newQuest = dataQuests.questions[question.id]
         setQuestion({ ...newQuest })
-        // setlistCheckbox([...newQuest.opt])
       } else {
-        console.log("the end")
-        console.log(dataQuests)
+        let funcOk = () => {
+          setTypeContent("measurements")
+        }
+        let funcNo = () => {
+          doneList.type = "quest"
+          doneList.measur = false
+          doneList.delegation = dataDelegation
+          doneList.quests = dataQuests
+          console.log("doneList", doneList)
+        }
+        alertSelection(
+          "Заполнить бланк замеров?",
+          'Нажимая "Сохранить" осмотр завершается и сохраняется без бланка замеров',
+          { func: funcOk, text: "Продолжить" },
+          { func: funcNo, text: "Сохранить" }
+        )
       }
     }
   }
@@ -158,6 +187,10 @@ export function Question({ dataQuests, closeStart }) {
     )
   }
 
+  function CloseMeasurTwo() {
+    setTypeContent("quest")
+  }
+
   return (
     <View>
       {typeContent == "delegation" && (
@@ -167,8 +200,22 @@ export function Question({ dataQuests, closeStart }) {
           getData={getDataDelegation}
         />
       )}
+
       {typeContent == "quest" && <Quest />}
-      <WrBtnThree fCancel={fCancel} fBack={fBack} fNext={fNext} />
+
+      {typeContent == "measurements" && (
+        <Measurements
+          call={"two"}
+          typeQuest={"quest"}
+          getDD={dataDelegation}
+          dataQuests={dataQuests}
+          closeStart={CloseMeasurTwo}
+        />
+      )}
+
+      {typeContent != "measurements" && (
+        <WrBtnThree fCancel={fCancel} fBack={fBack} fNext={fNext} />
+      )}
     </View>
   )
 }

@@ -22,7 +22,8 @@ export default function Inspection({}) {
       return <Question dataQuests={buildingPart} closeStart={closeStart} />
     if (type == "mastTransformer")
       return <Question dataQuests={mastTransformer} closeStart={closeStart} />
-    if (type == "measurements") return <Measurements closeStart={closeStart} />
+    if (type == "measurements")
+      return <Measurements call={"one"} closeStart={closeStart} />
     return <Text>ничего не выбрано!</Text>
   }
 

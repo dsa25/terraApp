@@ -8,23 +8,23 @@ export const delegationData = {
   fields: [
     {
       label: "ТП (РП) № ",
-      input: "",
+      input: "1",
     },
     {
       label: "Адрес: ",
-      input: "",
+      input: "1",
     },
     {
       label: "на верхней стороне (кВ) ",
-      input: "",
+      input: "1",
     },
     {
       label: "на нижней стороне (кВ) ",
-      input: "",
+      input: "1",
     },
     {
       label: "Инв № ",
-      input: "",
+      input: "1",
     },
   ],
   users: {
@@ -33,9 +33,9 @@ export const delegationData = {
     type: "checkbox",
     text: "",
     checkbox: [
-      { check: false, text: "Иванов ИИ" },
-      { check: false, text: "Петров ПП" },
-      { check: false, text: "Сидоров СС" },
+      { check: true, text: "Иванов ИИ" },
+      { check: true, text: "Петров ПП" },
+      { check: true, text: "Сидоров СС" },
     ],
   },
 }

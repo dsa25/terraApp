@@ -1,3 +1,49 @@
+import { Alert } from "react-native"
+
+const mobile = true
+
+function alertMsg(msg = "text message") {
+  return mobile ? Alert.alert(msg) : alert(msg)
+}
+
+function alertSelection(
+  header = "",
+  msg = "",
+  funcOk = { func: func, text: "Да" },
+  funcNo = { func: func, text: "Нет" }
+) {
+  if (mobile) {
+    Alert.alert(header, msg, [
+      {
+        text: funcNo.text,
+        onPress: () => {
+          funcNo.func()
+          console.log("funcNo")
+        },
+        style: "cancel",
+      },
+      {
+        text: funcOk.text,
+        onPress: () => {
+          funcOk.func()
+          console.log("funcOk")
+        },
+      },
+    ])
+    return
+  }
+
+  let modalRes = confirm(header)
+  if (modalRes) {
+    funcOk.func()
+    console.log("funcOk")
+  } else {
+    funcNo.func()
+    console.log("funcNo")
+  }
+  return
+}
+
 function getTime() {
   let time = new Date()
   let dd = time.getDate()
@@ -45,4 +91,12 @@ function checkOneChecked(arr) {
   return result
 }
 
-export { deepClone, getTime, checkEmpty, checkEmptyChild, checkOneChecked }
+export {
+  deepClone,
+  getTime,
+  checkEmpty,
+  checkEmptyChild,
+  checkOneChecked,
+  alertSelection,
+  alertMsg,
+}

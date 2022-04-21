@@ -1,28 +1,42 @@
 import React, { useState } from "react"
-import { Alert, View, TouchableOpacity, Text, TextInput } from "react-native"
+import { View, TouchableOpacity, Text, TextInput } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 
 import { css } from "../assets/css"
 import { WrBtnThree } from "./WrBtnThree"
 
-import { deepClone, checkEmpty, checkEmptyChild, checkOneChecked } from "./func"
+import {
+  deepClone,
+  checkEmpty,
+  checkEmptyChild,
+  checkOneChecked,
+  alertSelection,
+  alertMsg,
+} from "./func"
 
 import { delegationData } from "../data/delegationData"
 import { Delegation } from "./Delegation"
 
 import { measurData } from "../data/measurData"
 const listInput = ["1", "2", "3", "4", "1", "1", "1", "1", "1", "1"]
-measurData.inputs[0] = listInput.slice()
+measurData.inputs = [listInput.slice()]
 
-export function Measurements({ closeStart }) {
+export function Measurements({
+  call,
+  typeQuest,
+  getDD,
+  dataQuests,
+  closeStart,
+}) {
   const doneList = {}
-  doneList.type = "measurements"
   const [index, setIndex] = useState(0)
   const [countPoint, setCountPoint] = useState(measurData.inputs.length)
   const [point, setPoint] = useState(measurData.inputs[index])
   const [measurs, setMeasurs] = useState(true)
 
-  const [typeContent, setTypeContent] = useState("delegation")
+  const [typeContent, setTypeContent] = useState(
+    call == "two" ? "measurements" : "delegation"
+  )
   const [dataDelegation, setDataDelegation] = useState(
     deepClone(delegationData)
   )
@@ -33,9 +47,47 @@ export function Measurements({ closeStart }) {
 
   console.log("measurData", measurData)
 
+  function clearInputs() {
+    measurData.inputs = [listInput.slice()]
+    measurData.lastInput = ""
+  }
+
   const fCancel = () => {
-    closeStart(false)
-    setDataDelegation(deepClone(delegationData))
+    if (call == "two") {
+      alertSelection(
+        "Вы точно хотите завершить замеры?",
+        "Указанные замеры будут удалены и вернетесь к осмотру",
+        {
+          text: "Да",
+          func: () => {
+            clearInputs()
+            closeStart()
+          },
+        },
+        {
+          func: () => console.log("click cancel"),
+          text: "Отмена",
+        }
+      )
+      return
+    }
+
+    alertSelection(
+      "Вы точно хотите завершить замеры?",
+      "Указанные данные будут удалены!",
+      {
+        text: "Да",
+        func: () => {
+          clearInputs()
+          closeStart(false)
+          setDataDelegation(deepClone(delegationData))
+        },
+      },
+      {
+        func: () => console.log("click cancel"),
+        text: "Отмена",
+      }
+    )
   }
 
   function fBack() {
@@ -47,7 +99,7 @@ export function Measurements({ closeStart }) {
       if (index > 0) {
         setIndex(index - 1)
       } else {
-        setTypeContent("delegation")
+        if (call == "one") setTypeContent("delegation")
       }
       return
     }
@@ -56,29 +108,36 @@ export function Measurements({ closeStart }) {
   function fNext() {
     if (typeContent == "delegation") {
       if (!dataDelegation || checkEmptyChild(dataDelegation.fields)) {
-        Alert.alert("Не заполнены поля!")
-        alert("Не заполнены поля!")
+        alertMsg("Не все поля заполнены!")
         return
       }
       if (checkOneChecked(dataDelegation.users.checkbox) == false) {
-        Alert.alert("Не указан не одни сотрудник!")
-        alert("Не указан не одни сотрудник!")
+        alertMsg("Укажите сотрудника!")
         return
       }
       setTypeContent("measurements")
       return
     }
 
-    if (typeContent == "measurements") {
+    if (typeContent == "measurements" || typeContent == "quest") {
       if (measurs == false) {
         if (measurData.lastInput.trim() == "") {
-          Alert.alert("Поле не заполнено!")
-          alert("Поле не заполнено!")
+          alertMsg("Поле не заполнено!")
         } else {
-          doneList.delegation = dataDelegation
-          doneList.measurements = measurData
-          console.log("end")
-          console.log("doneList", doneList)
+          if (call == "one") {
+            doneList.type = "measurements"
+            doneList.delegation = dataDelegation
+            doneList.measurements = measurData
+            console.log("doneList", doneList)
+          }
+          if (call == "two") {
+            doneList.type = typeQuest
+            doneList.measur = true
+            doneList.delegation = getDD
+            doneList.quests = dataQuests
+            doneList.measurements = measurData
+            console.log("doneList", doneList)
+          }
         }
         return
       }
@@ -88,7 +147,7 @@ export function Measurements({ closeStart }) {
       }
       if (index + 1 == countPoint) {
         if (checkEmpty(measurData.inputs[countPoint - 1])) {
-          console.log("не все поля заполнены!")
+          alertMsg("Не все поля заполнены!")
         } else {
           setMeasurs(false)
         }
@@ -133,7 +192,7 @@ export function Measurements({ closeStart }) {
   }
 
   function ListLabelInput({ props }) {
-    const result = props?.map((item, indexInput) => (
+    return props?.map((item, indexInput) => (
       <View key={indexInput}>
         {indexInput == 1 && (
           <Text style={css.measurs_header}>{measurData.header1}</Text>
@@ -159,9 +218,28 @@ export function Measurements({ closeStart }) {
         />
       </View>
     ))
-    return result
   }
 
+  function LastInputBlock({ lastInputText }) {
+    const [value, setValue] = useState(lastInputText)
+    return (
+      <View>
+        <Text>
+          "Положение анцапфы (переключателя) силового трансформатора. При
+          визуальной доступности!"
+        </Text>
+        <TextInput
+          style={css.measurs_input}
+          value={value}
+          onChangeText={(text) => {
+            console.log(text)
+            setValue(text)
+            measurData.lastInput = text
+          }}
+        />
+      </View>
+    )
+  }
   function MeusurementBlock() {
     return (
       <View>
@@ -176,25 +254,19 @@ export function Measurements({ closeStart }) {
                     countPoint +
                     ") " +
                     measurData.inputs[index][0]
-                  console.log(msg)
-                  Alert.alert("", msg, [
-                    {
-                      text: "Отмена",
-                      onPress: () => {
-                        console.log("click cancel")
-                      },
-                      style: "cancel",
-                    },
+                  alertSelection(
+                    "",
+                    msg,
                     {
                       text: "Да",
-                      onPress: () => {
-                        console.log("yes press")
+                      func: () => {
                         measurData.inputs.pop()
                         setIndex(index - 1)
                         setCountPoint(measurData.inputs.length)
                       },
                     },
-                  ])
+                    { func: () => console.log("click cancel"), text: "Отмена" }
+                  )
                 }}
               >
                 <AntDesign name="close" size={24} color="red" />
@@ -211,18 +283,7 @@ export function Measurements({ closeStart }) {
           </View>
         )}
         {measurs == false && (
-          <View>
-            <Text>
-              "Положение анцапфы (переключателя) силового трансформатора. При
-              визуальной доступности!"
-            </Text>
-            <TextInput
-              style={css.measurs_input}
-              onChangeText={(text) => {
-                measurData.lastInput = text
-              }}
-            />
-          </View>
+          <LastInputBlock lastInputText={measurData.lastInput} />
         )}
         {measurs && (
           <TouchableOpacity
@@ -230,8 +291,7 @@ export function Measurements({ closeStart }) {
             onPress={() => {
               console.log("point", measurData.inputs[index])
               if (checkEmpty(measurData.inputs[countPoint - 1])) {
-                console.log("не все поля заполнены!")
-                Alert.alert("Не все поля заполнены!")
+                alertMsg("Не все поля заполнены!")
               } else {
                 measurData.inputs.push(listInput.slice())
                 setCountPoint(measurData.inputs.length)
