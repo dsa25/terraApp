@@ -1,56 +1,74 @@
-import React, { useState } from "react"
-import { TextInput, Text, TouchableOpacity, ScrollView } from "react-native"
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import React, { useState, useEffect } from "react"
+import { View, Text, TouchableOpacity, ScrollView } from "react-native"
+import { getInspectionHistory } from "../components/func"
+import { FontAwesome5 } from "@expo/vector-icons"
+import { getTypeIcon, setUsersDefault } from "../components/func"
 import { css } from "../assets/css"
 
-export default function Home() {
-  const [inspection, setInpection] = useState()
+export default function Home({ navigation, route }) {
+  const [inspections, setInpections] = useState(0)
 
-  const [input, setInput] = useState("123")
+  // setUsersDefault()
+  console.log("tab..home")
 
-  const setData = async (value) => {
-    try {
-      await AsyncStorage.setItem("test", value)
-    } catch (error) {
-      console.log("cathc error", error)
-    }
+  function ListInspect({ props }) {
+    if (props == null) return <Text>Осмотров еще нет ...</Text>
+    let result = props.map((item, index) => (
+      <View style={css.inspect} key={index}>
+        <View style={css.inspect_desc}>
+          <Text>
+            <Text>№ {item.id} </Text>
+            <Text> {item.address}</Text>
+          </Text>
+          <Text>
+            <Text style={{ paddingRight: 5 }}>v:{item.v}</Text> (отвт.{" "}
+            {item.fio})
+          </Text>
+
+          <View style={css.inspect_foot}>
+            <Text style={css.inspect_date}>{item.date}</Text>
+            <Text>
+              <Text>{getTypeIcon(item.type)}</Text>
+              {item.measur && (
+                <Text>
+                  {" + "}
+                  {getTypeIcon("measurements")}
+                </Text>
+              )}
+            </Text>
+            <Text style={{ marginLeft: 15 }}>{getTypeIcon(item.status)}</Text>
+          </View>
+        </View>
+        <View style={css.inspect_wrBtn}>
+          <TouchableOpacity style={css.inspect_btn}>
+            {/* <AntDesign name="ellipsis1" size={24} color="black" /> */}
+            <FontAwesome5 name="pencil-alt" size={20} color="black" />
+          </TouchableOpacity>
+        </View>
+      </View>
+    ))
+    return result
   }
 
-  const getData = async () => {
-    try {
-      const val = await AsyncStorage.getItem("test321")
-      console.log("null", val)
-      if (val !== null) {
-        console.log("val", val)
+  useEffect(() => {
+    if (inspections == 0) {
+      const getHis = async () => {
+        let his = await getInspectionHistory()
+        console.log("his", his)
+        setInpections(his)
       }
-    } catch (error) {
-      console.log("cathc error", error)
+      getHis()
     }
-  }
+    if (route.params?.inspectionHistory) {
+      console.log("post", route.params?.inspectionHistory)
+      setInpections(route.params?.inspectionHistory)
+    }
+  }, [route.params?.inspectionHistory])
 
   return (
     <ScrollView style={[css.pages]}>
-      <TextInput
-        style={{ borderWidth: 1, margin: 20 }}
-        value={input}
-        onChangeText={(text) => {
-          setInput(text)
-        }}
-      />
-      <TouchableOpacity
-        style={{ borderWidth: 1, padding: 5, width: 100 }}
-        onPress={() => {
-          setData(input)
-        }}
-      >
-        <Text>click set</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{ borderWidth: 1, padding: 5, width: 100, marginTop: 50 }}
-        onPress={getData}
-      >
-        <Text>click get</Text>
-      </TouchableOpacity>
+      <Text>Список осмотров</Text>
+      {inspections != 0 && <ListInspect props={inspections} />}
     </ScrollView>
   )
 }

@@ -28,11 +28,8 @@ export const delegationData = {
     },
   ],
   users: {
-    val: 1,
-    check: true,
-    type: "checkbox",
     text: "",
-    checkbox: [],
-    // checkbox: [{ check: true, text: "Иванов ИИ" }],
+    master: {},
+    other: [],
   },
 }

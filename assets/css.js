@@ -188,4 +188,38 @@ export const css = StyleSheet.create({
     borderWidth: 1,
     textAlign: "center",
   },
+  inspect: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1,
+    padding: 5,
+    marginTop: 15,
+    borderRadius: 5,
+  },
+  inspect_desc: {
+    width: "80%",
+    flexGrow: 4,
+  },
+  inspect_wrBtn: {
+    width: "20%",
+    flexGrow: 2,
+    paddingLeft: 10,
+  },
+  inspect_btn: {
+    borderWidth: 1,
+    borderRadius: 3,
+    padding: 8,
+    marginLeft: "auto",
+    backgroundColor: "#ccc",
+  },
+  inspect_foot: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  inspect_date: {
+    fontSize: 12,
+    paddingRight: 10,
+  },
 })

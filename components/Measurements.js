@@ -9,11 +9,12 @@ import {
   deepClone,
   checkEmpty,
   checkEmptyChild,
-  checkOneChecked,
   alertSelection,
   alertMsg,
   addItemInspectionHistory,
   setDoneList,
+  isEmpty,
+  goHomeAfterSave,
 } from "./func"
 
 import { delegationData } from "../data/delegationData"
@@ -29,6 +30,7 @@ export function Measurements({
   getDD,
   dataQuests,
   closeStart,
+  navigation,
 }) {
   const doneList = {}
   const [index, setIndex] = useState(0)
@@ -110,8 +112,12 @@ export function Measurements({
         alertMsg("Не все поля заполнены!")
         return
       }
-      if (checkOneChecked(dataDelegation.users.checkbox) == false) {
-        alertMsg("Укажите сотрудника!")
+      if (isEmpty(dataDelegation.users.master)) {
+        alertMsg("Не указан мастер!")
+        return
+      }
+      if (dataDelegation.users.other.length == 0) {
+        alertMsg("Не указан электромонтер!")
         return
       }
       setTypeContent("measurements")
@@ -125,34 +131,39 @@ export function Measurements({
         } else {
           if (call == "one") {
             let itemHistory = {
-              id: "not data",
+              id: "__",
               v: 1,
-              keyStorage: "inspection_" + Date.now(),
-              status: "local",
               date: dataDelegation.date,
-              measur: false,
+              address: dataDelegation.fields[1].input,
+              fio: dataDelegation.users.master.fio,
+              key: "key_" + Date.now(),
+              status: "local",
               type: "measurements",
+              measur: false,
             }
             await addItemInspectionHistory(itemHistory)
             doneList.type = "measurements"
             doneList.delegation = dataDelegation
             doneList.measurements = measurData
-            await setDoneList(itemHistory.keyStorage, doneList)
+            await setDoneList(itemHistory.key, doneList)
             clearInputs()
             setDataDelegation(deepClone(delegationData))
             closeStart(false)
             console.log("doneList", doneList)
+            await goHomeAfterSave(navigation)
           }
           if (call == "two") {
             console.log("dataQuests", dataQuests)
             let itemHistory = {
-              id: "not data",
+              id: "__",
               v: 1,
-              keyStorage: "inspection_" + Date.now(),
-              status: "local",
               date: getDD.date,
-              measur: true,
+              address: getDD.fields[1].input,
+              fio: getDD.users.master.fio,
+              key: "key_" + Date.now(),
+              status: "local",
               type: dataQuests.type,
+              measur: true,
             }
             await addItemInspectionHistory(itemHistory)
             doneList.type = typeQuest
@@ -160,12 +171,13 @@ export function Measurements({
             doneList.delegation = getDD
             doneList.quests = dataQuests
             doneList.measurements = measurData
-            await setDoneList(itemHistory.keyStorage, doneList)
+            await setDoneList(itemHistory.key, doneList)
             alertMsg("Успешно!")
             clearInputs()
             setDataDelegation(deepClone(delegationData))
             closeStart("exit")
             console.log("doneList", doneList)
+            await goHomeAfterSave(navigation)
           }
         }
         return

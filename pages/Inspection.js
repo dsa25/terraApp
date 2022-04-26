@@ -8,9 +8,9 @@ import { mastTransformer } from "../data/mastTransformer"
 
 import { Question } from "../components/Question"
 import { Measurements } from "../components/Measurements"
-import { deepClone } from "../components/func"
+import { deepClone, getTypeIcon } from "../components/func"
 
-export default function Inspection({}) {
+export default function Inspection({ navigation, route }) {
   const [selectType, setSelectType] = useState("")
 
   const bp = deepClone(buildingPart)
@@ -23,11 +23,29 @@ export default function Inspection({}) {
   function StartInspection({ type }) {
     console.log("type", type)
     if (type == "buildingPart")
-      return <Question dataQuests={bp} closeStart={closeStart} />
+      return (
+        <Question
+          dataQuests={bp}
+          closeStart={closeStart}
+          navigation={navigation}
+        />
+      )
     if (type == "mastTransformer")
-      return <Question dataQuests={mt} closeStart={closeStart} />
+      return (
+        <Question
+          dataQuests={mt}
+          closeStart={closeStart}
+          navigation={navigation}
+        />
+      )
     if (type == "measurements")
-      return <Measurements call={"one"} closeStart={closeStart} />
+      return (
+        <Measurements
+          call={"one"}
+          closeStart={closeStart}
+          navigation={navigation}
+        />
+      )
     return <Text>ничего не выбрано!</Text>
   }
 
@@ -40,7 +58,9 @@ export default function Inspection({}) {
           style={css.touchBtn}
           onPress={() => setSelectType("buildingPart")}
         >
-          <Text>{buildingPart.name}</Text>
+          <Text>
+            {getTypeIcon("buildingPart")} {buildingPart.name}
+          </Text>
           <Text style={css.textUnderline}>в составе: </Text>
           <Text style={css.touchBtn_title}>
             {buildingPart.headers[0].title}
@@ -57,7 +77,9 @@ export default function Inspection({}) {
           style={css.touchBtn}
           onPress={() => setSelectType("mastTransformer")}
         >
-          <Text>{mastTransformer.name}</Text>
+          <Text>
+            {getTypeIcon("mastTransformer")} {mastTransformer.name}
+          </Text>
           <Text style={css.textUnderline}>в составе: </Text>
           <Text style={css.touchBtn_title}>
             {mastTransformer.headers[0].title}
@@ -74,7 +96,7 @@ export default function Inspection({}) {
           style={css.touchBtn}
           onPress={() => setSelectType("measurements")}
         >
-          <Text>БЛАНК ЗАМЕРОВ</Text>
+          <Text>{getTypeIcon("measurements")} БЛАНК ЗАМЕРОВ</Text>
         </TouchableOpacity>
       </View>
     )

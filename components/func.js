@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
@@ -133,9 +134,66 @@ const setUsersDefault = async (value) => {
     const jsonUsers = JSON.stringify({
       version: 1,
       list: [
-        { check: false, text: "Иванов ИИ" },
-        { check: false, text: "Петров ПП" },
-        { check: false, text: "Сидоров СС" },
+        {
+          id: 1,
+          fio: "Иванов ИИ",
+          post: 1,
+          group: "3",
+        },
+        {
+          id: 2,
+          fio: "Петров ПП",
+          post: 1,
+          group: "5",
+        },
+        {
+          id: 3,
+          fio: "Сидоров СС",
+          post: 1,
+          group: "5",
+        },
+        {
+          id: 4,
+          fio: "Петров22 ТП",
+          post: 0,
+          group: "5",
+        },
+        {
+          id: 5,
+          fio: "Сидоров222 ПП",
+          post: 0,
+          group: "5",
+        },
+        {
+          id: 6,
+          fio: "Иванов222 ПП",
+          post: 0,
+          group: "5",
+        },
+        {
+          id: 7,
+          fio: "Петров33 ТД",
+          post: 0,
+          group: "5",
+        },
+        {
+          id: 8,
+          fio: "Сидоров333 ПП",
+          post: 0,
+          group: "5",
+        },
+        {
+          id: 9,
+          fio: "Иванов333 ПП",
+          post: 0,
+          group: "5",
+        },
+        {
+          id: 10,
+          fio: "Потапов ИП",
+          post: 1,
+          group: "5",
+        },
       ],
     })
     await AsyncStorage.setItem("users", jsonUsers)
@@ -148,7 +206,6 @@ const setUsersDefault = async (value) => {
 const getInspectionHistory = async () => {
   try {
     const history = await AsyncStorage.getItem("inspectionHistory")
-    console.log("his", history)
     return history != null ? JSON.parse(history) : null
   } catch (error) {
     console.log("catch error", error)
@@ -159,7 +216,7 @@ const addItemInspectionHistory = async (value) => {
   try {
     let history = await getInspectionHistory()
     console.log("history1", history)
-    history != null ? history.push(value) : (history = [value])
+    history != null ? history.unshift(value) : (history = [value])
     console.log("history", history)
 
     const jsonHis = JSON.stringify(history)
@@ -180,6 +237,42 @@ const setDoneList = async (key, dl) => {
   }
 }
 
+function getTypeIcon(type = "") {
+  if (type == "buildingPart")
+    return <FontAwesome5 name="house-damage" size={16} color="red" />
+  if (type == "mastTransformer")
+    return <FontAwesome5 name="bolt" size={16} color="red" />
+  if (type == "measurements")
+    return <FontAwesome5 name="file-alt" size={16} color="red" />
+  if (type == "local")
+    return <FontAwesome5 name="mobile-alt" size={16} color="gray" />
+  if (type == "server")
+    return <FontAwesome5 name="cloud" size={15} color="green" />
+  return ""
+}
+
+function isEmpty(obj) {
+  for (let key in obj) {
+    return false
+  }
+  return true
+}
+
+const goHomeAfterSave = async (navigation) => {
+  let ih = await getInspectionHistory()
+  if (ih != null) {
+    navigation.navigate({
+      name: "Home",
+      params: {
+        inspectionHistory: ih,
+      },
+      merge: true,
+    })
+    return
+  }
+  return console.log("ih == null ?")
+}
+
 export {
   deepClone,
   getTime,
@@ -196,4 +289,7 @@ export {
   getInspectionHistory,
   addItemInspectionHistory,
   setDoneList,
+  getTypeIcon,
+  isEmpty,
+  goHomeAfterSave,
 }

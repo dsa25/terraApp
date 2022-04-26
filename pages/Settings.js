@@ -6,11 +6,13 @@ import { getUsers, getMyName, setMyName } from "../components/func"
 import { css } from "../assets/css"
 
 let myName = ""
-export default function Settings({}) {
+export default function Settings({ navigation, route }) {
   const notUser = "Не найдено ни одного пользователя, нужна синхронизация!"
   const [users, setUsers] = useState([{ check: false, text: notUser }])
   // const test =
   console.log("users", users[0].hasOwnProperty("text"))
+
+  console.log("tab..home")
 
   function ListUsers({ props }) {
     const [value, setValue] = useState(-1)
@@ -22,10 +24,12 @@ export default function Settings({}) {
           status={item.text === myName ? "checked" : "unchecked"}
           onPress={() => {
             setValue(index)
-            myName = item.text
+            myName = item.fio
           }}
         />
-        <Text style={css.radio_label}>{item.text}</Text>
+        <Text style={css.radio_label}>
+          {item.fio} {item.post == 1 ? " (мастер)" : " (электромонтер)"}
+        </Text>
       </View>
     ))
     return result
@@ -66,7 +70,26 @@ export default function Settings({}) {
       <TouchableOpacity
         style={css.touchBtn}
         onPress={() => {
-          setMyName(myName)
+          // setMyName(myName)
+          navigation.navigate({
+            name: "Home",
+            params: {
+              inspectionHistory: [
+                {
+                  id: "0123",
+                  v: 1,
+                  date: "27.04.2022",
+                  address: "ул. Луговая 22222 ",
+                  fio: "Иванов ИИ",
+                  key: "key_1650997241199",
+                  status: "local",
+                  type: "buildingPart",
+                  measur: true,
+                },
+              ],
+            },
+            merge: false,
+          })
         }}
       >
         <Text>Сохранить</Text>

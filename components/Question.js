@@ -18,11 +18,12 @@ import {
 import {
   checkEmptyChild,
   deepClone,
-  checkOneChecked,
   alertSelection,
   alertMsg,
   addItemInspectionHistory,
   setDoneList,
+  isEmpty,
+  goHomeAfterSave,
 } from "./func"
 
 import { delegationData } from "../data/delegationData"
@@ -34,7 +35,7 @@ import { WrBtnThree } from "./WrBtnThree"
 
 import { Measurements } from "./Measurements"
 
-export function Question({ dataQuests, closeStart }) {
+export function Question({ dataQuests, closeStart, navigation }) {
   const doneList = {}
 
   const [dataDelegation, setDataDelegation] = useState(
@@ -122,8 +123,12 @@ export function Question({ dataQuests, closeStart }) {
         alertMsg("Не заполнены поля!")
         return
       }
-      if (checkOneChecked(dataDelegation.users.checkbox) == false) {
-        alertMsg("Не указан не один сотрудник!")
+      if (isEmpty(dataDelegation.users.master)) {
+        alertMsg("Не указан мастер!")
+        return
+      }
+      if (dataDelegation.users.other.length == 0) {
+        alertMsg("Не указан электромонтер!")
         return
       }
       setTypeContent("quest")
@@ -140,23 +145,26 @@ export function Question({ dataQuests, closeStart }) {
         }
         let funcNo = async () => {
           let itemHistory = {
-            id: "not data",
+            id: "__",
             v: 1,
-            keyStorage: "inspection_" + Date.now(),
-            type: dataQuests.type,
-            measur: false,
-            status: "local",
             date: dataDelegation.date,
+            address: dataDelegation.fields[1].input,
+            fio: dataDelegation.users.master.fio,
+            key: "key_" + Date.now(),
+            status: "local",
+            measur: false,
+            type: dataQuests.type,
           }
           await addItemInspectionHistory(itemHistory)
           doneList.type = "quest"
           doneList.measur = false
           doneList.delegation = dataDelegation
           doneList.quests = dataQuests
-          await setDoneList(itemHistory.keyStorage, doneList)
+          await setDoneList(itemHistory.key, doneList)
           alertMsg("Успешно!")
           closeStart(false)
           console.log("doneList", doneList)
+          await goHomeAfterSave(navigation)
         }
         alertSelection(
           "Заполнить бланк замеров?",
@@ -225,6 +233,7 @@ export function Question({ dataQuests, closeStart }) {
           getDD={dataDelegation}
           dataQuests={dataQuests}
           closeStart={CloseMeasurTwo}
+          navigation={navigation}
         />
       )}
 
