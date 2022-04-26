@@ -1,58 +1,56 @@
 import React, { useState } from "react"
-import {
-  View,
-  Text,
-  TextInput,
-  FlatList,
-  StatusBar,
-  ScrollView,
-} from "react-native"
+import { TextInput, Text, TouchableOpacity, ScrollView } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { css } from "../assets/css"
 
 export default function Home() {
-  const [inspection, setInpection] = useState([
-    { id: 1, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 2, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 3, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 4, name: "Ivanov", text: "lorem slk 4", status: "done" },
-    { id: 5, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 6, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 7, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 8, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 9, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 10, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 11, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 12, name: "Ivanov", text: "lorem slk", status: "done" },
-    { id: 13, name: "Ivanov", text: "lorem slk 321", status: "done" },
-    { id: 14, name: "Ivanov", text: "lorem slk 321", status: "done" },
-    { id: 15, name: "Ivanov", text: "lorem slk 321", status: "done" },
-    { id: 16, name: "Ivanov", text: "lorem slk 321", status: "done" },
-    { id: 17, name: "Ivanov", text: "LAST 777", status: "done" },
-  ])
+  const [inspection, setInpection] = useState()
 
-  const [text, onChangeText] = useState("Useless Text")
+  const [input, setInput] = useState("123")
 
-  const Item = ({ name, text }) => (
-    <View style={css.item}>
-      <View style={css.item_item}>
-        <Text style={{ fontSize: 26 }}>{name}</Text>
-        <Text style={{ fontSize: 20 }}>{text}</Text>
-        <TextInput style={css.input} onChangeText={onChangeText} value={text} />
-      </View>
-    </View>
-  )
+  const setData = async (value) => {
+    try {
+      await AsyncStorage.setItem("test", value)
+    } catch (error) {
+      console.log("cathc error", error)
+    }
+  }
 
-  const renderItem = ({ item }) => <Item name={item.name} text={item.text} />
+  const getData = async () => {
+    try {
+      const val = await AsyncStorage.getItem("test321")
+      console.log("null", val)
+      if (val !== null) {
+        console.log("val", val)
+      }
+    } catch (error) {
+      console.log("cathc error", error)
+    }
+  }
 
   return (
     <ScrollView style={[css.pages]}>
-      <FlatList
-        numColumns={3}
-        scrollEnabled={true}
-        data={inspection}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+      <TextInput
+        style={{ borderWidth: 1, margin: 20 }}
+        value={input}
+        onChangeText={(text) => {
+          setInput(text)
+        }}
       />
+      <TouchableOpacity
+        style={{ borderWidth: 1, padding: 5, width: 100 }}
+        onPress={() => {
+          setData(input)
+        }}
+      >
+        <Text>click set</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ borderWidth: 1, padding: 5, width: 100, marginTop: 50 }}
+        onPress={getData}
+      >
+        <Text>click get</Text>
+      </TouchableOpacity>
     </ScrollView>
   )
 }

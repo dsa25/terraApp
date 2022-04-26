@@ -21,6 +21,8 @@ import {
   checkOneChecked,
   alertSelection,
   alertMsg,
+  addItemInspectionHistory,
+  setDoneList,
 } from "./func"
 
 import { delegationData } from "../data/delegationData"
@@ -136,11 +138,24 @@ export function Question({ dataQuests, closeStart }) {
         let funcOk = () => {
           setTypeContent("measurements")
         }
-        let funcNo = () => {
+        let funcNo = async () => {
+          let itemHistory = {
+            id: "not data",
+            v: 1,
+            keyStorage: "inspection_" + Date.now(),
+            type: dataQuests.type,
+            measur: false,
+            status: "local",
+            date: dataDelegation.date,
+          }
+          await addItemInspectionHistory(itemHistory)
           doneList.type = "quest"
           doneList.measur = false
           doneList.delegation = dataDelegation
           doneList.quests = dataQuests
+          await setDoneList(itemHistory.keyStorage, doneList)
+          alertMsg("Успешно!")
+          closeStart(false)
           console.log("doneList", doneList)
         }
         alertSelection(
@@ -187,8 +202,8 @@ export function Question({ dataQuests, closeStart }) {
     )
   }
 
-  function CloseMeasurTwo() {
-    setTypeContent("quest")
+  function CloseMeasurTwo(value = "two") {
+    value == "exit" ? closeStart(false) : setTypeContent("quest")
   }
 
   return (
@@ -196,7 +211,7 @@ export function Question({ dataQuests, closeStart }) {
       {typeContent == "delegation" && (
         <Delegation
           type={dataQuests.type}
-          data={dataDelegation}
+          dd={dataDelegation}
           getData={getDataDelegation}
         />
       )}

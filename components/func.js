@@ -1,6 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
+
 import { Alert } from "react-native"
 
-const mobile = true
+const mobile = false
 
 function alertMsg(msg = "text message") {
   return mobile ? Alert.alert(msg) : alert(msg)
@@ -91,6 +93,93 @@ function checkOneChecked(arr) {
   return result
 }
 
+const getMyName = async () => {
+  try {
+    const myName = await AsyncStorage.getItem("myName")
+    return myName != null ? myName : null
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
+const setMyName = async (value) => {
+  try {
+    await AsyncStorage.setItem("myName", value)
+    alertMsg("Сохранено!")
+  } catch (e) {
+    console.log("catch e")
+  }
+}
+
+const getUsers = async () => {
+  try {
+    const users = await AsyncStorage.getItem("users")
+    return users != null ? JSON.parse(users) : null
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
+function getUsersForDelegation(list) {
+  const res = []
+  list?.forEach((item) => {
+    res.push({ check: false, text: item.text })
+  })
+  return res
+}
+
+const setUsersDefault = async (value) => {
+  try {
+    const jsonUsers = JSON.stringify({
+      version: 1,
+      list: [
+        { check: false, text: "Иванов ИИ" },
+        { check: false, text: "Петров ПП" },
+        { check: false, text: "Сидоров СС" },
+      ],
+    })
+    await AsyncStorage.setItem("users", jsonUsers)
+    console.log("setUsersDefault")
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
+const getInspectionHistory = async () => {
+  try {
+    const history = await AsyncStorage.getItem("inspectionHistory")
+    console.log("his", history)
+    return history != null ? JSON.parse(history) : null
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
+const addItemInspectionHistory = async (value) => {
+  try {
+    let history = await getInspectionHistory()
+    console.log("history1", history)
+    history != null ? history.push(value) : (history = [value])
+    console.log("history", history)
+
+    const jsonHis = JSON.stringify(history)
+    await AsyncStorage.setItem("inspectionHistory", jsonHis)
+    console.log("addItemInspectionHistory")
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
+const setDoneList = async (key, dl) => {
+  try {
+    const jsonDL = JSON.stringify(dl)
+    await AsyncStorage.setItem(key, jsonDL)
+    console.log("setDoneList")
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
 export {
   deepClone,
   getTime,
@@ -99,4 +188,12 @@ export {
   checkOneChecked,
   alertSelection,
   alertMsg,
+  getMyName,
+  setMyName,
+  getUsers,
+  getUsersForDelegation,
+  setUsersDefault,
+  getInspectionHistory,
+  addItemInspectionHistory,
+  setDoneList,
 }

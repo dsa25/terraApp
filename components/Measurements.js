@@ -12,6 +12,8 @@ import {
   checkOneChecked,
   alertSelection,
   alertMsg,
+  addItemInspectionHistory,
+  setDoneList,
 } from "./func"
 
 import { delegationData } from "../data/delegationData"
@@ -42,10 +44,7 @@ export function Measurements({
   )
   function getDataDelegation(data) {
     setDataDelegation(data)
-    console.log("getData", data)
   }
-
-  console.log("measurData", measurData)
 
   function clearInputs() {
     measurData.inputs = [listInput.slice()]
@@ -105,7 +104,7 @@ export function Measurements({
     }
   }
 
-  function fNext() {
+  async function fNext() {
     if (typeContent == "delegation") {
       if (!dataDelegation || checkEmptyChild(dataDelegation.fields)) {
         alertMsg("Не все поля заполнены!")
@@ -125,17 +124,47 @@ export function Measurements({
           alertMsg("Поле не заполнено!")
         } else {
           if (call == "one") {
+            let itemHistory = {
+              id: "not data",
+              v: 1,
+              keyStorage: "inspection_" + Date.now(),
+              status: "local",
+              date: dataDelegation.date,
+              measur: false,
+              type: "measurements",
+            }
+            await addItemInspectionHistory(itemHistory)
             doneList.type = "measurements"
             doneList.delegation = dataDelegation
             doneList.measurements = measurData
+            await setDoneList(itemHistory.keyStorage, doneList)
+            clearInputs()
+            setDataDelegation(deepClone(delegationData))
+            closeStart(false)
             console.log("doneList", doneList)
           }
           if (call == "two") {
+            console.log("dataQuests", dataQuests)
+            let itemHistory = {
+              id: "not data",
+              v: 1,
+              keyStorage: "inspection_" + Date.now(),
+              status: "local",
+              date: getDD.date,
+              measur: true,
+              type: dataQuests.type,
+            }
+            await addItemInspectionHistory(itemHistory)
             doneList.type = typeQuest
             doneList.measur = true
             doneList.delegation = getDD
             doneList.quests = dataQuests
             doneList.measurements = measurData
+            await setDoneList(itemHistory.keyStorage, doneList)
+            alertMsg("Успешно!")
+            clearInputs()
+            setDataDelegation(deepClone(delegationData))
+            closeStart("exit")
             console.log("doneList", doneList)
           }
         }
@@ -232,7 +261,6 @@ export function Measurements({
           style={css.measurs_input}
           value={value}
           onChangeText={(text) => {
-            console.log(text)
             setValue(text)
             measurData.lastInput = text
           }}
@@ -289,7 +317,6 @@ export function Measurements({
           <TouchableOpacity
             style={[css.touchBtn, css.btn_green, css.measurs_btnAdd]}
             onPress={() => {
-              console.log("point", measurData.inputs[index])
               if (checkEmpty(measurData.inputs[countPoint - 1])) {
                 alertMsg("Не все поля заполнены!")
               } else {
@@ -311,7 +338,7 @@ export function Measurements({
       {typeContent == "delegation" && (
         <Delegation
           type={"measurements"}
-          data={dataDelegation}
+          dd={dataDelegation}
           getData={getDataDelegation}
         />
       )}

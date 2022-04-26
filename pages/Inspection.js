@@ -8,9 +8,13 @@ import { mastTransformer } from "../data/mastTransformer"
 
 import { Question } from "../components/Question"
 import { Measurements } from "../components/Measurements"
+import { deepClone } from "../components/func"
 
 export default function Inspection({}) {
   const [selectType, setSelectType] = useState("")
+
+  const bp = deepClone(buildingPart)
+  const mt = deepClone(mastTransformer)
 
   function closeStart(value) {
     setSelectType(value)
@@ -19,9 +23,9 @@ export default function Inspection({}) {
   function StartInspection({ type }) {
     console.log("type", type)
     if (type == "buildingPart")
-      return <Question dataQuests={buildingPart} closeStart={closeStart} />
+      return <Question dataQuests={bp} closeStart={closeStart} />
     if (type == "mastTransformer")
-      return <Question dataQuests={mastTransformer} closeStart={closeStart} />
+      return <Question dataQuests={mt} closeStart={closeStart} />
     if (type == "measurements")
       return <Measurements call={"one"} closeStart={closeStart} />
     return <Text>ничего не выбрано!</Text>

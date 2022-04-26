@@ -32,10 +32,7 @@ export const delegationData = {
     check: true,
     type: "checkbox",
     text: "",
-    checkbox: [
-      { check: true, text: "Иванов ИИ" },
-      { check: true, text: "Петров ПП" },
-      { check: true, text: "Сидоров СС" },
-    ],
+    checkbox: [],
+    // checkbox: [{ check: true, text: "Иванов ИИ" }],
   },
 }

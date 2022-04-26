@@ -1,15 +1,18 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Text, View, TextInput } from "react-native"
 import { Checkbox } from "react-native-paper"
 
 import { css } from "../assets/css"
 import { AnswerCheckBox } from "./Answers"
-import { getTime } from "./func"
+import { getTime, getUsers, getUsersForDelegation, getMyName } from "./func"
 
-export function Delegation({ type, data, getData }) {
+let myName = ""
+export function Delegation({ type, dd, getData }) {
+  // const [data, setData] = useState(dd)
+  const data = dd
+  const [users, setUsers] = useState(data.users)
   data.users.text = type == "measurements" ? data.headers2[0] : data.headers2[1]
   data.date = getTime()
-  console.log("datadata", data)
 
   function LabelInput({ props }) {
     const [input, setInput] = useState(props.input)
@@ -22,14 +25,61 @@ export function Delegation({ type, data, getData }) {
           onChangeText={(text) => {
             props.input = text
             setInput(props.input)
-            // setData({ ...data })
-            console.log(data.fields)
-            getData(data)
+            // getData(data)
           }}
         />
       </View>
     )
   }
+
+  function AnswerCheckBox({ props }) {
+    const [checkBoxs, setCheckBoxs] = useState(props.checkbox)
+    const CheckBoxGroup = checkBoxs?.map((item, index) => (
+      <View style={css.wr_radio} key={index}>
+        <Checkbox
+          color="#03a9f4"
+          // disabled={!props.check}
+          disabled={item.text === myName}
+          status={item.check ? "checked" : "unchecked"}
+          // status={item.text === myName ? "checked" : "unchecked"}
+          onPress={() => {
+            checkBoxs[index].check = !item.check
+            setCheckBoxs([...checkBoxs])
+          }}
+        />
+        <Text style={css.radio_label}>{item.text}</Text>
+      </View>
+    ))
+    return (
+      <View style={{ flex: 1 }}>
+        <Text style={[css.checkbox_text]}>{props.text}</Text>
+        {props.check && CheckBoxGroup}
+      </View>
+    )
+  }
+
+  useEffect(() => {
+    if (data.users.checkbox.length == 0) {
+      const testFunc = async () => {
+        try {
+          let us = await getUsers()
+          if (us != null && us.list != undefined) {
+            users.checkbox = getUsersForDelegation(us.list)
+            if (myName == "") myName = await getMyName()
+            users.checkbox.forEach((item) => {
+              if (item.text == myName) item.check = true
+            })
+            setUsers({ ...users })
+            console.log("users", users)
+          }
+        } catch (error) {
+          console.error(error)
+        }
+      }
+      testFunc()
+      console.log("useEffect")
+    }
+  }, [])
 
   return (
     <View>
@@ -54,7 +104,7 @@ export function Delegation({ type, data, getData }) {
             getData(data)
           }}
         /> */}
-        <AnswerCheckBox props={data.users} />
+        <AnswerCheckBox props={users} />
       </View>
     </View>
   )

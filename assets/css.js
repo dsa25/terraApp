@@ -12,6 +12,17 @@ export const css = StyleSheet.create({
     backgroundColor: "#9e9e9e29",
     // justifyContent: "space-between",
   },
+  header: {
+    width: "100%",
+    backgroundColor: "#fff",
+    paddingHorizontal: 15,
+    paddingTop: 10,
+  },
+  logo: {
+    color: "blue",
+    fontSize: 20,
+    paddingVertical: 5,
+  },
   question_name: {
     fontSize: 14,
     fontWeight: "900",
@@ -162,5 +173,19 @@ export const css = StyleSheet.create({
     top: 0,
     padding: 3,
     zIndex: 2,
+  },
+  menu: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // alignSelf: "center",
+    borderWidth: 1,
+    width: "100%",
+  },
+  menu_item: {
+    height: 50,
+    flexGrow: 1,
+    borderWidth: 1,
+    textAlign: "center",
   },
 })
