@@ -227,6 +227,32 @@ const addItemInspectionHistory = async (value) => {
   }
 }
 
+const udateItemInspectionHistory = async (value) => {
+  try {
+    let history = await getInspectionHistory()
+    console.log("history1", history)
+    if (history == null) {
+      history = [value]
+    } else {
+      // history.forEach((item, index) => {
+      //   if(item.key == value.key)
+      // })
+      for (let i = 0; i < history.length; i++) {
+        if (history[i].key == value.key) {
+          history[i] = value
+          break
+        }
+      }
+    }
+    console.log("history", history)
+    const jsonHis = JSON.stringify(history)
+    await AsyncStorage.setItem("inspectionHistory", jsonHis)
+    console.log("udateItemInspectionHistory")
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
 // const setDoneList = async (key, dl) => {
 //   try {
 //     const jsonDL = JSON.stringify(dl)
@@ -288,7 +314,7 @@ export {
   setUsersDefault,
   getInspectionHistory,
   addItemInspectionHistory,
-  // setDoneList,
+  udateItemInspectionHistory,
   getTypeIcon,
   isEmpty,
   goHomeAfterSave,

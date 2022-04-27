@@ -6,47 +6,17 @@ import { css } from "../assets/css"
 import { buildingPart } from "../data/buildingPart"
 import { mastTransformer } from "../data/mastTransformer"
 
-import { Question } from "../components/Question"
-import { Measurements } from "../components/Measurements"
+import { StartInspection } from "../components/StartInspection"
 import { deepClone, getTypeIcon } from "../components/func"
 
 export default function Inspection({ navigation, route }) {
   const [selectType, setSelectType] = useState("")
-
   const bp = deepClone(buildingPart)
   const mt = deepClone(mastTransformer)
+  const [dataQw, setDataQw] = useState()
 
   function closeStart(value) {
     setSelectType(value)
-  }
-
-  function StartInspection({ type }) {
-    console.log("type", type)
-    if (type == "buildingPart")
-      return (
-        <Question
-          dataQuests={bp}
-          closeStart={closeStart}
-          navigation={navigation}
-        />
-      )
-    if (type == "mastTransformer")
-      return (
-        <Question
-          dataQuests={mt}
-          closeStart={closeStart}
-          navigation={navigation}
-        />
-      )
-    if (type == "measurements")
-      return (
-        <Measurements
-          call={"one"}
-          closeStart={closeStart}
-          navigation={navigation}
-        />
-      )
-    return <Text>ничего не выбрано!</Text>
   }
 
   function FormSelectType({}) {
@@ -56,7 +26,10 @@ export default function Inspection({ navigation, route }) {
 
         <TouchableOpacity
           style={css.touchBtn}
-          onPress={() => setSelectType("buildingPart")}
+          onPress={() => {
+            setSelectType("buildingPart")
+            setDataQw(bp)
+          }}
         >
           <Text>
             {getTypeIcon("buildingPart")} {buildingPart.name}
@@ -75,7 +48,10 @@ export default function Inspection({ navigation, route }) {
 
         <TouchableOpacity
           style={css.touchBtn}
-          onPress={() => setSelectType("mastTransformer")}
+          onPress={() => {
+            setSelectType("mastTransformer")
+            setDataQw(mt)
+          }}
         >
           <Text>
             {getTypeIcon("mastTransformer")} {mastTransformer.name}
@@ -94,7 +70,10 @@ export default function Inspection({ navigation, route }) {
 
         <TouchableOpacity
           style={css.touchBtn}
-          onPress={() => setSelectType("measurements")}
+          onPress={() => {
+            setSelectType("measurements")
+            setDataQw({})
+          }}
         >
           <Text>{getTypeIcon("measurements")} БЛАНК ЗАМЕРОВ</Text>
         </TouchableOpacity>
@@ -104,7 +83,17 @@ export default function Inspection({ navigation, route }) {
 
   return (
     <ScrollView style={css.pages}>
-      {selectType ? <StartInspection type={selectType} /> : <FormSelectType />}
+      {selectType ? (
+        <StartInspection
+          mode={"add"}
+          type={selectType}
+          dataQuests={dataQw}
+          closeStart={closeStart}
+          navigation={navigation}
+        />
+      ) : (
+        <FormSelectType />
+      )}
     </ScrollView>
   )
 }

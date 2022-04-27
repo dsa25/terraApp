@@ -5,11 +5,19 @@ import { FontAwesome5 } from "@expo/vector-icons"
 import { getTypeIcon, setUsersDefault } from "../components/func"
 import { css } from "../assets/css"
 
+import { StartInspection } from "../components/StartInspection"
+
 export default function Home({ navigation, route }) {
   const [inspections, setInpections] = useState(0)
 
-  const [selectType, setSelectType] = useState(false)
+  const [typeDL, setTypeDL] = useState("")
+  const [DL, setDL] = useState({})
 
+  const [selectType, setSelectType] = useState("")
+
+  function closeStart(value) {
+    setSelectType(value)
+  }
   // setUsersDefault()
 
   function ListInspect({ props }) {
@@ -44,8 +52,9 @@ export default function Home({ navigation, route }) {
           <TouchableOpacity
             style={css.inspect_btn}
             onPress={() => {
-              console.log("item..", item)
-              console.log("index..", index)
+              setTypeDL(item.type)
+              setDL(item)
+              setSelectType(true)
             }}
           >
             <FontAwesome5 name="pencil-alt" size={20} color="black" />
@@ -69,20 +78,29 @@ export default function Home({ navigation, route }) {
     if (inspections == 0) {
       const getHis = async () => {
         let his = await getInspectionHistory()
-        console.log("his", his)
         setInpections(his)
       }
       getHis()
     }
     if (route.params?.inspectionHistory) {
-      console.log("post", route.params?.inspectionHistory)
+      console.log("route post", route.params?.inspectionHistory)
       setInpections(route.params?.inspectionHistory)
     }
   }, [route.params?.inspectionHistory])
 
   return (
     <ScrollView style={[css.pages]}>
-      {selectType ? <Text>Edit</Text> : <WrListInspect />}
+      {selectType ? (
+        <StartInspection
+          mode={"edit"}
+          type={typeDL}
+          DL={DL}
+          closeStart={closeStart}
+          navigation={navigation}
+        />
+      ) : (
+        <WrListInspect />
+      )}
     </ScrollView>
   )
 }

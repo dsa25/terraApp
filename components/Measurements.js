@@ -12,7 +12,7 @@ import {
   alertSelection,
   alertMsg,
   addItemInspectionHistory,
-  setDoneList,
+  udateItemInspectionHistory,
   isEmpty,
   goHomeAfterSave,
 } from "./func"
@@ -20,37 +20,56 @@ import {
 import { delegationData } from "../data/delegationData"
 import { Delegation } from "./Delegation"
 
-import { measurData } from "../data/measurData"
+import { measurData1 } from "../data/measurData1"
 const listInput = ["1", "2", "3", "4", "1", "1", "1", "1", "1", "1"]
+let measurData = deepClone(measurData1)
 measurData.inputs = [listInput.slice()]
+
+let points = []
 
 export function Measurements({
   call,
-  typeQuest,
   getDD,
   dataQuests,
   closeStart,
   navigation,
+  mode,
+  DL,
 }) {
   const doneList = {}
   const [index, setIndex] = useState(0)
+
+  if (mode == "edit") {
+    if (points.length == 0) {
+      measurData =
+        DL.DL.measurements == undefined
+          ? deepClone(measurData)
+          : deepClone(DL.DL.measurements)
+    } else {
+      measurData = deepClone(points)
+    }
+  }
+
   const [countPoint, setCountPoint] = useState(measurData.inputs.length)
-  const [point, setPoint] = useState(measurData.inputs[index])
   const [measurs, setMeasurs] = useState(true)
 
   const [typeContent, setTypeContent] = useState(
     call == "two" ? "measurements" : "delegation"
   )
   const [dataDelegation, setDataDelegation] = useState(
-    deepClone(delegationData)
+    mode == "edit" ? DL.DL.delegation : deepClone(delegationData)
   )
   function getDataDelegation(data) {
     setDataDelegation(data)
   }
 
   function clearInputs() {
+    // if (mode == "edit") {
+    // measurData.inputs = deepClone(DL.DL.measurements.inputs)
+    // measurData.lastInput = DL.DL.measurements.lastInput
     measurData.inputs = [listInput.slice()]
     measurData.lastInput = ""
+    points = []
   }
 
   const fCancel = () => {
@@ -93,6 +112,7 @@ export function Measurements({
 
   function fBack() {
     if (typeContent == "measurements") {
+      console.log("b index", index)
       if (measurs == false) {
         setMeasurs(true)
         return
@@ -124,27 +144,34 @@ export function Measurements({
       return
     }
 
-    if (typeContent == "measurements" || typeContent == "quest") {
+    if (typeContent == "measurements") {
       if (measurs == false) {
         if (measurData.lastInput.trim() == "") {
           alertMsg("Поле не заполнено!")
         } else {
           if (call == "one") {
-            doneList.type = "measurements"
             doneList.delegation = dataDelegation
             doneList.measurements = measurData
             let itemHistory = {
               id: "__",
+              key: Date.now(),
               v: 1,
               date: dataDelegation.date,
               address: dataDelegation.fields[1].input,
               fio: dataDelegation.users.master.fio,
               status: "local",
-              type: "measurements",
               measur: false,
+              type: "measurements",
               DL: doneList,
             }
-            await addItemInspectionHistory(itemHistory)
+            if (mode == "edit") {
+              itemHistory.id = DL.id
+              itemHistory.v = DL.v + 1
+              itemHistory.key = DL.key
+              await udateItemInspectionHistory(itemHistory)
+            } else {
+              await addItemInspectionHistory(itemHistory)
+            }
             alertMsg("Сохранено!")
             clearInputs()
             setDataDelegation(deepClone(delegationData))
@@ -152,14 +179,12 @@ export function Measurements({
             await goHomeAfterSave(navigation)
           }
           if (call == "two") {
-            console.log("dataQuests", dataQuests)
-            doneList.type = typeQuest
-            doneList.measur = true
             doneList.delegation = getDD
             doneList.quests = dataQuests
             doneList.measurements = measurData
             let itemHistory = {
               id: "__",
+              key: Date.now(),
               v: 1,
               date: getDD.date,
               address: getDD.fields[1].input,
@@ -169,7 +194,14 @@ export function Measurements({
               measur: true,
               DL: doneList,
             }
-            await addItemInspectionHistory(itemHistory)
+            if (mode == "edit") {
+              itemHistory.id = DL.id
+              itemHistory.v = DL.v + 1
+              itemHistory.key = DL.key
+              await udateItemInspectionHistory(itemHistory)
+            } else {
+              await addItemInspectionHistory(itemHistory)
+            }
             alertMsg("Сохранено!")
             clearInputs()
             setDataDelegation(deepClone(delegationData))
@@ -208,6 +240,7 @@ export function Measurements({
             onChangeText={(text) => {
               setValue(text)
               measurData.inputs[indexArr][indexInput] = text
+              points = deepClone(measurData)
             }}
           />
         </View>
@@ -222,6 +255,7 @@ export function Measurements({
             onChangeText={(text) => {
               setValue(text)
               measurData.inputs[indexArr][indexInput] = text
+              points = deepClone(measurData)
             }}
           />
         </View>
@@ -272,6 +306,7 @@ export function Measurements({
           onChangeText={(text) => {
             setValue(text)
             measurData.lastInput = text
+            points = deepClone(measurData)
           }}
         />
       </View>
@@ -298,6 +333,7 @@ export function Measurements({
                       text: "Да",
                       func: () => {
                         measurData.inputs.pop()
+                        points = deepClone(measurData)
                         setIndex(index - 1)
                         setCountPoint(measurData.inputs.length)
                       },
@@ -330,8 +366,13 @@ export function Measurements({
                 alertMsg("Не все поля заполнены!")
               } else {
                 measurData.inputs.push(listInput.slice())
-                setCountPoint(measurData.inputs.length)
-                setIndex(index + 1)
+                points = deepClone(measurData)
+                setCountPoint((prevState) => {
+                  return prevState + 1
+                })
+                setIndex((prevState) => {
+                  return prevState + 1
+                })
               }
             }}
           >

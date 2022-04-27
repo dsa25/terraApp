@@ -21,7 +21,7 @@ import {
   alertSelection,
   alertMsg,
   addItemInspectionHistory,
-  setDoneList,
+  udateItemInspectionHistory,
   isEmpty,
   goHomeAfterSave,
 } from "./func"
@@ -30,23 +30,21 @@ import { delegationData } from "../data/delegationData"
 import { Delegation } from "./Delegation"
 import { WrBtnThree } from "./WrBtnThree"
 
-// const cloneDataDelegation = {...delegationData}
-// const cloneDataDelegation = Object.assign({}, delegationData)
-
 import { Measurements } from "./Measurements"
 
-export function Question({ dataQuests, closeStart, navigation }) {
+export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
   const doneList = {}
 
+  dataQuests = mode == "edit" ? DL.DL.quests : dataQuests
+
   const [dataDelegation, setDataDelegation] = useState(
-    deepClone(delegationData)
+    mode == "edit" ? DL.DL.delegation : deepClone(delegationData)
   )
   const [typeContent, setTypeContent] = useState("delegation")
   const [question, setQuestion] = useState(dataQuests.questions[0])
 
   function getDataDelegation(data) {
     setDataDelegation(data)
-    console.log("getData", data)
   }
 
   function TypeAnswer({ props }) {
@@ -116,8 +114,6 @@ export function Question({ dataQuests, closeStart, navigation }) {
   }
 
   function fNext() {
-    console.log("dataDelegation", dataDelegation)
-
     if (typeContent == "delegation") {
       if (!dataDelegation || checkEmptyChild(dataDelegation.fields)) {
         alertMsg("Не заполнены поля!")
@@ -144,12 +140,11 @@ export function Question({ dataQuests, closeStart, navigation }) {
           setTypeContent("measurements")
         }
         let funcNo = async () => {
-          doneList.type = "quest"
-          doneList.measur = false
           doneList.delegation = dataDelegation
           doneList.quests = dataQuests
           let itemHistory = {
             id: "__",
+            key: Date.now(),
             v: 1,
             date: dataDelegation.date,
             address: dataDelegation.fields[1].input,
@@ -159,8 +154,15 @@ export function Question({ dataQuests, closeStart, navigation }) {
             type: dataQuests.type,
             DL: doneList,
           }
-          await addItemInspectionHistory(itemHistory)
-          alertMsg("Успешно!")
+          if (mode == "edit") {
+            itemHistory.id = DL.id
+            itemHistory.v = DL.v + 1
+            itemHistory.key = DL.key
+            await udateItemInspectionHistory(itemHistory)
+          } else {
+            await addItemInspectionHistory(itemHistory)
+          }
+          alertMsg("Сохранено!")
           closeStart(false)
           await goHomeAfterSave(navigation)
         }
@@ -228,6 +230,8 @@ export function Question({ dataQuests, closeStart, navigation }) {
         <Measurements
           call={"two"}
           typeQuest={"quest"}
+          mode={mode}
+          DL={DL}
           getDD={dataDelegation}
           dataQuests={dataQuests}
           closeStart={CloseMeasurTwo}

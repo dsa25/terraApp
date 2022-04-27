@@ -1,4 +1,4 @@
-export const measurData = {
+export const measurData1 = {
   header1: "Показания измерений по напряжени, V",
   header2: "Показания измерений по силе тока, A",
   title1: "линейное",
