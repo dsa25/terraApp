@@ -130,53 +130,50 @@ export function Measurements({
           alertMsg("Поле не заполнено!")
         } else {
           if (call == "one") {
+            doneList.type = "measurements"
+            doneList.delegation = dataDelegation
+            doneList.measurements = measurData
             let itemHistory = {
               id: "__",
               v: 1,
               date: dataDelegation.date,
               address: dataDelegation.fields[1].input,
               fio: dataDelegation.users.master.fio,
-              key: "key_" + Date.now(),
               status: "local",
               type: "measurements",
               measur: false,
+              DL: doneList,
             }
             await addItemInspectionHistory(itemHistory)
-            doneList.type = "measurements"
-            doneList.delegation = dataDelegation
-            doneList.measurements = measurData
-            await setDoneList(itemHistory.key, doneList)
+            alertMsg("Сохранено!")
             clearInputs()
             setDataDelegation(deepClone(delegationData))
             closeStart(false)
-            console.log("doneList", doneList)
             await goHomeAfterSave(navigation)
           }
           if (call == "two") {
             console.log("dataQuests", dataQuests)
+            doneList.type = typeQuest
+            doneList.measur = true
+            doneList.delegation = getDD
+            doneList.quests = dataQuests
+            doneList.measurements = measurData
             let itemHistory = {
               id: "__",
               v: 1,
               date: getDD.date,
               address: getDD.fields[1].input,
               fio: getDD.users.master.fio,
-              key: "key_" + Date.now(),
               status: "local",
               type: dataQuests.type,
               measur: true,
+              DL: doneList,
             }
             await addItemInspectionHistory(itemHistory)
-            doneList.type = typeQuest
-            doneList.measur = true
-            doneList.delegation = getDD
-            doneList.quests = dataQuests
-            doneList.measurements = measurData
-            await setDoneList(itemHistory.key, doneList)
-            alertMsg("Успешно!")
+            alertMsg("Сохранено!")
             clearInputs()
             setDataDelegation(deepClone(delegationData))
             closeStart("exit")
-            console.log("doneList", doneList)
             await goHomeAfterSave(navigation)
           }
         }

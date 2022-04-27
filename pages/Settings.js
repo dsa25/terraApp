@@ -9,10 +9,6 @@ let myName = ""
 export default function Settings({ navigation, route }) {
   const notUser = "Не найдено ни одного пользователя, нужна синхронизация!"
   const [users, setUsers] = useState([{ check: false, text: notUser }])
-  // const test =
-  console.log("users", users[0].hasOwnProperty("text"))
-
-  console.log("tab..home")
 
   function ListUsers({ props }) {
     const [value, setValue] = useState(-1)

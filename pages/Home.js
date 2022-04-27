@@ -8,8 +8,9 @@ import { css } from "../assets/css"
 export default function Home({ navigation, route }) {
   const [inspections, setInpections] = useState(0)
 
+  const [selectType, setSelectType] = useState(false)
+
   // setUsersDefault()
-  console.log("tab..home")
 
   function ListInspect({ props }) {
     if (props == null) return <Text>Осмотров еще нет ...</Text>
@@ -40,14 +41,28 @@ export default function Home({ navigation, route }) {
           </View>
         </View>
         <View style={css.inspect_wrBtn}>
-          <TouchableOpacity style={css.inspect_btn}>
-            {/* <AntDesign name="ellipsis1" size={24} color="black" /> */}
+          <TouchableOpacity
+            style={css.inspect_btn}
+            onPress={() => {
+              console.log("item..", item)
+              console.log("index..", index)
+            }}
+          >
             <FontAwesome5 name="pencil-alt" size={20} color="black" />
           </TouchableOpacity>
         </View>
       </View>
     ))
     return result
+  }
+
+  function WrListInspect() {
+    return (
+      <View>
+        <Text>Список осмотров</Text>
+        {inspections != 0 && <ListInspect props={inspections} />}
+      </View>
+    )
   }
 
   useEffect(() => {
@@ -67,8 +82,7 @@ export default function Home({ navigation, route }) {
 
   return (
     <ScrollView style={[css.pages]}>
-      <Text>Список осмотров</Text>
-      {inspections != 0 && <ListInspect props={inspections} />}
+      {selectType ? <Text>Edit</Text> : <WrListInspect />}
     </ScrollView>
   )
 }

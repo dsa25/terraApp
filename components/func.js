@@ -227,15 +227,15 @@ const addItemInspectionHistory = async (value) => {
   }
 }
 
-const setDoneList = async (key, dl) => {
-  try {
-    const jsonDL = JSON.stringify(dl)
-    await AsyncStorage.setItem(key, jsonDL)
-    console.log("setDoneList")
-  } catch (error) {
-    console.log("catch error", error)
-  }
-}
+// const setDoneList = async (key, dl) => {
+//   try {
+//     const jsonDL = JSON.stringify(dl)
+//     await AsyncStorage.setItem(key, jsonDL)
+//     console.log("setDoneList")
+//   } catch (error) {
+//     console.log("catch error", error)
+//   }
+// }
 
 function getTypeIcon(type = "") {
   if (type == "buildingPart")
@@ -288,7 +288,7 @@ export {
   setUsersDefault,
   getInspectionHistory,
   addItemInspectionHistory,
-  setDoneList,
+  // setDoneList,
   getTypeIcon,
   isEmpty,
   goHomeAfterSave,

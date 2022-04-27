@@ -144,26 +144,24 @@ export function Question({ dataQuests, closeStart, navigation }) {
           setTypeContent("measurements")
         }
         let funcNo = async () => {
+          doneList.type = "quest"
+          doneList.measur = false
+          doneList.delegation = dataDelegation
+          doneList.quests = dataQuests
           let itemHistory = {
             id: "__",
             v: 1,
             date: dataDelegation.date,
             address: dataDelegation.fields[1].input,
             fio: dataDelegation.users.master.fio,
-            key: "key_" + Date.now(),
             status: "local",
             measur: false,
             type: dataQuests.type,
+            DL: doneList,
           }
           await addItemInspectionHistory(itemHistory)
-          doneList.type = "quest"
-          doneList.measur = false
-          doneList.delegation = dataDelegation
-          doneList.quests = dataQuests
-          await setDoneList(itemHistory.key, doneList)
           alertMsg("Успешно!")
           closeStart(false)
-          console.log("doneList", doneList)
           await goHomeAfterSave(navigation)
         }
         alertSelection(
