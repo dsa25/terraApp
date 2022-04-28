@@ -3,7 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
-const mobile = true
+const mobile = false
 
 function alertMsg(msg = "text message") {
   return mobile ? Alert.alert(msg) : alert(msg)
@@ -121,81 +121,80 @@ const getUsers = async () => {
   }
 }
 
-function getUsersForDelegation(list) {
-  const res = []
-  list?.forEach((item) => {
-    res.push({ check: false, text: item.text })
-  })
-  return res
+const updateUsers = async (list) => {
+  try {
+    const jsonUsers = JSON.stringify(list)
+    await AsyncStorage.setItem("users", jsonUsers)
+    console.log("updateUsers")
+  } catch (error) {
+    console.log("catch error", error)
+  }
 }
 
 const setUsersDefault = async (value) => {
   try {
-    const jsonUsers = JSON.stringify({
-      version: 1,
-      list: [
-        {
-          id: 1,
-          fio: "Иванов ИИ",
-          post: 1,
-          group: "3",
-        },
-        {
-          id: 2,
-          fio: "Петров ПП",
-          post: 1,
-          group: "5",
-        },
-        {
-          id: 3,
-          fio: "Сидоров СС",
-          post: 1,
-          group: "5",
-        },
-        {
-          id: 4,
-          fio: "Петров22 ТП",
-          post: 0,
-          group: "5",
-        },
-        {
-          id: 5,
-          fio: "Сидоров222 ПП",
-          post: 0,
-          group: "5",
-        },
-        {
-          id: 6,
-          fio: "Иванов222 ПП",
-          post: 0,
-          group: "5",
-        },
-        {
-          id: 7,
-          fio: "Петров33 ТД",
-          post: 0,
-          group: "5",
-        },
-        {
-          id: 8,
-          fio: "Сидоров333 ПП",
-          post: 0,
-          group: "5",
-        },
-        {
-          id: 9,
-          fio: "Иванов333 ПП",
-          post: 0,
-          group: "5",
-        },
-        {
-          id: 10,
-          fio: "Потапов ИП",
-          post: 1,
-          group: "5",
-        },
-      ],
-    })
+    const jsonUsers = JSON.stringify([
+      {
+        id: 1,
+        fio: "Иванов ИИ",
+        post: 1,
+        groupDop: "3",
+      },
+      {
+        id: 2,
+        fio: "Петров ПП",
+        post: 1,
+        groupDop: "5",
+      },
+      {
+        id: 3,
+        fio: "Сидоров СС",
+        post: 1,
+        groupDop: "5",
+      },
+      {
+        id: 4,
+        fio: "Петров22 ТП",
+        post: 0,
+        groupDop: "5",
+      },
+      {
+        id: 5,
+        fio: "Сидоров222 ПП",
+        post: 0,
+        groupDop: "5",
+      },
+      {
+        id: 6,
+        fio: "Иванов222 ПП",
+        post: 0,
+        groupDop: "5",
+      },
+      {
+        id: 7,
+        fio: "Петров33 ТД",
+        post: 0,
+        groupDop: "5",
+      },
+      {
+        id: 8,
+        fio: "Сидоров333 ПП",
+        post: 0,
+        groupDop: "5",
+      },
+      {
+        id: 9,
+        fio: "Иванов333 ПП",
+        post: 0,
+        groupDop: "5",
+      },
+      {
+        id: 10,
+        fio: "Потапов ИП",
+        post: 1,
+        groupDop: "5",
+      },
+    ])
     await AsyncStorage.setItem("users", jsonUsers)
     console.log("setUsersDefault")
   } catch (error) {
@@ -238,7 +237,7 @@ const udateItemInspectionHistory = async (value) => {
       //   if(item.key == value.key)
       // })
       for (let i = 0; i < history.length; i++) {
-        if (history[i].key == value.key) {
+        if (history[i].keyLS == value.keyLS) {
           history[i] = value
           break
         }
@@ -252,16 +251,6 @@ const udateItemInspectionHistory = async (value) => {
     console.log("catch error", error)
   }
 }
-
-// const setDoneList = async (key, dl) => {
-//   try {
-//     const jsonDL = JSON.stringify(dl)
-//     await AsyncStorage.setItem(key, jsonDL)
-//     console.log("setDoneList")
-//   } catch (error) {
-//     console.log("catch error", error)
-//   }
-// }
 
 function getTypeIcon(type = "") {
   if (type == "buildingPart")
@@ -299,6 +288,18 @@ const goHomeAfterSave = async (navigation) => {
   return console.log("ih == null ?")
 }
 
+const myFetch = async (url, data = [], method = "POST") => {
+  let response = await fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify(data),
+  })
+  let result = await response.json()
+  return result
+}
+
 export {
   deepClone,
   getTime,
@@ -310,7 +311,7 @@ export {
   getMyName,
   setMyName,
   getUsers,
-  getUsersForDelegation,
+  updateUsers,
   setUsersDefault,
   getInspectionHistory,
   addItemInspectionHistory,
@@ -318,4 +319,5 @@ export {
   getTypeIcon,
   isEmpty,
   goHomeAfterSave,
+  myFetch,
 }

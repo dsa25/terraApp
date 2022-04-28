@@ -143,21 +143,21 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
           doneList.delegation = dataDelegation
           doneList.quests = dataQuests
           let itemHistory = {
-            id: "__",
-            key: Date.now(),
+            id: 0,
+            keyLS: Date.now(),
             v: 1,
             date: dataDelegation.date,
             address: dataDelegation.fields[1].input,
             fio: dataDelegation.users.master.fio,
             status: "local",
-            measur: false,
+            measur: 0,
             type: dataQuests.type,
             DL: doneList,
           }
           if (mode == "edit") {
             itemHistory.id = DL.id
             itemHistory.v = DL.v + 1
-            itemHistory.key = DL.key
+            itemHistory.keyLS = DL.keyLS
             await udateItemInspectionHistory(itemHistory)
           } else {
             await addItemInspectionHistory(itemHistory)

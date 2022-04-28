@@ -37,7 +37,7 @@ export function Delegation({ type, dd, getData }) {
     if (props == 0) return <Text>not users ...</Text>
     console.log("propsList2", props)
     let myList = []
-    props.list.forEach((item) => {
+    props.forEach((item) => {
       if (item.post == 0) myList.push(item)
     })
     if (data.users.other.length > 0) {
@@ -85,7 +85,7 @@ export function Delegation({ type, dd, getData }) {
     if (props == 0) return <Text>not users ...</Text>
     console.log("propsList", props)
     let myList = []
-    props.list.forEach((item) => {
+    props.forEach((item) => {
       if (item.post == 1) myList.push(item)
     })
     console.log("myList", myList)
@@ -126,7 +126,7 @@ export function Delegation({ type, dd, getData }) {
           //   console.log("LS_us", us)
           //   console.log("LS_users2", users)
           // }
-          setUsers({ ...us })
+          setUsers([...us])
         } catch (error) {
           console.error(error)
         }

@@ -18,7 +18,6 @@ export default function Inspection({ navigation, route }) {
   function closeStart(value) {
     setSelectType(value)
   }
-
   function FormSelectType({}) {
     return (
       <View>

@@ -153,21 +153,21 @@ export function Measurements({
             doneList.delegation = dataDelegation
             doneList.measurements = measurData
             let itemHistory = {
-              id: "__",
-              key: Date.now(),
+              id: 0,
+              keyLS: Date.now(),
               v: 1,
               date: dataDelegation.date,
               address: dataDelegation.fields[1].input,
               fio: dataDelegation.users.master.fio,
               status: "local",
-              measur: false,
+              measur: 0,
               type: "measurements",
               DL: doneList,
             }
             if (mode == "edit") {
               itemHistory.id = DL.id
               itemHistory.v = DL.v + 1
-              itemHistory.key = DL.key
+              itemHistory.keyLS = DL.keyLS
               await udateItemInspectionHistory(itemHistory)
             } else {
               await addItemInspectionHistory(itemHistory)
@@ -183,21 +183,21 @@ export function Measurements({
             doneList.quests = dataQuests
             doneList.measurements = measurData
             let itemHistory = {
-              id: "__",
-              key: Date.now(),
+              id: 0,
+              keyLS: Date.now(),
               v: 1,
               date: getDD.date,
               address: getDD.fields[1].input,
               fio: getDD.users.master.fio,
               status: "local",
               type: dataQuests.type,
-              measur: true,
+              measur: 1,
               DL: doneList,
             }
             if (mode == "edit") {
               itemHistory.id = DL.id
               itemHistory.v = DL.v + 1
-              itemHistory.key = DL.key
+              itemHistory.keyLS = DL.keyLS
               await udateItemInspectionHistory(itemHistory)
             } else {
               await addItemInspectionHistory(itemHistory)
