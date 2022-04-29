@@ -202,6 +202,16 @@ const setUsersDefault = async (value) => {
   }
 }
 
+const setListInspectionHistory = async (value) => {
+  try {
+    const jsonHis = JSON.stringify(value)
+    await AsyncStorage.setItem("inspectionHistory", jsonHis)
+    console.log("setListInspectionHistory")
+  } catch (error) {
+    console.log("catch error", error)
+  }
+}
+
 const getInspectionHistory = async () => {
   try {
     const history = await AsyncStorage.getItem("inspectionHistory")
@@ -313,6 +323,7 @@ export {
   getUsers,
   updateUsers,
   setUsersDefault,
+  setListInspectionHistory,
   getInspectionHistory,
   addItemInspectionHistory,
   udateItemInspectionHistory,
