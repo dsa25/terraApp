@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { View, Text } from "react-native"
 import { Checkbox } from "react-native-paper"
 
@@ -22,8 +22,9 @@ import {
   alertMsg,
   addItemInspectionHistory,
   udateItemInspectionHistory,
-  isEmpty,
+  isEmptyMaster,
   goHomeAfterSave,
+  getUsers,
 } from "./func"
 
 import { delegationData } from "../data/delegationData"
@@ -40,8 +41,11 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
   const [dataDelegation, setDataDelegation] = useState(
     mode == "edit" ? DL.DL.delegation : deepClone(delegationData)
   )
+
   const [typeContent, setTypeContent] = useState("delegation")
   const [question, setQuestion] = useState(dataQuests.questions[0])
+
+  const [users, setUsers] = useState(0)
 
   function getDataDelegation(data) {
     setDataDelegation(data)
@@ -119,7 +123,7 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
         alertMsg("Не заполнены поля!")
         return
       }
-      if (isEmpty(dataDelegation.users.master)) {
+      if (isEmptyMaster(dataDelegation.users.master, users)) {
         alertMsg("Не указан мастер!")
         return
       }
@@ -214,6 +218,30 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
     value == "exit" ? closeStart(false) : setTypeContent("quest")
   }
 
+  useEffect(() => {
+    if (users == 0) {
+      const testFunc = async () => {
+        try {
+          let us = await getUsers()
+          if (mode == "edit") {
+            let other = []
+            dataDelegation.users.other.forEach((ddElem) => {
+              let res = us.find((item) => {
+                return item.id == ddElem.id
+              })
+              if (res != undefined) other.push(ddElem)
+            })
+            dataDelegation.users.other = other
+          }
+          setUsers([...us])
+        } catch (error) {
+          console.error(error)
+        }
+      }
+      testFunc()
+    }
+  }, [])
+
   return (
     <View>
       {typeContent == "delegation" && (
@@ -221,6 +249,7 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
           type={dataQuests.type}
           dd={dataDelegation}
           getData={getDataDelegation}
+          users={users}
         />
       )}
 

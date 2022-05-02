@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Text, View, TextInput } from "react-native"
 import { Checkbox, RadioButton } from "react-native-paper"
 
 import { css } from "../assets/css"
-import { getTime, getUsers, getUsersForDelegation, getMyName } from "./func"
+import { getTime, getUsersForDelegation, getMyName } from "./func"
 
 let myName = ""
-export function Delegation({ type, dd, getData }) {
+export function Delegation({ type, dd, getData, users }) {
   // const [data, setData] = useState(dd)
   const data = dd
-  const [users, setUsers] = useState(0)
+
   // let other = []
 
   data.users.text = type == "measurements" ? data.headers2[0] : data.headers2[1]
@@ -35,10 +35,9 @@ export function Delegation({ type, dd, getData }) {
 
   function ListCheckBox({ props }) {
     if (props == 0) return <Text>not users ...</Text>
-    console.log("propsList2", props)
     let myList = []
     props.forEach((item) => {
-      if (item.post == 0) myList.push(item)
+      if (item.post == 0 && item.status == 1) myList.push(item)
     })
     if (data.users.other.length > 0) {
       myList.forEach((item) => {
@@ -46,7 +45,6 @@ export function Delegation({ type, dd, getData }) {
           item.check = true
       })
     }
-    console.log("myList2", myList)
     const [checkBoxs, setCheckBoxs] = useState(myList)
     const result = myList.map((item, index) => (
       <View style={css.wr_radio} key={index}>
@@ -69,8 +67,6 @@ export function Delegation({ type, dd, getData }) {
                 (elem) => elem.id != item.id
               )
             }
-            console.log("myList3", myList)
-            console.log("users", data.users)
           }}
         />
         <Text style={css.radio_label}>
@@ -83,12 +79,10 @@ export function Delegation({ type, dd, getData }) {
 
   function RadioGroup({ props }) {
     if (props == 0) return <Text>not users ...</Text>
-    console.log("propsList", props)
     let myList = []
     props.forEach((item) => {
-      if (item.post == 1) myList.push(item)
+      if (item.post == 1 && item.status == 1) myList.push(item)
     })
-    console.log("myList", myList)
     const [radio, setRadio] = useState(-1)
     const result = myList?.map((item, index) => (
       <View style={css.wr_radio} key={index}>
@@ -100,7 +94,6 @@ export function Delegation({ type, dd, getData }) {
           onPress={() => {
             setRadio(index)
             data.users.master = item
-            console.log("usersR", data.users)
           }}
         />
         <Text style={css.radio_label}>
@@ -110,31 +103,6 @@ export function Delegation({ type, dd, getData }) {
     ))
     return result
   }
-
-  useEffect(() => {
-    if (users == 0) {
-      const testFunc = async () => {
-        try {
-          let us = await getUsers()
-          console.log("us", us)
-          // if (us != null && us.list != undefined) {
-          //   users.checkbox = getUsersForDelegation(us.list)
-          //   if (myName == "") myName = await getMyName()
-          //   users.checkbox.forEach((item) => {
-          //     if (item.text == myName) item.check = true
-          //   })
-          //   console.log("LS_us", us)
-          //   console.log("LS_users2", users)
-          // }
-          setUsers([...us])
-        } catch (error) {
-          console.error(error)
-        }
-      }
-      testFunc()
-      console.log("useEffect")
-    }
-  }, [])
 
   return (
     <View>

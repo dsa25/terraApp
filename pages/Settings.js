@@ -15,7 +15,7 @@ import { BtnSynchronization } from "../components/BtnSynchronization"
 
 let myName = ""
 export default function Settings({ navigation, route }) {
-  const notUser = "Не найдено ни одного пользователя, нужна синхронизация!"
+  const notUser = "Не найдено ни одного пользователя, нужно загрузить!"
   const [users, setUsers] = useState([{ id: 0, fio: notUser, post: 0 }])
   const [test, setTest] = useState(0)
 
@@ -35,7 +35,6 @@ export default function Settings({ navigation, route }) {
       let us = await getUsersServer()
       console.log("us..", us)
       await updateUsers(us)
-      console.log("done synchro...")
       setUsers(us)
     } catch (error) {
       console.error(error)
@@ -63,6 +62,7 @@ export default function Settings({ navigation, route }) {
     ))
     return result
   }
+
   const renderUs = async () => {
     let us = await getUsers()
     if (us != null) setUsers(us)
@@ -80,7 +80,7 @@ export default function Settings({ navigation, route }) {
         <ListUsers props={users} />
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[css.touchBtn, { flexDirection: "row", alignItems: "center" }]}
         onPress={() => {
           setUsersDefault()
@@ -88,7 +88,7 @@ export default function Settings({ navigation, route }) {
         }}
       >
         <Text style={{ paddingLeft: 15 }}>default users</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ScrollView>
   )
 }

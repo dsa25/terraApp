@@ -224,10 +224,7 @@ const getInspectionHistory = async () => {
 const addItemInspectionHistory = async (value) => {
   try {
     let history = await getInspectionHistory()
-    console.log("history1", history)
     history != null ? history.unshift(value) : (history = [value])
-    console.log("history", history)
-
     const jsonHis = JSON.stringify(history)
     await AsyncStorage.setItem("inspectionHistory", jsonHis)
     console.log("addItemInspectionHistory")
@@ -239,7 +236,6 @@ const addItemInspectionHistory = async (value) => {
 const udateItemInspectionHistory = async (value) => {
   try {
     let history = await getInspectionHistory()
-    console.log("history1", history)
     if (history == null) {
       history = [value]
     } else {
@@ -253,7 +249,6 @@ const udateItemInspectionHistory = async (value) => {
         }
       }
     }
-    console.log("history", history)
     const jsonHis = JSON.stringify(history)
     await AsyncStorage.setItem("inspectionHistory", jsonHis)
     console.log("udateItemInspectionHistory")
@@ -281,6 +276,18 @@ function isEmpty(obj) {
     return false
   }
   return true
+}
+
+function isEmptyMaster(obj, users) {
+  if (obj.id != undefined) {
+    let us = users.find((item) => {
+      return item.id == obj.id
+    })
+    return us == undefined ? true : false
+  } else {
+    console.log("false maseter")
+    return true
+  }
 }
 
 const goHomeAfterSave = async (navigation) => {
@@ -329,6 +336,7 @@ export {
   udateItemInspectionHistory,
   getTypeIcon,
   isEmpty,
+  isEmptyMaster,
   goHomeAfterSave,
   myFetch,
 }

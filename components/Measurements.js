@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { View, TouchableOpacity, Text, TextInput } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
 
@@ -13,8 +13,9 @@ import {
   alertMsg,
   addItemInspectionHistory,
   udateItemInspectionHistory,
-  isEmpty,
+  isEmptyMaster,
   goHomeAfterSave,
+  getUsers,
 } from "./func"
 
 import { delegationData } from "../data/delegationData"
@@ -49,6 +50,8 @@ export function Measurements({
       measurData = deepClone(points)
     }
   }
+
+  const [users, setUsers] = useState(0)
 
   const [countPoint, setCountPoint] = useState(measurData.inputs.length)
   const [measurs, setMeasurs] = useState(true)
@@ -112,7 +115,6 @@ export function Measurements({
 
   function fBack() {
     if (typeContent == "measurements") {
-      console.log("b index", index)
       if (measurs == false) {
         setMeasurs(true)
         return
@@ -132,7 +134,7 @@ export function Measurements({
         alertMsg("Не все поля заполнены!")
         return
       }
-      if (isEmpty(dataDelegation.users.master)) {
+      if (isEmptyMaster(dataDelegation.users.master, users)) {
         alertMsg("Не указан мастер!")
         return
       }
@@ -172,10 +174,10 @@ export function Measurements({
             } else {
               await addItemInspectionHistory(itemHistory)
             }
-            alertMsg("Сохранено!")
-            clearInputs()
             setDataDelegation(deepClone(delegationData))
+            clearInputs()
             closeStart(false)
+            alertMsg("Сохранено!")
             await goHomeAfterSave(navigation)
           }
           if (call == "two") {
@@ -202,10 +204,10 @@ export function Measurements({
             } else {
               await addItemInspectionHistory(itemHistory)
             }
-            alertMsg("Сохранено!")
-            clearInputs()
             setDataDelegation(deepClone(delegationData))
+            clearInputs()
             closeStart("exit")
+            alertMsg("Сохранено!")
             await goHomeAfterSave(navigation)
           }
         }
@@ -383,6 +385,30 @@ export function Measurements({
     )
   }
 
+  useEffect(() => {
+    if (users == 0) {
+      const testFunc = async () => {
+        try {
+          let us = await getUsers()
+          if (mode == "edit") {
+            let other = []
+            dataDelegation.users.other.forEach((ddElem) => {
+              let res = us.find((item) => {
+                return item.id == ddElem.id
+              })
+              if (res != undefined) other.push(ddElem)
+            })
+            dataDelegation.users.other = other
+          }
+          setUsers([...us])
+        } catch (error) {
+          console.error(error)
+        }
+      }
+      testFunc()
+    }
+  }, [])
+
   return (
     <View>
       {typeContent == "delegation" && (
@@ -390,6 +416,7 @@ export function Measurements({
           type={"measurements"}
           dd={dataDelegation}
           getData={getDataDelegation}
+          users={users}
         />
       )}
       {typeContent == "measurements" && <MeusurementBlock />}
