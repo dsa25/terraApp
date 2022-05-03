@@ -4,19 +4,19 @@ export const mastTransformer = {
   headers: [
     {
       title: "РУ-10(6) кВ",
-      index: [61, 74],
+      index: [5, 18],
     },
     {
       title: "Камера силового трансформатора",
-      index: [75, 83],
+      index: [19, 27],
     },
     {
       title: "РУ-0,4 кВ",
-      index: [84, 102],
+      index: [28, 46],
     },
     {
       title: "Осмотр РЛНД с приводом на вводе в РУ-10(6) кВ",
-      index: [103, 108],
+      index: [47, 52],
     },
   ],
   questions: [
