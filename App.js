@@ -35,6 +35,17 @@ export default function App() {
         }}
       >
         <Tab.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            tabBarLabel: "Настройки",
+            tabBarLabelStyle: { display: "none" },
+            tabBarIcon: ({ color, size }) => (
+              <AntDesign name="setting" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
           style={css.oh}
           name="Home"
           component={Home}
@@ -54,17 +65,6 @@ export default function App() {
             tabBarLabelStyle: { display: "none" },
             tabBarIcon: ({ color, size }) => (
               <AntDesign name="plus" size={24} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={Settings}
-          options={{
-            tabBarLabel: "Настройки",
-            tabBarLabelStyle: { display: "none" },
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="setting" color={color} size={size} />
             ),
           }}
         />

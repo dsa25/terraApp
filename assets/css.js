@@ -209,7 +209,11 @@ export const css = StyleSheet.create({
   inspect_btn: {
     borderWidth: 1,
     borderRadius: 3,
-    padding: 8,
+    padding: 3,
+    textAlign: "center",
+    width: 32,
+    height: 32,
+    lineHeight: 30,
     marginLeft: "auto",
     backgroundColor: "#ccc",
   },

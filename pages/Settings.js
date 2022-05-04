@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { ScrollView, View, Text, TouchableOpacity } from "react-native"
+import * as Clipboard from "expo-clipboard"
 import { RadioButton, ActivityIndicator } from "react-native-paper"
 
 import { server } from "../data/server"
@@ -9,6 +10,7 @@ import {
   updateUsers,
   setUsersDefault,
   myFetch,
+  alertMsg,
 } from "../components/func"
 import { css } from "../assets/css"
 import { BtnSynchronization } from "../components/BtnSynchronization"
@@ -18,6 +20,8 @@ export default function Settings({ navigation, route }) {
   const notUser = "Не найдено ни одного пользователя, нужно загрузить!"
   const [users, setUsers] = useState([{ id: 0, fio: notUser, post: 0 }])
   const [test, setTest] = useState(0)
+
+  // setUsersDefault()
 
   const getUsersServer = async () => {
     try {
@@ -80,15 +84,22 @@ export default function Settings({ navigation, route }) {
         <ListUsers props={users} />
       </View>
 
-      {/* <TouchableOpacity
+      <TouchableOpacity
         style={[css.touchBtn, { flexDirection: "row", alignItems: "center" }]}
-        onPress={() => {
-          setUsersDefault()
-          renderUs()
+        onPress={async () => {
+          // setUsersDefault()
+          // renderUs()
+          console.log("Clipboard")
+          let str1 = "http://127.0.0.1:5000/list/12"
+          Clipboard.setString(str1)
+          const str2 = await Clipboard.getStringAsync()
+          if (str1 == str2) {
+            alertMsg("Скопировано!")
+          }
         }}
       >
-        <Text style={{ paddingLeft: 15 }}>default users</Text>
-      </TouchableOpacity> */}
+        <Text style={{ paddingLeft: 15 }}>Clipboard</Text>
+      </TouchableOpacity>
     </ScrollView>
   )
 }

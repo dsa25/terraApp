@@ -3,7 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
-const mobile = false
+const mobile = true
 
 function alertMsg(msg = "text message") {
   return mobile ? Alert.alert(msg) : alert(msg)
@@ -139,60 +139,70 @@ const setUsersDefault = async (value) => {
         fio: "Иванов ИИ",
         post: 1,
         groupDop: "3",
+        status: 1,
       },
       {
         id: 2,
         fio: "Петров ПП",
         post: 1,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 3,
         fio: "Сидоров СС",
         post: 1,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 4,
         fio: "Петров22 ТП",
         post: 0,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 5,
         fio: "Сидоров222 ПП",
         post: 0,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 6,
         fio: "Иванов222 ПП",
         post: 0,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 7,
         fio: "Петров33 ТД",
         post: 0,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 8,
         fio: "Сидоров333 ПП",
         post: 0,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 9,
         fio: "Иванов333 ПП",
         post: 0,
         groupDop: "5",
+        status: 1,
       },
       {
         id: 10,
         fio: "Потапов ИП",
         post: 1,
         groupDop: "5",
+        status: 1,
       },
     ])
     await AsyncStorage.setItem("users", jsonUsers)

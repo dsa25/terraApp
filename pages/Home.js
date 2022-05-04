@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { View, Text, TouchableOpacity, ScrollView } from "react-native"
-import { getInspectionHistory } from "../components/func"
+import * as Clipboard from "expo-clipboard"
 import { FontAwesome5 } from "@expo/vector-icons"
 import {
   getTypeIcon,
@@ -10,6 +10,7 @@ import {
   deepClone,
   goHomeAfterSave,
 } from "../components/func"
+import { alertMsg, getInspectionHistory } from "../components/func"
 import { css } from "../assets/css"
 
 import { server } from "../data/server"
@@ -62,7 +63,7 @@ export default function Home({ navigation, route }) {
         <View style={css.inspect_wrBtn}>
           {item.status == "local" && (
             <TouchableOpacity
-              style={css.inspect_btn}
+              style={[css.inspect_btn, { marginBottom: 15 }]}
               onPress={() => {
                 sendServer(item)
               }}
@@ -70,6 +71,20 @@ export default function Home({ navigation, route }) {
               <FontAwesome5 name="cloud-upload-alt" size={20} color="black" />
             </TouchableOpacity>
           )}
+          {item.status == "server" &&
+            item.file != undefined &&
+            item.file != null && (
+              <TouchableOpacity
+                style={[css.inspect_btn, { marginBottom: 15 }]}
+                onPress={async () => {
+                  Clipboard.setString(item.file)
+                  let str = await Clipboard.getStringAsync()
+                  if (item.file == str) alertMsg("Скопировано!")
+                }}
+              >
+                <FontAwesome5 name="copy" size={20} color="black" />
+              </TouchableOpacity>
+            )}
           <TouchableOpacity
             style={css.inspect_btn}
             onPress={() => {
