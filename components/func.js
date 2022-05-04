@@ -380,15 +380,21 @@ const goHomeAfterSave = async (navigation) => {
 }
 
 const myFetch = async (url, data = [], method = "POST") => {
-  let response = await fetch(url, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify(data),
-  })
-  let result = await response.json()
-  return result
+  try {
+    let response = await fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    })
+    console.log("fetch res", response)
+    let result = await response.json()
+    return result
+  } catch (error) {
+    alertMsg("Ошибка подключения к серверу!")
+    console.log("error", error)
+  }
 }
 
 export {

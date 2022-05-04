@@ -27,7 +27,6 @@ export default function Settings({ navigation, route }) {
     try {
       console.log(server.users)
       let usS = await myFetch(server.users)
-      console.log("json.users", usS)
       return usS
     } catch (error) {
       console.error(error)
@@ -37,10 +36,11 @@ export default function Settings({ navigation, route }) {
   const updateUs = async () => {
     try {
       let us = await getUsersServer()
-      if (us != undefined || us != null || us.length > 0) {
-        console.log("us..", us)
-        await updateUsers(us)
-        setUsers(us)
+      if (us != undefined || us != null) {
+        if (us.length > 0) {
+          await updateUsers(us)
+          setUsers(us)
+        }
       }
     } catch (error) {
       console.error(error)
