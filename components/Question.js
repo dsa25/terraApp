@@ -25,6 +25,7 @@ import {
   isEmptyMaster,
   goHomeAfterSave,
   getUsers,
+  checkAnswers,
 } from "./func"
 
 import { delegationData } from "../data/delegationData"
@@ -78,7 +79,6 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
                 }
               }}
             />
-            <Text>{item.val}</Text>
           </Text>
         )}
         <TypeAnswer props={item} />
@@ -136,46 +136,49 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
     }
 
     if (typeContent == "quest") {
-      if (question.id < dataQuests.questions.length) {
-        let newQuest = dataQuests.questions[question.id]
-        setQuestion({ ...newQuest })
-      } else {
-        let funcOk = () => {
-          setTypeContent("measurements")
-        }
-        let funcNo = async () => {
-          doneList.delegation = dataDelegation
-          doneList.quests = dataQuests
-          let itemHistory = {
-            id: 0,
-            keyLS: Date.now(),
-            v: 1,
-            date: dataDelegation.date,
-            address: dataDelegation.fields[1].input,
-            fio: dataDelegation.users.master.fio,
-            status: "local",
-            measur: 0,
-            type: dataQuests.type,
-            DL: doneList,
+      // если заполнены все поля и боксы
+      if (checkAnswers(question.opt)) {
+        if (question.id < dataQuests.questions.length) {
+          let newQuest = dataQuests.questions[question.id]
+          setQuestion({ ...newQuest })
+        } else {
+          let funcOk = () => {
+            setTypeContent("measurements")
           }
-          if (mode == "edit") {
-            itemHistory.id = DL.id
-            itemHistory.v = DL.v + 1
-            itemHistory.keyLS = DL.keyLS
-            await udateItemInspectionHistory(itemHistory)
-          } else {
-            await addItemInspectionHistory(itemHistory)
+          let funcNo = async () => {
+            doneList.delegation = dataDelegation
+            doneList.quests = dataQuests
+            let itemHistory = {
+              id: 0,
+              keyLS: Date.now(),
+              v: 1,
+              date: dataDelegation.date,
+              address: dataDelegation.fields[1].input,
+              fio: dataDelegation.users.master.fio,
+              status: "local",
+              measur: 0,
+              type: dataQuests.type,
+              DL: doneList,
+            }
+            if (mode == "edit") {
+              itemHistory.id = DL.id
+              itemHistory.v = DL.v + 1
+              itemHistory.keyLS = DL.keyLS
+              await udateItemInspectionHistory(itemHistory)
+            } else {
+              await addItemInspectionHistory(itemHistory)
+            }
+            alertMsg("Сохранено!")
+            closeStart(false)
+            await goHomeAfterSave(navigation)
           }
-          alertMsg("Сохранено!")
-          closeStart(false)
-          await goHomeAfterSave(navigation)
+          alertSelection(
+            "Заполнить бланк замеров?",
+            'Нажимая "Сохранить" осмотр завершается и сохраняется без бланка замеров',
+            { func: funcOk, text: "Продолжить" },
+            { func: funcNo, text: "Сохранить" }
+          )
         }
-        alertSelection(
-          "Заполнить бланк замеров?",
-          'Нажимая "Сохранить" осмотр завершается и сохраняется без бланка замеров',
-          { func: funcOk, text: "Продолжить" },
-          { func: funcNo, text: "Сохранить" }
-        )
       }
     }
   }

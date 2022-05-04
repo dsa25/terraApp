@@ -3,7 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
-const mobile = true
+const mobile = false
 
 function alertMsg(msg = "text message") {
   return mobile ? Alert.alert(msg) : alert(msg)
@@ -212,6 +212,71 @@ const setUsersDefault = async (value) => {
   }
 }
 
+const checkAnswers = (list) => {
+  let result = true
+  let countCheck = 0
+  let msg = "Ничего не выбрано!"
+
+  for (const item of list) {
+    if (item.check == true) {
+      if (item.type == "input" || item.type == "textInput") {
+        if (item.input.trim().length == 0) {
+          msg = "Не заполнено поле!"
+          result = false
+          break
+        }
+      }
+      if (item.type == "radio") {
+        if (item.radio.value < 0) {
+          msg = "Не отмечен элемент!"
+          result = false
+          break
+        }
+      }
+      if (item.type == "checkbox") {
+        let checkbox = 0
+        item.checkbox.forEach((elem) => {
+          if (elem.check == true) checkbox++
+        })
+        if (checkbox == 0) {
+          msg = "Не выделен ни один элемент!"
+          result = false
+          break
+        }
+      }
+      if (item.type == "radioInput") {
+        console.log("radioInput", item)
+        if (item.radio.value < 0 || item.input.trim().length == 0) {
+          msg = "Не отмечен элемент или не заполнено поле!"
+          result = false
+          break
+        }
+      }
+      if (item.type == "listTextInput") {
+        let res = true
+        for (const input of item.list) {
+          if (input.input.trim().length == 0) {
+            res = false
+            break
+          }
+        }
+        if (res == false) {
+          msg = "Не все поля заполнены!"
+          result = false
+          break
+        }
+      }
+      countCheck++
+    }
+  }
+
+  if (countCheck == 0) {
+    result = false
+  }
+  if (result == false) alertMsg(msg)
+  return result
+}
+
 const setListInspectionHistory = async (value) => {
   try {
     const jsonHis = JSON.stringify(value)
@@ -335,6 +400,7 @@ export {
   checkOneChecked,
   alertSelection,
   alertMsg,
+  checkAnswers,
   getMyName,
   setMyName,
   getUsers,
