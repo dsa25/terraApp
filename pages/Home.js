@@ -141,8 +141,7 @@ export default function Home({ navigation, route }) {
 
   async function getHis() {
     let his = await getInspectionHistory()
-    setInpections(his)
-    console.log("his", his)
+    if (his != null) setInpections(his)
   }
 
   useEffect(() => {

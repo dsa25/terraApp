@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { ScrollView, View, Text, TouchableOpacity } from "react-native"
-import * as Clipboard from "expo-clipboard"
-import { RadioButton, ActivityIndicator } from "react-native-paper"
+// import { RadioButton, ActivityIndicator } from "react-native-paper"
 
 import { server } from "../data/server"
 
@@ -38,9 +37,11 @@ export default function Settings({ navigation, route }) {
   const updateUs = async () => {
     try {
       let us = await getUsersServer()
-      console.log("us..", us)
-      await updateUsers(us)
-      setUsers(us)
+      if (us != undefined || us != null || us.length > 0) {
+        console.log("us..", us)
+        await updateUsers(us)
+        setUsers(us)
+      }
     } catch (error) {
       console.error(error)
     }

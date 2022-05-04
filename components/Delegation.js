@@ -3,7 +3,7 @@ import { Text, View, TextInput } from "react-native"
 import { Checkbox, RadioButton } from "react-native-paper"
 
 import { css } from "../assets/css"
-import { getTime, getUsersForDelegation, getMyName } from "./func"
+import { getTime } from "./func"
 
 let myName = ""
 export function Delegation({ type, dd, getData, users }) {
@@ -34,7 +34,13 @@ export function Delegation({ type, dd, getData, users }) {
   }
 
   function ListCheckBox({ props }) {
-    if (props == 0) return <Text>not users ...</Text>
+    if (props == 0)
+      return (
+        <Text>
+          Загрузите пользователей в настройках и начните осмотр сначала (нажав
+          "завершить")
+        </Text>
+      )
     let myList = []
     props.forEach((item) => {
       if (item.post == 0 && item.status == 1) myList.push(item)
@@ -78,7 +84,7 @@ export function Delegation({ type, dd, getData, users }) {
   }
 
   function RadioGroup({ props }) {
-    if (props == 0) return <Text>not users ...</Text>
+    if (props == 0) return <Text>Пользователей нет!</Text>
     let myList = []
     props.forEach((item) => {
       if (item.post == 1 && item.status == 1) myList.push(item)

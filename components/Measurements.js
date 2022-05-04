@@ -392,17 +392,19 @@ export function Measurements({
       const testFunc = async () => {
         try {
           let us = await getUsers()
-          if (mode == "edit") {
-            let other = []
-            dataDelegation.users.other.forEach((ddElem) => {
-              let res = us.find((item) => {
-                return item.id == ddElem.id
+          if (us != null) {
+            if (mode == "edit") {
+              let other = []
+              dataDelegation.users.other.forEach((ddElem) => {
+                let res = us.find((item) => {
+                  return item.id == ddElem.id
+                })
+                if (res != undefined) other.push(ddElem)
               })
-              if (res != undefined) other.push(ddElem)
-            })
-            dataDelegation.users.other = other
+              dataDelegation.users.other = other
+            }
+            setUsers([...us])
           }
-          setUsers([...us])
         } catch (error) {
           console.error(error)
         }
