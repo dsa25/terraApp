@@ -3,7 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
-const mobile = false
+const mobile = true
 
 function alertMsg(msg = "text message") {
   return mobile ? Alert.alert(msg) : alert(msg)
@@ -245,7 +245,6 @@ const checkAnswers = (list) => {
         }
       }
       if (item.type == "radioInput") {
-        console.log("radioInput", item)
         if (item.radio.value < 0 || item.input.trim().length == 0) {
           msg = "Не отмечен элемент или не заполнено поле!"
           result = false

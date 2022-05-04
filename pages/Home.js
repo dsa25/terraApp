@@ -16,7 +16,6 @@ import { css } from "../assets/css"
 import { server } from "../data/server"
 
 import { StartInspection } from "../components/StartInspection"
-import { BtnSynchronization } from "../components/BtnSynchronization"
 
 export default function Home({ navigation, route }) {
   const [inspections, setInpections] = useState(0)
@@ -118,6 +117,7 @@ export default function Home({ navigation, route }) {
 
     //  отредактированные осмотры
     if (inspect.id > 0 && inspect.status == "local") {
+      console.log("update", inspect)
       let res = await myFetch(server.updateInspect, inspect)
       if (res.status == 1) {
         inspect.status = "server"

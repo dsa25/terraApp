@@ -13,12 +13,13 @@ import {
   alertMsg,
 } from "../components/func"
 import { css } from "../assets/css"
-import { BtnSynchronization } from "../components/BtnSynchronization"
+import { BtnUpdateUs } from "../components/BtnUpdateUs"
 
 let myName = ""
 export default function Settings({ navigation, route }) {
   const notUser = "Не найдено ни одного пользователя, нужно загрузить!"
-  const [users, setUsers] = useState([{ id: 0, fio: notUser, post: 0 }])
+  // const [users, setUsers] = useState([{ id: 0, fio: notUser, post: 0 }])
+  const [users, setUsers] = useState(0)
   const [test, setTest] = useState(0)
 
   // setUsersDefault()
@@ -47,6 +48,9 @@ export default function Settings({ navigation, route }) {
 
   function ListUsers({ props }) {
     const [value, setValue] = useState(-1)
+    if (props == 0) {
+      return <Text>Не найдено ни одного пользователя, нужно загрузить!</Text>
+    }
     const result = props.map((item, index) => (
       <View style={css.wr_radio} key={index}>
         {/* <RadioButton
@@ -78,13 +82,13 @@ export default function Settings({ navigation, route }) {
 
   return (
     <ScrollView style={[css.pages]}>
-      <BtnSynchronization func={updateUs} />
+      <BtnUpdateUs func={updateUs} />
 
       <View style={{ flex: 1, padding: 24 }}>
         <ListUsers props={users} />
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[css.touchBtn, { flexDirection: "row", alignItems: "center" }]}
         onPress={async () => {
           // setUsersDefault()
@@ -99,7 +103,7 @@ export default function Settings({ navigation, route }) {
         }}
       >
         <Text style={{ paddingLeft: 15 }}>Clipboard</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ScrollView>
   )
 }

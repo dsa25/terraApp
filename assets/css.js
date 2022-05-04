@@ -226,4 +226,17 @@ export const css = StyleSheet.create({
     fontSize: 12,
     paddingRight: 10,
   },
+  btnUpdateUs: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
+    backgroundColor: "#ccc",
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    width: "auto",
+    marginHorizontal: "auto",
+    textAlign: "center",
+  },
 })

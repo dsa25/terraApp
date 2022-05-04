@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { View, Text, TouchableOpacity } from "react-native"
+import { TouchableOpacity } from "react-native"
 import { ActivityIndicator } from "react-native-paper"
+import { FontAwesome5 } from "@expo/vector-icons"
 
 import { css } from "../assets/css"
 
-export function BtnSynchronization({ func }) {
+export function BtnUpdateUs({ func }) {
   const [isLoading, setLoading] = useState(false)
 
   const actions = async () => {
@@ -14,12 +15,14 @@ export function BtnSynchronization({ func }) {
   }
 
   return (
-    <TouchableOpacity
-      style={[css.touchBtn, { flexDirection: "row", alignItems: "center" }]}
-      onPress={actions}
-    >
+    <TouchableOpacity style={css.btnUpdateUs} onPress={actions}>
       <ActivityIndicator animating={isLoading} color={"green"} />
-      <Text style={{ paddingLeft: 15 }}>Синхронизация</Text>
+      <FontAwesome5
+        style={{ marginHorizontal: 10 }}
+        name="cloud-download-alt"
+        size={24}
+        color="black"
+      />
     </TouchableOpacity>
   )
 }

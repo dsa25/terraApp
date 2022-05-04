@@ -164,6 +164,7 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
               itemHistory.id = DL.id
               itemHistory.v = DL.v + 1
               itemHistory.keyLS = DL.keyLS
+              itemHistory.file = DL.file
               await udateItemInspectionHistory(itemHistory)
             } else {
               await addItemInspectionHistory(itemHistory)
