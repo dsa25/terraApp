@@ -25,9 +25,9 @@ export default function Settings({ navigation, route }) {
 
   const getUsersServer = async () => {
     try {
-      console.log(server.users)
       let usS = await myFetch(server.users)
-      return usS
+      if (usS?.status == 1 && usS?.body != undefined) return usS.body
+      else return undefined
     } catch (error) {
       console.error(error)
     }
@@ -36,11 +36,12 @@ export default function Settings({ navigation, route }) {
   const updateUs = async () => {
     try {
       let us = await getUsersServer()
-      if (us != undefined || us != null) {
+      console.log("us", us)
+      if (us != undefined) {
         if (us.length > 0) {
           await updateUsers(us)
           setUsers(us)
-        }
+        } else alertMsg("Пользователей не обнаружено!")
       }
     } catch (error) {
       console.error(error)

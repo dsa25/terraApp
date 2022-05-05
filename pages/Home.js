@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { View, Text, TouchableOpacity, ScrollView } from "react-native"
+import { ActivityIndicator } from "react-native-paper"
 import * as Clipboard from "expo-clipboard"
 import { FontAwesome5 } from "@expo/vector-icons"
 import {
@@ -28,6 +29,8 @@ export default function Home({ navigation, route }) {
   function closeStart(value) {
     setSelectType(value)
   }
+
+  const [isLoading, setLoading] = useState(false)
 
   function ListInspect({ props }) {
     if (props == 0 || props == null) {
@@ -103,16 +106,17 @@ export default function Home({ navigation, route }) {
   const sendServer = async (inspect) => {
     //  новые осмотры
     if (inspect.id == 0) {
+      setLoading(true)
       let res = await myFetch(server.addInspect, inspect)
-      if (res != undefined) {
-        if (res.status == 1) {
-          res.body[0].DL = JSON.parse(res.body[0].DL)
-          await udateItemInspectionHistory(res.body[0])
-          // f5
-          await getHis()
-        } else {
-          console.log("server: status 0")
-        }
+      if (res?.status == 1) {
+        res.body[0].DL = JSON.parse(res.body[0].DL)
+        await udateItemInspectionHistory(res.body[0])
+        // f5
+        setLoading(false)
+        await getHis()
+      } else {
+        setLoading(false)
+        console.log("server: status 0")
       }
       return
     }
@@ -120,13 +124,16 @@ export default function Home({ navigation, route }) {
     //  отредактированные осмотры
     if (inspect.id > 0 && inspect.status == "local") {
       console.log("update", inspect)
+      setLoading(true)
       let res = await myFetch(server.updateInspect, inspect)
-      if (res.status == 1) {
+      if (res?.status == 1) {
         inspect.status = "server"
         await udateItemInspectionHistory(inspect)
         // f5
+        setLoading(false)
         await getHis()
       } else {
+        setLoading(false)
         console.log("server: status 0")
       }
     }
@@ -135,7 +142,20 @@ export default function Home({ navigation, route }) {
   function WrListInspect() {
     return (
       <View>
-        <Text>Список осмотров</Text>
+        <View
+          style={{
+            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Text>Список осмотров</Text>
+          <ActivityIndicator
+            style={{ margin: "auto" }}
+            animating={isLoading}
+            color={"green"}
+          />
+        </View>
         <ListInspect props={inspections} />
       </View>
     )

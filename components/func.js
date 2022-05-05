@@ -3,7 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
-const mobile = false
+const mobile = true
 
 function alertMsg(msg = "text message") {
   return mobile ? Alert.alert(msg) : alert(msg)
@@ -388,12 +388,15 @@ const myFetch = async (url, data = [], method = "POST") => {
       },
       body: JSON.stringify(data),
     })
-    console.log("fetch res", response)
-    let result = await response.json()
-    return result
+    if (response != undefined) {
+      let result = await response.json()
+      return result
+    } else {
+      return alertMsg("Ошибка подключения к _серверу!")
+    }
   } catch (error) {
-    alertMsg("Ошибка подключения к серверу!")
     console.log("error", error)
+    alertMsg("Ошибка подключения к серверу!")
   }
 }
 
