@@ -22,7 +22,7 @@ import { delegationData } from "../data/delegationData"
 import { Delegation } from "./Delegation"
 
 import { measurData1 } from "../data/measurData1"
-const listInput = ["1", "2", "3", "4", "1", "1", "1", "1", "1", "1"]
+const listInput = ["", "", "", "", "", "", "", "", "", ""]
 let measurData = deepClone(measurData1)
 measurData.inputs = [listInput.slice()]
 
@@ -102,8 +102,8 @@ export function Measurements({
         text: "Да",
         func: () => {
           clearInputs()
-          closeStart(false)
           setDataDelegation(deepClone(delegationData))
+          closeStart(false)
         },
       },
       {

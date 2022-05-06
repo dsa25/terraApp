@@ -10,13 +10,20 @@ import { StartInspection } from "../components/StartInspection"
 import { deepClone, getTypeIcon } from "../components/func"
 
 export default function Inspection({ navigation, route }) {
-  const [selectType, setSelectType] = useState("")
+  const [selectType, setSelectType] = useState(false)
   const bp = deepClone(buildingPart)
   const mt = deepClone(mastTransformer)
   const [dataQw, setDataQw] = useState()
 
   function closeStart(value) {
-    setSelectType(value)
+    // return console.log("close....")
+    try {
+      console.log("pre....", value)
+      setSelectType(value)
+    } catch (error) {
+      console.log("error", error)
+      console.log("after....")
+    }
   }
   function FormSelectType({}) {
     return (

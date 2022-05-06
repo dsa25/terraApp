@@ -1,5 +1,6 @@
 // const url = "http://127.0.0.1:5000"
-const url = "http://192.168.0.101:80"
+// const url = "http://192.168.0.101:80"
+const url = "http://146.59.80.129"
 
 export const server = {
   users: url + "/users",

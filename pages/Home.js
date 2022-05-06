@@ -109,8 +109,8 @@ export default function Home({ navigation, route }) {
       setLoading(true)
       let res = await myFetch(server.addInspect, inspect)
       if (res?.status == 1) {
-        res.body[0].DL = JSON.parse(res.body[0].DL)
-        await udateItemInspectionHistory(res.body[0])
+        res.body.DL = JSON.parse(res.body.DL)
+        await udateItemInspectionHistory(res.body)
         // f5
         setLoading(false)
         await getHis()

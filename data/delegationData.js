@@ -8,23 +8,23 @@ export const delegationData = {
   fields: [
     {
       label: "ТП (РП) № ",
-      input: "1",
+      input: "",
     },
     {
       label: "Адрес: ",
-      input: "1",
+      input: "",
     },
     {
       label: "на верхней стороне (кВ) ",
-      input: "1",
+      input: "",
     },
     {
       label: "на нижней стороне (кВ) ",
-      input: "1",
+      input: "",
     },
     {
       label: "Инв № ",
-      input: "1",
+      input: "",
     },
   ],
   users: {
