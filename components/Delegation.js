@@ -23,6 +23,7 @@ export function Delegation({ type, dd, getData, users }) {
         <TextInput
           style={css.measurs_input}
           value={props.input}
+          keyboardType={props.keyboardType}
           onChangeText={(text) => {
             props.input = text
             setInput(props.input)

@@ -9,22 +9,27 @@ export const delegationData = {
     {
       label: "ТП (РП) № ",
       input: "",
+      keyboardType: "numeric",
     },
     {
       label: "Адрес: ",
       input: "",
+      keyboardType: "default",
     },
     {
       label: "на верхней стороне (кВ) ",
       input: "",
+      keyboardType: "numeric",
     },
     {
       label: "на нижней стороне (кВ) ",
       input: "",
+      keyboardType: "numeric",
     },
     {
       label: "Инв № ",
       input: "",
+      keyboardType: "numeric",
       notrequired: true,
     },
   ],

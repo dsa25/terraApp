@@ -241,6 +241,7 @@ export function Measurements({
             multiline={true}
             // editable={props.check}
             value={measurData.inputs[index][0]}
+            keyboardType="default"
             onChangeText={(text) => {
               setValue(text)
               measurData.inputs[indexArr][indexInput] = text
@@ -256,6 +257,7 @@ export function Measurements({
           <TextInput
             style={css.measurs_input}
             value={value}
+            keyboardType="numeric"
             onChangeText={(text) => {
               setValue(text)
               measurData.inputs[indexArr][indexInput] = text
