@@ -3,7 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
-const mobile = true
+const mobile = false
 
 function alertMsg(msg = "text message") {
   return mobile ? Alert.alert(msg) : alert(msg)
@@ -75,7 +75,7 @@ function checkEmpty(arr) {
 function checkEmptyChild(arr) {
   let result = false
   for (const item of arr) {
-    if (item.input.trim().length == 0) {
+    if (item.input.trim().length == 0 && item.notrequired == undefined) {
       result = true
       break
     }
@@ -216,6 +216,10 @@ const checkAnswers = (list) => {
   let result = true
   let countCheck = 0
   let msg = "Ничего не выбрано!"
+
+  if (list.length == 1 && list[0].notrequired != undefined) {
+    return true
+  }
 
   for (const item of list) {
     if (item.check == true) {

@@ -302,13 +302,14 @@ export const buildingPart = {
 
     {
       id: 10,
-      quest: "Прочее:",
+      quest: "Прочее (необязательно):",
       opt: [
         {
           val: 1,
           check: false,
           type: "input",
           input: "",
+          notrequired: true,
         },
       ],
     },
@@ -1819,13 +1820,14 @@ export const buildingPart = {
 
     {
       id: 56,
-      quest: "Прочее:",
+      quest: "Прочее (необязательно):",
       opt: [
         {
           val: 1,
           check: false,
           type: "input",
           input: "",
+          notrequired: true,
         },
       ],
     },

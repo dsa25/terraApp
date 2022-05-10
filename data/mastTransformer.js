@@ -1347,13 +1347,14 @@ export const mastTransformer = {
 
     // {
     //   id: 46,
-    //   quest: "Прочее",
+    //   quest: "Прочее (необязательно) :",
     //   opt: [
     //     {
     //       val: 1,
     //       check: false,
     //       type: "input",
     //       input: "",
+    //       notrequired: true,
     //     },
     //   ],
     // },

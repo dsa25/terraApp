@@ -25,6 +25,7 @@ export const delegationData = {
     {
       label: "Инв № ",
       input: "",
+      notrequired: true,
     },
   ],
   users: {
