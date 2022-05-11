@@ -15,14 +15,14 @@ export default function App() {
   const Tab = createBottomTabNavigator()
 
   return (
-    <NavigationContainer style={{ borderWidth: 1 }}>
+    <NavigationContainer style={{}}>
       <View style={css.header}>
-        <Text style={css.logo}>Terra</Text>
+        <Text style={css.logo}>ТЕРРА</Text>
       </View>
       <Tab.Navigator
         initialRouteName="Feed"
         screenOptions={{
-          tabBarActiveTintColor: "tomato",
+          tabBarActiveTintColor: "#3498db",
           tabBarInactiveTintColor: "gray",
           headerTitle: "main header",
           headerTitleStyle: {
@@ -35,7 +35,6 @@ export default function App() {
         }}
       >
         <Tab.Screen
-          style={css.oh}
           name="Home"
           component={Home}
           options={{

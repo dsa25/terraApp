@@ -68,7 +68,7 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
         {item.type != "listTextInput" && (
           <Text>
             <Checkbox
-              color="#03a9f4"
+              color="#3498db"
               key={item.val.toString()}
               status={item.check ? "checked" : "unchecked"}
               onPress={() => {
@@ -195,9 +195,11 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
   function Quest() {
     let questionTitle = getTitle(question.id, dataQuests.headers)
     return (
-      <View>
+      <View style={{ paddingLeft: 8 }}>
         <Text style={css.question_text}>
-          <Text style={{ paddingRight: 10 }}>
+          <Text
+            style={[css.question_name, css.color_gold, { paddingRight: 10 }]}
+          >
             {question.id + " / " + dataQuests.questions.length}{" "}
           </Text>
           <Text style={css.question_name}> {dataQuests.name}</Text>
@@ -207,7 +209,9 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
           <Text style={css.question_header}>{questionTitle}</Text>
         )}
 
-        <Text style={css.question_text}>{question.quest}</Text>
+        <Text style={[css.question_text, css.question_quest]}>
+          {question.quest}
+        </Text>
 
         {question.opt[0].type != "listTextInput" ? (
           <ListAnswer list={question.opt} />

@@ -28,19 +28,19 @@ export default function Inspection({ navigation, route }) {
   function FormSelectType({}) {
     return (
       <View>
-        <Text>Выберите тип осмотра: </Text>
+        <Text style={css.main_head}>Тип осмотра: </Text>
 
         <TouchableOpacity
-          style={css.touchBtn}
+          style={css.typeInspBtn}
           onPress={() => {
             setSelectType("buildingPart")
             setDataQw(bp)
           }}
         >
-          <Text>
-            {getTypeIcon("buildingPart")} {buildingPart.name}
+          <Text style={css.typeInspBtn_text}>
+            {getTypeIcon("buildingPart", "#4e5f68")} {buildingPart.name}
           </Text>
-          <Text style={css.textUnderline}>в составе: </Text>
+          <Text style={[css.textUnderline, css.colorBlack]}>в составе: </Text>
           <Text style={css.touchBtn_title}>
             {buildingPart.headers[0].title}
           </Text>
@@ -53,16 +53,16 @@ export default function Inspection({ navigation, route }) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={css.touchBtn}
+          style={css.typeInspBtn}
           onPress={() => {
             setSelectType("mastTransformer")
             setDataQw(mt)
           }}
         >
-          <Text>
-            {getTypeIcon("mastTransformer")} {mastTransformer.name}
+          <Text style={css.typeInspBtn_text}>
+            {getTypeIcon("mastTransformer", "#4e5f68")} {mastTransformer.name}
           </Text>
-          <Text style={css.textUnderline}>в составе: </Text>
+          <Text style={[css.textUnderline, css.colorBlack]}>в составе: </Text>
           <Text style={css.touchBtn_title}>
             {mastTransformer.headers[0].title}
           </Text>
@@ -75,13 +75,15 @@ export default function Inspection({ navigation, route }) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={css.touchBtn}
+          style={css.typeInspBtn}
           onPress={() => {
             setSelectType("measurements")
             setDataQw({})
           }}
         >
-          <Text>{getTypeIcon("measurements")} БЛАНК ЗАМЕРОВ</Text>
+          <Text style={css.typeInspBtn_text}>
+            {getTypeIcon("measurements", "#4e5f68")} БЛАНК ЗАМЕРОВ
+          </Text>
         </TouchableOpacity>
       </View>
     )

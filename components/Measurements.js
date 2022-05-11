@@ -302,7 +302,7 @@ export function Measurements({
     const [value, setValue] = useState(lastInputText)
     return (
       <View>
-        <Text>
+        <Text style={css.colorBlack}>
           "Положение анцапфы (переключателя) силового трансформатора. При
           визуальной доступности!"
         </Text>
@@ -351,7 +351,7 @@ export function Measurements({
                 <AntDesign name="close" size={24} color="red" />
               </TouchableOpacity>
             )}
-            <Text style={[css.measurs_name]}>
+            <Text style={css.measurs_name}>
               <Text>
                 {index + 1}/{countPoint + " "}
               </Text>

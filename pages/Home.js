@@ -39,27 +39,29 @@ export default function Home({ navigation, route }) {
     let result = props.map((item, index) => (
       <View style={css.inspect} key={index}>
         <View style={css.inspect_desc}>
-          <Text>
-            <Text>№ {item.id == 0 ? "__" : item.id} </Text>
+          <Text style={css.inspect_text}>
+            <Text style={css.inspect_number}>
+              {item.type == "measurements" ? "БЗ" : "ЛО"} №{" "}
+              {item.id == 0 ? "__" : item.id}{" "}
+            </Text>
             <Text> {item.address}</Text>
           </Text>
-          <Text>
-            <Text style={{ paddingRight: 5 }}>v:{item.v}</Text> (отвт.{" "}
-            {item.fio})
+          <Text style={css.inspect_text}>
+            <Text style={css.inspect_v}>v:{item.v}</Text> (отвт. {item.fio})
           </Text>
 
           <View style={css.inspect_foot}>
             <Text style={css.inspect_date}>{item.date}</Text>
-            <Text>
-              <Text>{getTypeIcon(item.type)}</Text>
+            <Text style={css.inspect_text}>
+              <Text>{getTypeIcon(item.type, "#4e5f68")}</Text>
               {item.measur == 1 && (
                 <Text>
                   {" + "}
-                  {getTypeIcon("measurements")}
+                  {getTypeIcon("measurements", "#4e5f68")}
                 </Text>
               )}
             </Text>
-            <Text style={{ marginLeft: 15 }}>{getTypeIcon(item.status)}</Text>
+            {/* <Text style={{ marginLeft: 15 }}>{getTypeIcon(item.status)}</Text> */}
           </View>
         </View>
         <View style={css.inspect_wrBtn}>
@@ -70,7 +72,7 @@ export default function Home({ navigation, route }) {
                 sendServer(item)
               }}
             >
-              <FontAwesome5 name="cloud-upload-alt" size={20} color="black" />
+              <FontAwesome5 name="cloud-upload-alt" size={20} color="#3498db" />
             </TouchableOpacity>
           )}
           {item.status == "server" &&
@@ -84,7 +86,7 @@ export default function Home({ navigation, route }) {
                   if (item.file == str) alertMsg("Скопировано!")
                 }}
               >
-                <FontAwesome5 name="copy" size={20} color="black" />
+                <FontAwesome5 name="copy" size={20} color="#3498db" />
               </TouchableOpacity>
             )}
           <TouchableOpacity
@@ -95,7 +97,7 @@ export default function Home({ navigation, route }) {
               setSelectType(true)
             }}
           >
-            <FontAwesome5 name="pencil-alt" size={20} color="black" />
+            <FontAwesome5 name="pencil-alt" size={20} color="#3498db" />
           </TouchableOpacity>
         </View>
       </View>
@@ -149,7 +151,7 @@ export default function Home({ navigation, route }) {
             justifyContent: "flex-start",
           }}
         >
-          <Text>Список осмотров</Text>
+          <Text style={css.main_head}>Список осмотров:</Text>
           <ActivityIndicator
             style={{ margin: "auto" }}
             animating={isLoading}

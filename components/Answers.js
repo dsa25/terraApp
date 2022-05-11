@@ -37,6 +37,7 @@ function AnswerTextInput({ props }) {
         multiline={false}
         editable={props.check}
         value={inputValue}
+        keyboardType="numeric"
         onChangeText={(inputValue) => {
           props.input = inputValue
           setInputValue(inputValue)
@@ -51,7 +52,7 @@ function RadioGroup({ props }) {
   const result = props.radio.list?.map((item, index) => (
     <View style={css.wr_radio} key={index}>
       <RadioButton
-        color="#03a9f4"
+        color="#3498db"
         value={index}
         disabled={!props.check}
         status={radio === index ? "checked" : "unchecked"}
@@ -114,10 +115,11 @@ function AnswerListTextInput({ props }) {
     <View style={[css.wr_textInput, { marginBottom: 10 }]} key={index}>
       <Text style={[css.checkbox_text]}>{item.text}</Text>
       <TextInput
-        style={[css.textInput, { minWidth: 70, width: "auto" }]}
+        style={[css.textInput, { minWidth: 100, width: "auto" }]}
         multiline={false}
         editable={true}
         value={item.input}
+        keyboardType={item.keyboardType}
         onChangeText={(value) => {
           list[index].input = value
           setList([...list])

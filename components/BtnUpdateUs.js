@@ -16,12 +16,12 @@ export function BtnUpdateUs({ func }) {
 
   return (
     <TouchableOpacity style={css.btnUpdateUs} onPress={actions}>
-      <ActivityIndicator animating={isLoading} color={"green"} />
+      <ActivityIndicator animating={isLoading} color="#3498db" />
       <FontAwesome5
         style={{ marginHorizontal: 10 }}
         name="cloud-download-alt"
         size={24}
-        color="black"
+        color="#3498db"
       />
     </TouchableOpacity>
   )

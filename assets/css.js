@@ -1,5 +1,14 @@
 import { StyleSheet } from "react-native"
 
+const mainColor = "#3498db"
+const textColor = "#4e5f68"
+const colorBlack = "#3B4856"
+const colorGray = "#9FADBD"
+const colorGold = "#E39D22"
+const colorRed = "#E86971"
+const colorGreen = "#00A88A"
+const mainBg = "#fafcff"
+
 export const css = StyleSheet.create({
   row: {
     width: "100%",
@@ -9,30 +18,44 @@ export const css = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 20,
     paddingHorizontal: 15,
-    backgroundColor: "#9e9e9e29",
+    backgroundColor: "#fff",
     // justifyContent: "space-between",
   },
   header: {
     width: "100%",
     backgroundColor: "#fff",
     paddingHorizontal: 15,
-    paddingTop: 10,
+    paddingTop: 17,
+    borderBottomWidth: 1,
+    borderColor: "#d8d8d8",
   },
   logo: {
-    color: "blue",
+    color: mainColor,
     fontSize: 20,
-    paddingVertical: 5,
+    paddingBottom: 3,
   },
   question_name: {
-    fontSize: 14,
-    fontWeight: "900",
-    color: "#878585",
+    fontSize: 15,
+    fontWeight: "700",
+    color: colorBlack,
+    color: textColor,
+  },
+  main_head: {
+    fontSize: 16,
+    color: textColor,
+    fontWeight: "700",
   },
   question_header: {
-    color: "red",
+    color: colorGreen,
+  },
+  color_gold: {
+    color: colorGold,
   },
   question_text: {
-    fontSize: 14,
+    fontSize: 15,
+  },
+  question_quest: {
+    color: textColor,
   },
   wr_checkbox: {
     marginTop: 12,
@@ -40,10 +63,11 @@ export const css = StyleSheet.create({
     alignItems: "flex-start",
   },
   checkbox_text: {
-    fontSize: 16,
+    fontSize: 15,
     // borderWidth: 1,
     paddingLeft: 10,
     paddingTop: 7,
+    color: textColor,
   },
   input: {
     borderWidth: 1,
@@ -107,23 +131,32 @@ export const css = StyleSheet.create({
     alignItems: "center",
   },
   radio_label: {
-    fontSize: 12,
+    fontSize: 13,
+    color: textColor,
   },
+
   touchBtn: {
     marginTop: 15,
-    backgroundColor: "#ccc",
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: mainColor,
     padding: 15,
     borderRadius: 7,
   },
   btn_green: {
-    backgroundColor: "#00af00",
+    backgroundColor: colorGreen,
+    borderColor: colorGreen,
+    justifyContent: "center",
+    alignItems: "center",
   },
   btn_red: {
-    backgroundColor: "#e93e3e",
+    backgroundColor: colorRed,
+    borderColor: colorRed,
   },
   measurs_btnAdd: {
-    width: "auto",
-    marginHorizontal: "auto",
+    width: 150,
+    marginLeft: "auto",
+    marginRight: "auto",
     marginTop: 25,
     marginBottom: 15,
   },
@@ -134,10 +167,16 @@ export const css = StyleSheet.create({
   touchBtn_title: {
     marginLeft: 25,
     fontSize: 12,
+    color: colorBlack,
+  },
+  colorBlack: {
+    color: colorBlack,
   },
 
   measurs_name: {
-    fontWeight: "900",
+    fontWeight: "700",
+    color: colorBlack,
+    fontSize: 15,
   },
   measurs_fieldtext: {
     borderWidth: 1,
@@ -149,9 +188,13 @@ export const css = StyleSheet.create({
   measurs_header: {
     marginTop: 15,
     paddingBottom: 5,
+    color: colorBlack,
+    fontSize: 15,
   },
   measurs_title: {
     padding: 10,
+    color: colorBlack,
+    fontSize: 15,
   },
   measurs_item: {
     flexDirection: "row",
@@ -163,9 +206,12 @@ export const css = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: "center",
     padding: 5,
+    minWidth: 100,
+    color: colorBlack,
   },
   measurs_label: {
     paddingRight: 15,
+    color: colorBlack,
   },
   measurs_close: {
     position: "absolute",
@@ -188,18 +234,50 @@ export const css = StyleSheet.create({
     borderWidth: 1,
     textAlign: "center",
   },
+  typeInspBtn_text: {
+    fontSize: 14,
+    color: colorBlack,
+  },
+  typeInspBtn: {
+    marginTop: 15,
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: textColor,
+  },
   inspect: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
+    borderColor: textColor,
     padding: 5,
     marginTop: 15,
-    borderRadius: 5,
+    borderRadius: 8,
+    backgroundColor: "#fff",
   },
   inspect_desc: {
     width: "80%",
     flexGrow: 4,
+  },
+  inspect_text: {
+    color: colorBlack,
+    fontSize: 15,
+  },
+  inspect_number: {
+    color: textColor,
+    // fontWeight: "700",
+  },
+  inspect_v: {
+    color: colorGray,
+    paddingRight: 5,
+    fontSize: 12,
+  },
+  inspect_date: {
+    fontSize: 12,
+    color: colorGold,
+    paddingRight: 10,
   },
   inspect_wrBtn: {
     width: "20%",
@@ -208,35 +286,42 @@ export const css = StyleSheet.create({
   },
   inspect_btn: {
     borderWidth: 1,
-    borderRadius: 3,
+    borderColor: "#00B5E4",
+    borderColor: "transparent",
+    borderRadius: 5,
     padding: 3,
     textAlign: "center",
-    width: 32,
-    height: 32,
-    lineHeight: 30,
+    justifyContent: "center",
+    flexDirection: "row",
+    width: 33,
+    height: 33,
     marginLeft: "auto",
-    backgroundColor: "#ccc",
+    backgroundColor: "#00B5E4",
+    backgroundColor: "transparent",
   },
   inspect_foot: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
   },
-  inspect_date: {
-    fontSize: 12,
-    paddingRight: 10,
-  },
   btnUpdateUs: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 15,
     backgroundColor: "#ccc",
+    backgroundColor: "transparent",
+    borderColor: mainColor,
+    borderWidth: 1,
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 5,
     width: "auto",
-    marginHorizontal: "auto",
+    // marginHorizontal: "auto",
     textAlign: "center",
+  },
+  user_text: {
+    fontSize: 15,
+    color: colorBlack,
+    marginTop: 5,
   },
 })

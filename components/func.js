@@ -335,17 +335,17 @@ const udateItemInspectionHistory = async (value) => {
   }
 }
 
-function getTypeIcon(type = "") {
+function getTypeIcon(type = "", color = "green") {
   if (type == "buildingPart")
-    return <FontAwesome5 name="house-damage" size={16} color="red" />
+    return <FontAwesome5 name="house-damage" size={16} color={color} />
   if (type == "mastTransformer")
-    return <FontAwesome5 name="bolt" size={16} color="red" />
+    return <FontAwesome5 name="bolt" size={16} color={color} />
   if (type == "measurements")
-    return <FontAwesome5 name="file-alt" size={16} color="red" />
+    return <FontAwesome5 name="file-alt" size={16} color={color} />
   if (type == "local")
-    return <FontAwesome5 name="mobile-alt" size={16} color="gray" />
+    return <FontAwesome5 name="mobile-alt" size={16} color={color} />
   if (type == "server")
-    return <FontAwesome5 name="cloud" size={15} color="green" />
+    return <FontAwesome5 name="cloud" size={15} color={color} />
   return ""
 }
 

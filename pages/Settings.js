@@ -64,7 +64,7 @@ export default function Settings({ navigation, route }) {
             myName = item.fio
           }}
         /> */}
-        <Text style={css.radio_label}>
+        <Text style={css.user_text}>
           {item.id} {item.fio}{" "}
           {item.post == 1 ? " (мастер)" : " (электромонтер)"}
         </Text>
@@ -84,7 +84,16 @@ export default function Settings({ navigation, route }) {
 
   return (
     <ScrollView style={[css.pages]}>
-      <BtnUpdateUs func={updateUs} />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text style={css.main_head}>Пользователи:</Text>
+        <BtnUpdateUs func={updateUs} />
+      </View>
 
       <View style={{ flex: 1, padding: 24 }}>
         <ListUsers props={users} />

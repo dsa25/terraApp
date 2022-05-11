@@ -56,7 +56,7 @@ export function Delegation({ type, dd, getData, users }) {
     const result = myList.map((item, index) => (
       <View style={css.wr_radio} key={index}>
         <Checkbox
-          color="#03a9f4"
+          color="#3498db"
           // disabled={!props.check}
           // disabled={item.text === myName}
           status={
@@ -94,7 +94,7 @@ export function Delegation({ type, dd, getData, users }) {
     const result = myList?.map((item, index) => (
       <View style={css.wr_radio} key={index}>
         <RadioButton
-          color="#03a9f4"
+          color="#3498db"
           value={index}
           // disabled={!props.check}
           status={item.id === data.users.master.id ? "checked" : "unchecked"}
@@ -113,18 +113,18 @@ export function Delegation({ type, dd, getData, users }) {
 
   return (
     <View>
-      <Text>
+      <Text style={[css.colorBlack, { fontSize: 15 }]}>
         {type == "measurements" ? data.headers[0] : data.headers[1]}{" "}
-        <Text>{data.date}</Text>
+        <Text style={css.inspect_date}>{data.date}</Text>
       </Text>
       <LabelInput props={data.fields[0]} />
       <LabelInput props={data.fields[1]} />
-      <Text>Напряжение:</Text>
+      <Text style={css.colorBlack}>Напряжение:</Text>
       <LabelInput props={data.fields[2]} />
       <LabelInput props={data.fields[3]} />
       <LabelInput props={data.fields[4]} />
 
-      <Text>{data.users.text}</Text>
+      <Text style={[css.colorBlack, { marginTop: 10 }]}>{data.users.text}</Text>
       <RadioGroup props={users} />
       <ListCheckBox props={users} />
     </View>
