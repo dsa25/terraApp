@@ -24,6 +24,5 @@
   },
   "submit": {
     "production": {}
-  },
-  "myCommandBuild_apk": "eas build -p android --profile preview"
+  }
 }
