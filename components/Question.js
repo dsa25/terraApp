@@ -153,6 +153,7 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
               keyLS: Date.now(),
               v: 1,
               date: dataDelegation.date,
+              tprp: dataDelegation.fields[0].input,
               address: dataDelegation.fields[1].input,
               fio: dataDelegation.users.master.fio,
               status: "local",

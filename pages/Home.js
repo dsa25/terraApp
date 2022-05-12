@@ -41,11 +41,14 @@ export default function Home({ navigation, route }) {
         <View style={css.inspect_desc}>
           <Text style={css.inspect_text}>
             <Text style={css.inspect_number}>
-              {item.type == "measurements" ? "БЗ" : "ЛО"} №{" "}
-              {item.id == 0 ? "__" : item.id}{" "}
+              <Text>
+                {item.type == "measurements" ? "БЗ" : "ЛО"} №{" "}
+                {item.id == 0 ? "__" : item.id}{" "}
+              </Text>
             </Text>
-            <Text> {item.address}</Text>
+            <Text> {item.address} </Text>
           </Text>
+          <Text style={css.inspect_v}>ТП (РП) № {item.tprp}</Text>
           <Text style={css.inspect_text}>
             <Text style={css.inspect_v}>v:{item.v}</Text> (отвт. {item.fio})
           </Text>
