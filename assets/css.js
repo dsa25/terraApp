@@ -68,6 +68,7 @@ export const css = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 7,
     color: textColor,
+    flex: 1,
   },
   input: {
     borderWidth: 1,
