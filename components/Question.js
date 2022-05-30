@@ -53,7 +53,8 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
   }
 
   function TypeAnswer({ props }) {
-    if (props.type == "text") return <AnswerText props={props} />
+    if (props.type == "text" || props.type == "listTextInput")
+      return <AnswerText props={props} />
     if (props.type == "input") return <AnswerInput props={props} />
     if (props.type == "textInput") return <AnswerTextInput props={props} />
     if (props.type == "radio") return <AnswerRadio props={props} />
@@ -65,22 +66,25 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
   function ListAnswer({ list }) {
     const result = list?.map((item, index) => (
       <View style={[css.wr_checkbox]} key={index}>
-        {item.type != "listTextInput" && (
-          <Text>
-            <Checkbox
-              color="#3498db"
-              key={item.val.toString()}
-              status={item.check ? "checked" : "unchecked"}
-              onPress={() => {
-                question.opt[item.val - 1].check = !item.check
-                setQuestion({ ...question })
-                if (!question.opt[item.val - 1].check) {
-                  clearFields(item)
-                }
-              }}
-            />
-          </Text>
-        )}
+        <Text>
+          <Checkbox
+            color="#3498db"
+            key={item.val.toString()}
+            status={item.check ? "checked" : "unchecked"}
+            onPress={() => {
+              question.opt[item.val - 1].check = !item.check
+              setQuestion({ ...question })
+              if (!question.opt[item.val - 1].check) {
+                clearFields(item)
+              } else if (
+                question.opt[item.val - 1].check &&
+                item.type == "listTextInput"
+              ) {
+                item.list?.map((elem) => (elem.input = ""))
+              }
+            }}
+          />
+        </Text>
         <TypeAnswer props={item} />
       </View>
     ))
@@ -214,9 +218,8 @@ export function Question({ dataQuests, closeStart, navigation, mode, DL }) {
           {question.quest}
         </Text>
 
-        {question.opt[0].type != "listTextInput" ? (
-          <ListAnswer list={question.opt} />
-        ) : (
+        <ListAnswer list={question.opt} />
+        {question.opt[0].type == "listTextInput" && (
           <AnswerListTextInput props={question.opt[0]} />
         )}
       </View>

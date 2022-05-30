@@ -256,18 +256,23 @@ const checkAnswers = (list) => {
         }
       }
       if (item.type == "listTextInput") {
-        let res = true
-        for (const input of item.list) {
-          if (input.input.trim().length == 0) {
-            res = false
-            break
-          }
-        }
-        if (res == false) {
-          msg = "Не все поля заполнены!"
-          result = false
+        countCheck = 1
+        result = true
+        break
+      }
+      countCheck++
+    } else if (item.check == false && item.type == "listTextInput") {
+      let res = true
+      for (const input of item.list) {
+        if (input.input.trim().length == 0) {
+          res = false
           break
         }
+      }
+      if (res == false) {
+        msg = "Не все поля заполнены!"
+        result = false
+        break
       }
       countCheck++
     }

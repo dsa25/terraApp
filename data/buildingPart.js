@@ -329,22 +329,24 @@ export const buildingPart = {
           val: 2,
           check: false,
           type: "checkbox",
-          text: "На опорных изоляторах по фазам A, B, C присутствуют трещины и сколы (нужные фазы подчеркнуть);",
+          text: "На опорных изоляторах по фазам A, B, C, N присутствуют трещины и сколы (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
           val: 3,
           check: false,
           type: "checkbox",
-          text: "На проходных изоляторах по фазам A, B, C присутствуют трещины и сколы (нужные фазы подчеркнуть);",
+          text: "На проходных изоляторах по фазам A, B, C, N присутствуют трещины и сколы (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
@@ -391,22 +393,24 @@ export const buildingPart = {
           val: 2,
           check: false,
           type: "checkbox",
-          text: "Присутствует загрязненность на опорных изоляторах по фазе A, B, C (нужные фазы подчеркнуть);",
+          text: "Присутствует загрязненность на опорных изоляторах по фазе A, B, C, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
           val: 3,
           check: false,
           type: "checkbox",
-          text: "Присутствует загрязненность на проходных изоляторах по фазе A, B, C (нужные фазы подчеркнуть);",
+          text: "Присутствует загрязненность на проходных изоляторах по фазе A, B, C, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
@@ -746,11 +750,12 @@ export const buildingPart = {
           val: 2,
           check: false,
           type: "checkbox",
-          text: "Присутствуют окалины, местный нагрев на шинах по ф.А, ф.В, ф.С (нужную фазу подчеркнуть);",
+          text: "Присутствуют окалины, местный нагрев на шинах по ф.А, ф.В, ф.С, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "ф.А" },
             { check: false, text: "ф.В" },
             { check: false, text: "ф.С" },
+            { check: false, text: "N" },
           ],
         },
         {
@@ -849,11 +854,12 @@ export const buildingPart = {
           val: 2,
           check: false,
           type: "checkbox",
-          text: "Местный нагрев и окалины на контактных частях РВ, ВН, соединениях подшинок к шинам - присутствует по ф.А, ф.В, ф.С (нужную фазу подчеркнуть);",
+          text: "Местный нагрев и окалины на контактных частях РВ, ВН, соединениях подшинок к шинам - присутствует по ф.А, ф.В, ф.С, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "ф.А" },
             { check: false, text: "ф.В" },
             { check: false, text: "ф.С" },
+            { check: false, text: "N" },
           ],
         },
         {
@@ -906,9 +912,10 @@ export const buildingPart = {
       opt: [
         {
           val: 1,
-          check: true,
+          check: false,
           type: "listTextInput",
-          text: "Заполните поля:",
+          title: "Заполните поля:",
+          text: "Шильдик отсутствует;",
           list: [
             { text: "Наименование: ", input: "", keyboardType: "default" },
             { text: "Тип: ", input: "", keyboardType: "default" },
@@ -1037,22 +1044,24 @@ export const buildingPart = {
           val: 3,
           check: false,
           type: "checkbox",
-          text: "Присутствует загрязненность на опорных изоляторах по фазе A, B, C (нужные фазы подчеркнуть);",
+          text: "Присутствует загрязненность на опорных изоляторах по фазе A, B, C, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
           val: 4,
           check: false,
           type: "checkbox",
-          text: "Присутствует загрязненность на проходных изоляторах по фазе A, B, C (нужные фазы подчеркнуть);",
+          text: "Присутствует загрязненность на проходных изоляторах по фазе A, B, C, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
@@ -1292,22 +1301,24 @@ export const buildingPart = {
           val: 2,
           check: false,
           type: "checkbox",
-          text: "На опорных изоляторах по фазам A, B, C присутствуют трещины и сколы (нужные фазы подчеркнуть);",
+          text: "На опорных изоляторах по фазам A, B, C, N присутствуют трещины и сколы (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
           val: 3,
           check: false,
           type: "checkbox",
-          text: "На проходных изоляторах по фазам A, B, C присутствуют трещины и сколы (нужные фазы подчеркнуть);",
+          text: "На проходных изоляторах по фазам A, B, C, N присутствуют трещины и сколы (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
@@ -1349,22 +1360,24 @@ export const buildingPart = {
           val: 2,
           check: false,
           type: "checkbox",
-          text: "Присутствует загрязненность на опорных изоляторах по фазе A, B, C (нужные фазы подчеркнуть);",
+          text: "Присутствует загрязненность на опорных изоляторах по фазе A, B, C, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
           val: 3,
           check: false,
           type: "checkbox",
-          text: "Присутствует загрязненность на проходных изоляторах по фазе A, B, C (нужные фазы подчеркнуть);",
+          text: "Присутствует загрязненность на проходных изоляторах по фазе A, B, C, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "A" },
             { check: false, text: "B" },
             { check: false, text: "C" },
+            { check: false, text: "N" },
           ],
         },
         {
@@ -1658,11 +1671,12 @@ export const buildingPart = {
           val: 2,
           check: false,
           type: "checkbox",
-          text: "Присутствуют окалины, местный нагрев на шинах по ф.A, ф.B, ф.C (нужную фазу подчеркнуть);",
+          text: "Присутствуют окалины, местный нагрев на шинах по ф.A, ф.B, ф.C, N (нужное подчеркнуть);",
           checkbox: [
             { check: false, text: "ф.A" },
             { check: false, text: "ф.B" },
             { check: false, text: "ф.C" },
+            { check: false, text: "N" },
           ],
         },
         {

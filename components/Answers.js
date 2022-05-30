@@ -117,7 +117,7 @@ function AnswerListTextInput({ props }) {
       <TextInput
         style={[css.textInput, { minWidth: 100, width: "auto" }]}
         multiline={false}
-        editable={true}
+        editable={!props.check}
         value={item.input}
         keyboardType={item.keyboardType}
         onChangeText={(value) => {
@@ -129,7 +129,7 @@ function AnswerListTextInput({ props }) {
   ))
   return (
     <View style={{ flex: 1 }}>
-      <Text style={[css.checkbox_text]}>{props.text}</Text>
+      <Text style={[css.checkbox_text]}>{props.title}</Text>
       {listInput}
     </View>
   )
