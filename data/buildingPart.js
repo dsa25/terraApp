@@ -1853,5 +1853,30 @@ export const buildingPart = {
         },
       ],
     },
+
+    {
+      id: 57,
+      quest: "Чередования фаз:",
+      opt: [
+        {
+          val: 1,
+          check: false,
+          type: "text",
+          text: "прямое",
+        },
+        {
+          val: 2,
+          check: false,
+          type: "text",
+          text: "обратное",
+        },
+        {
+          val: 2,
+          check: false,
+          type: "text",
+          text: "нет данных",
+        },
+      ],
+    },
   ],
 }
