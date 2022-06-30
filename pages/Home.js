@@ -10,8 +10,9 @@ import {
   myFetch,
   deepClone,
   goHomeAfterSave,
+  alertMsg,
+  getInspectionHistory,
 } from "../components/func"
-import { alertMsg, getInspectionHistory } from "../components/func"
 import { css } from "../assets/css"
 
 import { server } from "../data/server"
@@ -120,8 +121,9 @@ export default function Home({ navigation, route }) {
         setLoading(false)
         await getHis()
       } else {
-        setLoading(false)
         console.log("server: status 0")
+        setLoading(false)
+        alertMsg(res.msg)
       }
       return
     }
@@ -139,6 +141,7 @@ export default function Home({ navigation, route }) {
         await getHis()
       } else {
         setLoading(false)
+        alertMsg(res.msg)
         console.log("server: status 0")
       }
     }
