@@ -10,6 +10,7 @@ import {
   setUsersDefault,
   myFetch,
   alertMsg,
+  getPost,
 } from "../components/func"
 import { css } from "../assets/css"
 import { BtnUpdateUs } from "../components/BtnUpdateUs"
@@ -65,8 +66,9 @@ export default function Settings({ navigation, route }) {
           }}
         /> */}
         <Text style={css.user_text}>
-          {item.id} {item.fio}{" "}
-          {item.post == 1 ? " (мастер)" : " (электромонтер)"}
+          {item.id} {item.fio}
+          {"  "}
+          {getPost(item.post)}
         </Text>
       </View>
     ))

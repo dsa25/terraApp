@@ -139,7 +139,7 @@ export function Measurements({
         return
       }
       if (dataDelegation.users.other.length == 0) {
-        alertMsg("Не указан электромонтер!")
+        alertMsg("Не указаны другие участники осмотра/замера!")
         return
       }
       setTypeContent("measurements")

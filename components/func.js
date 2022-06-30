@@ -409,6 +409,16 @@ const myFetch = async (url, data = [], method = "POST") => {
   }
 }
 
+function getPost(number) {
+  if (number == 1) return "(мастер)"
+  if (number == 2) return "(электромонтер)"
+  if (number == 3) return "(инженер ПТО)"
+  if (number == 4) return "(начальник ПТО)"
+  if (number == 5) return "(ОБиУЭЭ)"
+  if (number == 6) return "(ОТП)"
+  return "_"
+}
+
 export {
   deepClone,
   getTime,
@@ -432,4 +442,5 @@ export {
   isEmptyMaster,
   goHomeAfterSave,
   myFetch,
+  getPost,
 }

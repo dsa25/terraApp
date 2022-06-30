@@ -146,7 +146,7 @@ export default function Home({ navigation, route }) {
 
   function WrListInspect() {
     return (
-      <View>
+      <View style={{ paddingBottom: 40 }}>
         <View
           style={{
             alignItems: "center",
