@@ -13,7 +13,22 @@ export function Delegation({ type, dd, getData, users }) {
   // let other = []
 
   data.users.text = type == "measurements" ? data.headers2[0] : data.headers2[1]
-  data.date = getTime()
+  data.date = dd.date === "" ? getTime() : data.date
+
+  function DateInput() {
+    const [input1, setInput1] = useState(data.date)
+    return (
+      <TextInput
+        style={css.input_date}
+        value={input1}
+        keyboardType={"numeric"}
+        onChangeText={(text) => {
+          data.date = text
+          setInput1(data.date)
+        }}
+      />
+    )
+  }
 
   function LabelInput({ props }) {
     const [input, setInput] = useState(props.input)
@@ -117,8 +132,8 @@ export function Delegation({ type, dd, getData, users }) {
     <View>
       <Text style={[css.colorBlack, { fontSize: 15 }]}>
         {type == "measurements" ? data.headers[0] : data.headers[1]}{" "}
-        <Text style={css.inspect_date}>{data.date}</Text>
       </Text>
+      <DateInput />
       <LabelInput props={data.fields[0]} />
       <LabelInput props={data.fields[1]} />
       <Text style={css.colorBlack}>Напряжение:</Text>

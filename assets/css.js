@@ -82,6 +82,18 @@ export const css = StyleSheet.create({
     flexGrow: 1,
     maxHeight: 100,
   },
+  input_date: {
+    borderBottomWidth: 1,
+    textAlign: "center",
+    padding: 2,
+    height: 20,
+    minWidth: 60,
+    maxWidth: 80,
+    borderColor: "#767171",
+    fontSize: 12,
+    color: colorGold,
+    width: 100,
+  },
   item: {
     width: "33.3%",
     padding: 10,
