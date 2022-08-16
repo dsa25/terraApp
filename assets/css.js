@@ -34,6 +34,11 @@ export const css = StyleSheet.create({
     fontSize: 20,
     paddingBottom: 3,
   },
+  appVersion: {
+    color: colorGray,
+    fontSize: 10,
+    // paddingLeft: 3,
+  },
   question_name: {
     fontSize: 15,
     fontWeight: "700",

@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import Inspection from "./pages/Inspection"
 import Settings from "./pages/Settings"
 import { css } from "./assets/css"
+import appJson from "./app.json"
 
 export default function App() {
   // const [myName, setMyName] = useState("")
@@ -17,7 +18,9 @@ export default function App() {
   return (
     <NavigationContainer style={{}}>
       <View style={css.header}>
-        <Text style={css.logo}>ТЕРРА</Text>
+        <Text style={css.logo}>
+          ТЕРРА <Text style={css.appVersion}> {appJson.expo.version}</Text>
+        </Text>
       </View>
       <Tab.Navigator
         initialRouteName="Feed"

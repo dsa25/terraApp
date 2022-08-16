@@ -5,8 +5,8 @@ import { Alert } from "react-native"
 
 const mobile = true
 
-function alertMsg(msg = "text message") {
-  return mobile ? Alert.alert(msg) : alert(msg)
+function alertMsg(msg = "text message", header = "") {
+  return mobile ? Alert.alert(header, msg) : alert(msg)
 }
 
 function alertSelection(
@@ -401,11 +401,14 @@ const myFetch = async (url, data = [], method = "POST") => {
       let result = await response.json()
       return result
     } else {
-      return alertMsg("Ошибка подключения к _серверу!")
+      return alertMsg("Ошибка подключения к _серверу!", "Ошибка_:")
     }
   } catch (error) {
     console.log("error", error)
-    alertMsg("Ошибка подключения к серверу!")
+    alertMsg(
+      `Ошибка подключения к серверу (${url})!  Error: ${error}`,
+      "Ошибка:"
+    )
   }
 }
 
