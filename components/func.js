@@ -3,7 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
-const mobile = true
+const mobile = false
 
 function alertMsg(msg = "text message", header = "") {
   return mobile ? Alert.alert(header, msg) : alert(msg)
