@@ -1,5 +1,6 @@
 // const url = "http://127.0.0.1:5000"
-const url = "https://terraserver.dsa25.ru"
+const url = import.meta.env.SERVER_URL
+
 
 export const server = {
   users: url + "/users",

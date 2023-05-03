@@ -3,6 +3,7 @@ import { FontAwesome5 } from "@expo/vector-icons"
 
 import { Alert } from "react-native"
 
+// vers web or mobile
 const mobile = false
 
 function alertMsg(msg = "text message", header = "") {
