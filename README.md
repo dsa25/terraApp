@@ -32,8 +32,8 @@ eas build -p android --profile preview
   <tr>
      <td>Добавление нового осмотра, пользователи</td>
      <td align="center">
-      <img src="screenshots/type.png" width="270"> 
-      <img src="screenshots/users.png" width="270">
+      <img src="screenshots/type.png" width="260"> 
+      <img src="screenshots/users.png" width="260">
      </td>
   </tr>
   <tr>
