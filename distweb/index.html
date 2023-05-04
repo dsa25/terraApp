@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!-- saved from url=(0023) -->
+<html lang="en">
+  <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style id="react-native-stylesheet"></style>
+    
+    <meta httpequiv="X-UA-Compatible" content="IE=edge">
+    <!-- 
+      This viewport works for phones with notches.
+      It's optimized for gestures by disabling global zoom.
+     -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover">
+    <title>Home</title>
+    <style>
+      /**
+       * Extend the react-native-web reset:
+       * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
+       */
+      html,
+      body,
+      #root {
+        width: 100%;
+        /* To smooth any scrolling behavior */
+        -webkit-overflow-scrolling: touch;
+        margin: 0px;
+        padding: 0px;
+        /* Allows content to fill the viewport and go beyond the bottom */
+        min-height: 100%;
+      }
+      #root {
+        flex-shrink: 0;
+        flex-basis: auto;
+        flex-grow: 1;
+        display: flex;
+        flex: 1;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+        -webkit-text-size-adjust: 100%;
+        height: calc(100% + env(safe-area-inset-top));
+      }
+
+      body {
+        display: flex;
+        /* Allows you to scroll below the viewport; default value is visible */
+        overflow-y: auto;
+        overscroll-behavior-y: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -ms-overflow-style: scrollbar;
+      }
+      /* Enable for apps that support dark-theme */
+      /*@media (prefers-color-scheme: dark) {
+        body {
+          background-color: black;
+        }
+      }*/
+    </style>
+  <!-- <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png"> -->
+  <!-- <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"> -->
+  <link rel="shortcut icon" href="favicon.ico">
+  <style id="expo-generated-fonts" type="text/css">
+    @font-face {
+      font-family: anticon;
+      src: url(/static/media/AntDesign.163adab9dbd7cb1ed12a.ttf);
+      font-display: auto;
+    }@font-face {
+      font-family: FontAwesome5Free-Regular;
+      src: url(/static/media/FontAwesome5_Regular.c3146b3524e97475c094.ttf);
+      font-display: auto;
+    }@font-face {
+      font-family: FontAwesome5Free-Solid;
+      src: url(/static/media/FontAwesome5_Solid.32267f3b4db33a7c85ee.ttf);
+      font-display: auto;
+    }
+    [role='checkbox'] > .css-view-1dbjc4n{
+      position: relative;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(0, 0, 0, 0.54);
+      margin-left: 3px;
+    }
+    [role='checkbox'] > .css-view-1dbjc4n::after{
+      display: block;
+      content: '\2713';
+      color: transparent;
+      position: absolute;
+      top: -3px;
+      left: 2px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    [role='checkbox'][aria-checked='true'] > .css-view-1dbjc4n{
+      border-color:rgb(52, 152, 219);
+      background:rgb(52, 152, 219);
+    }
+    [role='checkbox'][aria-checked='true'] > .css-view-1dbjc4n::after{
+      color: #fff;
+    }
+
+    </style>
+    <script defer="" src="bundle.js"></script>
+  </head>
+
+  <body cz-shortcut-listen="true">
+    <!-- 
+      A generic no script element with a reload button and a message.
+      Feel free to customize this however you'd like.
+    -->
+    <noscript>
+      <form
+        action=""
+        style="
+          background-color: #fff;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 9999;
+        "
+      >
+        <div
+          style="
+            font-size: 18px;
+            font-family: Helvetica, sans-serif;
+            line-height: 24px;
+            margin: 10%;
+            width: 80%;
+          "
+        >
+          <p>Oh no! It looks like JavaScript is not enabled in your browser.</p>
+          <p style="margin: 20px 0;">
+            <button
+              type="submit"
+              style="
+                background-color: #4630eb;
+                border-radius: 100px;
+                border: none;
+                box-shadow: none;
+                color: #fff;
+                cursor: pointer;
+                font-weight: bold;
+                line-height: 20px;
+                padding: 6px 16px;
+              "
+            >
+              Reload
+            </button>
+          </p>
+        </div>
+      </form>
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"><div class="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"><div class="css-view-1dbjc4n r-flex-13awgt0 r-pointerEvents-12vffkv"><div class="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomWidth-qklmqi r-borderColor-1szdl9c r-paddingHorizontal-1j3t67a r-paddingTop-m1ore8 r-width-13qz1uu"><div dir="auto" class="css-text-901oao r-color-14glzig r-fontSize-adyw6z r-paddingBottom-3hmvjm">ТЕРРА <span class="css-text-901oao css-textHasAncestor-16my406 r-color-1kzdxsr r-fontSize-10x49cs"> 1.0.1</span></div></div><div class="css-view-1dbjc4n r-flex-13awgt0"><div class="css-view-1dbjc4n r-flex-13awgt0 r-overflow-1udh08x"><div class="css-view-1dbjc4n r-bottom-1p0dtai r-display-6koalj r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af" style="z-index: 0;"><div class="css-view-1dbjc4n r-flex-13awgt0 r-flexDirection-1d5kdc7" style="background-color: rgb(242, 242, 242);"><div class="css-view-1dbjc4n r-flex-13awgt0"><div class="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-paddingBottom-k8qxaj r-paddingHorizontal-1j3t67a r-paddingTop-1qxgc49 r-transform-1sncvnh"><div class="css-view-1dbjc4n"><div class="css-view-1dbjc4n" style="padding-bottom: 40px;"><div class="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz" style="justify-content: flex-start; -webkit-box-pack: start;"><div dir="auto" class="css-text-901oao r-color-beka r-fontSize-ubezar r-fontWeight-b88u0q">Список осмотров:</div><div aria-busy="false" role="progressbar" tabindex="0" class="css-view-1dbjc4n r-alignItems-1awozwy r-justifyContent-1777fci" style="margin: auto;"><div class="css-view-1dbjc4n" style="height: 24px; opacity: 0; width: 24px;"><div class="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-justifyContent-1777fci r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af" id="animatedComponent"><div class="css-view-1dbjc4n" id="animatedComponent" style="height: 24px; transform: rotate(45deg); width: 24px;"><div class="css-view-1dbjc4n r-overflow-1udh08x" style="height: 12px; width: 24px;"><div class="css-view-1dbjc4n" id="animatedComponent" style="height: 24px; transform: translateY(0px) rotate(-165deg); width: 24px;"><div class="css-view-1dbjc4n r-overflow-1udh08x" style="height: 12px; width: 24px;"><div class="css-view-1dbjc4n" id="animatedComponent" style="border-color: rgb(0, 128, 0); border-radius: 12px; border-width: 2.4px; height: 24px; width: 24px;"></div></div></div></div></div></div><div class="css-view-1dbjc4n r-alignItems-1awozwy r-bottom-1p0dtai r-justifyContent-1777fci r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af" id="animatedComponent"><div class="css-view-1dbjc4n" id="animatedComponent" style="height: 24px; transform: rotate(45deg); width: 24px;"><div class="css-view-1dbjc4n r-overflow-1udh08x" style="height: 12px; top: 12px; width: 24px;"><div class="css-view-1dbjc4n" id="animatedComponent" style="height: 24px; transform: translateY(-12px) rotate(345deg); width: 24px;"><div class="css-view-1dbjc4n r-overflow-1udh08x" style="height: 12px; width: 24px;"><div class="css-view-1dbjc4n" id="animatedComponent" style="border-color: rgb(0, 128, 0); border-radius: 12px; border-width: 2.4px; height: 24px; width: 24px;"></div></div></div></div></div></div></div></div></div><div class="css-view-1dbjc4n r-alignItems-1awozwy r-backgroundColor-14lw9ot r-borderColor-izqacp r-borderRadius-1xfd6ze r-borderWidth-rs99b7 r-flexDirection-18u37iz r-justifyContent-1wtj0ep r-marginTop-19h5ruw r-padding-1uu6nss"><div class="css-view-1dbjc4n r-flexGrow-fzspga r-width-6e0ovw"><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-a023e6"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-beka"><span class="css-text-901oao css-textHasAncestor-16my406">БЗ № 1 </span></span><span class="css-text-901oao css-textHasAncestor-16my406"> п. Ростоши </span></div><div dir="auto" class="css-text-901oao r-color-1kzdxsr r-fontSize-1enofrn r-paddingRight-19gegkz">ТП (РП) № 654</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-a023e6"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-1kzdxsr r-fontSize-1enofrn r-paddingRight-19gegkz">v:1</span> (отвт. Варфоломеев Е. Н.)</div><div class="css-view-1dbjc4n r-alignItems-1awozwy r-flexDirection-18u37iz r-justifyContent-1h0z5md"><div dir="auto" class="css-text-901oao r-color-1gao30o r-fontSize-1enofrn r-paddingRight-1qfoi16">27.04.2023</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-a023e6"><span class="css-text-901oao css-textHasAncestor-16my406"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-beka r-fontSize-ubezar" style="font-family: FontAwesome5Free-Regular; font-style: normal; font-weight: normal;"></span></span></div></div></div><div class="css-view-1dbjc4n r-flexGrow-16xksha r-paddingLeft-1hfyk0a r-width-1j6l8hp"><div tabindex="0" class="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderColor-42olwf r-borderRadius-1f0042m r-borderWidth-rs99b7 r-cursor-1loqt21 r-flexDirection-18u37iz r-height-17b3b9k r-justifyContent-1777fci r-marginLeft-1jj8364 r-padding-146eth8 r-textAlign-q4m81j r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6" style="margin-bottom: 15px; transition-duration: 0s;"><div dir="auto" class="css-text-901oao r-color-14glzig r-fontSize-adyw6z" style="font-family: FontAwesome5Free-Regular; font-style: normal; font-weight: normal;"></div></div><div tabindex="0" class="css-view-1dbjc4n r-backgroundColor-1niwhzg r-borderColor-42olwf r-borderRadius-1f0042m r-borderWidth-rs99b7 r-cursor-1loqt21 r-flexDirection-18u37iz r-height-17b3b9k r-justifyContent-1777fci r-marginLeft-1jj8364 r-padding-146eth8 r-textAlign-q4m81j r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr r-width-m0fvr6" style="transition-duration: 0s;"><div dir="auto" class="css-text-901oao r-color-14glzig r-fontSize-adyw6z" style="font-family: FontAwesome5Free-Solid; font-style: normal; font-weight: normal;"></div></div></div></div></div></div></div></div><div class="css-view-1dbjc4n"><div class="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-pointerEvents-12vffkv r-position-u8s1d r-right-zchlnj r-top-ipm5af" style="z-index: 0;"><div class="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomWidth-qklmqi r-flex-13awgt0" style="border-bottom-color: rgb(216, 216, 216); box-shadow: rgb(216, 216, 216) 0px 0px 0px;"></div></div><div class="css-view-1dbjc4n r-pointerEvents-12vffkv" style="height: 0px;"><div class="css-view-1dbjc4n r-pointerEvents-633pao" style="height: 0px;"></div><div class="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-18u37iz r-pointerEvents-12vffkv"><div class="css-view-1dbjc4n r-justifyContent-1777fci r-pointerEvents-12vffkv" style="align-items: flex-start; margin-left: 0px; -webkit-box-align: start;"></div><div class="css-view-1dbjc4n r-justifyContent-1777fci r-pointerEvents-12vffkv" style="margin-right: 16px; margin-left: 16px; max-width: 1888px;"><h1 aria-level="1" dir="auto" role="heading" class="css-reset-4rbku5 css-text-901oao css-textOneLine-vcwn7f" id="animatedComponent" style="color: rgb(0, 0, 255); display: none; font-size: 18px; font-weight: 500;">main header</h1></div><div class="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-1777fci r-pointerEvents-12vffkv" style="align-items: flex-end; flex-basis: 0px; margin-right: 0px; -webkit-box-align: end;"></div></div></div></div></div></div><div class="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-position-u8s1d r-right-zchlnj r-top-ipm5af" style="z-index: -1; display: none;"><div class="css-view-1dbjc4n r-flex-13awgt0 r-flexDirection-1d5kdc7" style="background-color: rgb(242, 242, 242);"><div class="css-view-1dbjc4n r-flex-13awgt0"><div class="css-view-1dbjc4n r-WebkitOverflowScrolling-150rngu r-backgroundColor-14lw9ot r-flex-13awgt0 r-flexDirection-eqz5dr r-flexGrow-16y2uox r-flexShrink-1wbh5a2 r-overflowX-11yh6sk r-overflowY-1rnoaur r-paddingBottom-k8qxaj r-paddingHorizontal-1j3t67a r-paddingTop-1qxgc49 r-transform-1sncvnh"><div class="css-view-1dbjc4n"><div class="css-view-1dbjc4n"><div dir="auto" class="css-text-901oao r-color-beka r-fontSize-ubezar r-fontWeight-b88u0q">Тип осмотра: </div><div tabindex="0" class="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-izqacp r-borderRadius-1xfd6ze r-borderWidth-rs99b7 r-cursor-1loqt21 r-marginTop-19h5ruw r-padding-1oqcu8e r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr" style="transition-duration: 0s;"><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1b43r93"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-beka r-fontSize-ubezar" style="font-family: FontAwesome5Free-Solid; font-style: normal; font-weight: normal;"></span> ОСМОТР СТРОИТЕЛЬНОЙ ЧАСТИ ТП, РП.</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-marginLeft-1n0xq6e r-textDecorationLine-1ddef8g">в составе: </div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1enofrn r-marginLeft-1cjg8pu">РУ-10(6) кВ</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1enofrn r-marginLeft-1cjg8pu">Камера силового трансформатора</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1enofrn r-marginLeft-1cjg8pu">РУ-0,4 кВ</div></div><div tabindex="0" class="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-izqacp r-borderRadius-1xfd6ze r-borderWidth-rs99b7 r-cursor-1loqt21 r-marginTop-19h5ruw r-padding-1oqcu8e r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr" style="transition-duration: 0s;"><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1b43r93"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-beka r-fontSize-ubezar" style="font-family: FontAwesome5Free-Solid; font-style: normal; font-weight: normal;"></span> МАЧТОВЫЕ ТРАНСФОРМАТОРНЫЕ ПОДСТАНЦИИ, КТП.</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-marginLeft-1n0xq6e r-textDecorationLine-1ddef8g">в составе: </div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1enofrn r-marginLeft-1cjg8pu">РУ-10(6) кВ</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1enofrn r-marginLeft-1cjg8pu">Камера силового трансформатора</div><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1enofrn r-marginLeft-1cjg8pu">РУ-0,4 кВ</div></div><div tabindex="0" class="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderColor-izqacp r-borderRadius-1xfd6ze r-borderWidth-rs99b7 r-cursor-1loqt21 r-marginTop-19h5ruw r-padding-1oqcu8e r-touchAction-1otgn73 r-transitionProperty-1i6wzkk r-userSelect-lrvibr" style="transition-duration: 0s;"><div dir="auto" class="css-text-901oao r-color-1yk2hdf r-fontSize-1b43r93"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-beka r-fontSize-ubezar" style="font-family: FontAwesome5Free-Regular; font-style: normal; font-weight: normal;"></span> БЛАНК ЗАМЕРОВ</div></div></div></div></div></div><div class="css-view-1dbjc4n"><div class="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-pointerEvents-12vffkv r-position-u8s1d r-right-zchlnj r-top-ipm5af" style="z-index: 0;"><div class="css-view-1dbjc4n r-backgroundColor-14lw9ot r-borderBottomWidth-qklmqi r-flex-13awgt0" style="border-bottom-color: rgb(216, 216, 216); box-shadow: rgb(216, 216, 216) 0px 0px 0px;"></div></div><div class="css-view-1dbjc4n r-pointerEvents-12vffkv" style="height: 0px;"><div class="css-view-1dbjc4n r-pointerEvents-633pao" style="height: 0px;"></div><div class="css-view-1dbjc4n r-alignItems-1oszu61 r-flex-13awgt0 r-flexDirection-18u37iz r-pointerEvents-12vffkv"><div class="css-view-1dbjc4n r-justifyContent-1777fci r-pointerEvents-12vffkv" style="align-items: flex-start; margin-left: 0px; -webkit-box-align: start;"></div><div class="css-view-1dbjc4n r-justifyContent-1777fci r-pointerEvents-12vffkv" style="margin-right: 16px; margin-left: 16px; max-width: 1888px;"><h1 aria-level="1" dir="auto" role="heading" class="css-reset-4rbku5 css-text-901oao css-textOneLine-vcwn7f" id="animatedComponent" style="color: rgb(0, 0, 255); display: none; font-size: 18px; font-weight: 500;">main header</h1></div><div class="css-view-1dbjc4n r-flexGrow-16y2uox r-justifyContent-1777fci r-pointerEvents-12vffkv" style="align-items: flex-end; flex-basis: 0px; margin-right: 0px; -webkit-box-align: end;"></div></div></div></div></div></div></div><div class="css-view-1dbjc4n r-backgroundColor-14lw9ot r-bottom-1p0dtai r-left-1d2f490 r-pointerEvents-105ug2t r-right-zchlnj" style="border-top-color: rgb(216, 216, 216); border-top-width: 1px; height: 49px; padding-bottom: 0px; padding-right: 0px; padding-left: 0px; transform: translateY(0px);"><div class="css-view-1dbjc4n r-bottom-1p0dtai r-left-1d2f490 r-pointerEvents-633pao r-position-u8s1d r-right-zchlnj r-top-ipm5af"></div><div role="tablist" class="css-view-1dbjc4n r-flex-13awgt0 r-flexDirection-18u37iz"><a href="Home" dir="auto" aria-selected="true" role="link" class="css-reset-4rbku5 css-cursor-18t94o4 css-text-901oao r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci" style=""><div class="css-view-1dbjc4n r-display-xoduu5 r-height-1pi2tsx r-marginTop-19qrga8"><div class="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-xoduu5 r-height-1pi2tsx r-justifyContent-1777fci r-minWidth-1uxf3jb r-position-u8s1d r-width-13qz1uu" style="opacity: 1;"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-14glzig" style="font-family: anticon; font-size: 25px; font-style: normal; font-weight: normal;"></span></div><div class="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-xoduu5 r-height-1pi2tsx r-justifyContent-1777fci r-minWidth-1uxf3jb r-position-u8s1d r-width-13qz1uu" style="opacity: 0;"><span class="css-text-901oao css-textHasAncestor-16my406" style="color: rgb(128, 128, 128); font-family: anticon; font-size: 25px; font-style: normal; font-weight: normal;"></span></div></div><span class="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-vcwn7f r-backgroundColor-1niwhzg r-color-14glzig r-fontSize-n6v787 r-marginLeft-1joea0r r-marginTop-19qrga8 r-textAlign-q4m81j" style="display: none;">Главная</span></a><a href="Inspection" dir="auto" aria-selected="false" role="link" class="css-reset-4rbku5 css-cursor-18t94o4 css-text-901oao r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"><div class="css-view-1dbjc4n r-display-xoduu5 r-height-1pi2tsx r-marginTop-19qrga8"><div class="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-xoduu5 r-height-1pi2tsx r-justifyContent-1777fci r-minWidth-1uxf3jb r-position-u8s1d r-width-13qz1uu" style="opacity: 0;"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-14glzig" style="font-family: anticon; font-size: 24px; font-style: normal; font-weight: normal;"></span></div><div class="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-xoduu5 r-height-1pi2tsx r-justifyContent-1777fci r-minWidth-1uxf3jb r-position-u8s1d r-width-13qz1uu" style="opacity: 1;"><span class="css-text-901oao css-textHasAncestor-16my406" style="color: rgb(128, 128, 128); font-family: anticon; font-size: 24px; font-style: normal; font-weight: normal;"></span></div></div><span class="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-vcwn7f r-backgroundColor-1niwhzg r-fontSize-n6v787 r-marginLeft-1joea0r r-marginTop-19qrga8 r-textAlign-q4m81j" style="display: none; color: rgb(128, 128, 128);">Осмотр</span></a><a href="Settings" dir="auto" aria-selected="false" role="link" class="css-reset-4rbku5 css-cursor-18t94o4 css-text-901oao r-alignItems-1awozwy r-backgroundColor-1niwhzg r-cursor-1loqt21 r-display-6koalj r-flex-13awgt0 r-flexDirection-18u37iz r-justifyContent-1777fci"><div class="css-view-1dbjc4n r-display-xoduu5 r-height-1pi2tsx r-marginTop-19qrga8"><div class="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-xoduu5 r-height-1pi2tsx r-justifyContent-1777fci r-minWidth-1uxf3jb r-position-u8s1d r-width-13qz1uu" style="opacity: 0;"><span class="css-text-901oao css-textHasAncestor-16my406 r-color-14glzig" style="font-family: anticon; font-size: 25px; font-style: normal; font-weight: normal;"></span></div><div class="css-view-1dbjc4n r-alignItems-1awozwy r-alignSelf-1kihuf0 r-display-xoduu5 r-height-1pi2tsx r-justifyContent-1777fci r-minWidth-1uxf3jb r-position-u8s1d r-width-13qz1uu" style="opacity: 1;"><span class="css-text-901oao css-textHasAncestor-16my406" style="color: rgb(128, 128, 128); font-family: anticon; font-size: 25px; font-style: normal; font-weight: normal;"></span></div></div><span class="css-text-901oao css-textHasAncestor-16my406 css-textOneLine-vcwn7f r-backgroundColor-1niwhzg r-fontSize-n6v787 r-marginLeft-1joea0r r-marginTop-19qrga8 r-textAlign-q4m81j" style="color: rgb(128, 128, 128); display: none;">Настройки</span></a></div></div></div></div></div></div>
+  
+
+<div style="position: fixed; left: 0px; top: 0px; width: 0px; height: 0px; z-index: -1; overflow: hidden; visibility: hidden; transition-duration: 0.05s; transition-property: padding; transition-delay: 0s; padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right);"></div></body></html>
